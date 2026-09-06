@@ -104,5 +104,12 @@
         ];
       };
     };
+
+    templates = {
+      default = {
+        path = ./template;
+        description = "OrbitOS multi-host NixOS starter template";
+      };
+    };
   };
 }
