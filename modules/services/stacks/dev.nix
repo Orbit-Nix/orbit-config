@@ -64,7 +64,7 @@ let
   '';
 in
 {
-  environment.etc."stacks/dev/compose.yaml".text = composeContent;
+  environment.etc."stacks/dev/docker-compose.yml".text = composeContent;
 
   systemd.tmpfiles.rules = [
     "d /srv/stacks/dev 0755 root root -"
@@ -72,6 +72,6 @@ in
     "d /srv/apps/uptime-kuma 0755 root root -"
     "d /srv/apps/pocketbase/pb_data 0770 oliver pocketbase -"
     "d /srv/apps/pocketbase/pb_public 0770 oliver pocketbase -"
-    "C+ /srv/stacks/dev/compose.yaml 0644 root root - /etc/stacks/dev/compose.yaml"
+    "C+ /srv/stacks/dev/docker-compose.yml 0644 root root - /etc/stacks/dev/docker-compose.yml"
   ];
 }

@@ -98,10 +98,10 @@ let
   '';
 in
 {
-  environment.etc."stacks/media/compose.yaml".text = composeContent;
+  environment.etc."stacks/media/docker-compose.yml".text = composeContent;
 
   systemd.tmpfiles.rules = [
     "d /srv/stacks/media 0755 root root -"
-    "C+ /srv/stacks/media/compose.yaml 0644 root root - /etc/stacks/media/compose.yaml"
+    "C+ /srv/stacks/media/docker-compose.yml 0644 root root - /etc/stacks/media/docker-compose.yml"
   ];
 }

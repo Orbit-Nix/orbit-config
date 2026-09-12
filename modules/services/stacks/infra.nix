@@ -67,10 +67,10 @@ let
   '';
 in
 {
-  environment.etc."stacks/infra/compose.yaml".text = composeContent;
+  environment.etc."stacks/infra/docker-compose.yml".text = composeContent;
 
   systemd.tmpfiles.rules = [
     "d /srv/stacks/infra 0755 root root -"
-    "C+ /srv/stacks/infra/compose.yaml 0644 root root - /etc/stacks/infra/compose.yaml"
+    "C+ /srv/stacks/infra/docker-compose.yml 0644 root root - /etc/stacks/infra/docker-compose.yml"
   ];
 }
