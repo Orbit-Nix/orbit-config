@@ -1,8 +1,8 @@
-{ pkgs, inputs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports = [
-    ./hardware/default.nix
+    ../hardware
     ./rebuild.nix
   ];
 
@@ -24,7 +24,7 @@
         IdentityFile ~/.ssh/m_uvex
 
       Host lunar
-        HostName 100.78.151.49
+        HostName srv-c4030-nix
         User m_uvex
         ForwardAgent yes
 
@@ -40,44 +40,22 @@
     '';
   };
 
-  # --- DISK MANAGEMENT & AUTOMOUNT (SERVER + DESKTOP) ---
-  services.udisks2.enable = true;
-  services.gvfs.enable = true;
-  programs.fuse.userAllowOther = true;
-
-  # Allow wheel group users and automount services to mount/eject disks without password prompts
-  security.polkit.enable = true;
-  security.polkit.extraConfig = ''
-    polkit.addRule(function(action, subject) {
-      if ((action.id == "org.freedesktop.udisks2.filesystem-mount" ||
-           action.id == "org.freedesktop.udisks2.filesystem-mount-system" ||
-           action.id == "org.freedesktop.udisks2.filesystem-mount-other-seat" ||
-           action.id == "org.freedesktop.udisks2.encrypted-unlock" ||
-           action.id == "org.freedesktop.udisks2.eject-media" ||
-           action.id == "org.freedesktop.udisks2.power-off-drive") &&
-          subject.isInGroup("wheel")) {
-        return polkit.Result.YES;
-      }
-    });
-  '';
-
-  # --- FILESYSTEM DRIVERS & CORE CLI PACKAGES ---
+  # --- CORE PACKAGES & SHELL ---
+  programs.fish.enable = true;
   programs.nix-ld.enable = true;
   environment.systemPackages = with pkgs; [
-    # Automount & Filesystem support
-    udiskie
+    # Filesystem support
     ntfs3g
     exfatprogs
     dosfstools
-    cifs-utils
-    sshfs
-    davfs2
-    rclone
+    rsync
+    gparted
 
     # CLI tools
     git
     micro
     zoxide
+    tree
     fastfetch
     bat
     age
@@ -93,10 +71,15 @@
     wakeonlan
   ];
 
-
   # --- BOOT & NIX SYSTEM SETTINGS ---
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  boot.loader = {
+    systemd-boot = {
+      enable = true;
+      configurationLimit = 10;
+    };
+    efi.canTouchEfiVariables = true;
+  };
+
   nixpkgs.config.allowUnfree = true;
   nixpkgs.overlays = [
     (final: prev: {
@@ -129,10 +112,7 @@
   networking.firewall.enable = false;
   services.tailscale.enable = true;
 
-  # --- SHELLS ---
-  programs.fish.enable = true;
-
-  # WoL alias for pc-main-nix (wake-pc via Lunar)
+  # WoL alias for pc-smile-nix (wake-pc via Lunar)
   environment.shellAliases = {
     wake-pc = "ssh lunar 'wakeonlan 00:11:22:33:44:55'";
   };

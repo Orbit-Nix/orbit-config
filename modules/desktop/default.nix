@@ -1,24 +1,21 @@
 { pkgs, ... }:
 
+# MATERIAL CURSORS IMPORT
 let
   bibata-material-cursors = pkgs.stdenvNoCC.mkDerivation {
     pname = "bibata-material-cursors";
     version = "1.0.0";
-
     src = pkgs.fetchurl {
       url = "https://github.com/SakibShahariar/material-bibata-cursor/releases/download/v1.0.0/bibata-material-v1.0.0.tar.gz";
       hash = "sha256-oNf/+xff0yko4P9H99eq+PDqx91sD9LHZ/CekQJWJTI=";
     };
-
     sourceRoot = "bibata-material-v1.0.0";
-
     installPhase = ''
       runHook preInstall
       mkdir -p $out/share/icons
       cp -r Bibata-Material-* $out/share/icons/
       runHook postInstall
     '';
-
     meta = with pkgs.lib; {
       description = "Material Design Bibata Cursor Theme Collection (28 variants)";
       homepage = "https://github.com/SakibShahariar/material-bibata-cursor";
@@ -26,6 +23,7 @@ let
       platforms = platforms.linux;
     };
   };
+
 in
 {
   # --- DISPLAY & DESKTOP MANAGERS ---
@@ -66,7 +64,7 @@ in
     };
   };
 
-  # --- AUDIO & GRAPHICS LAYER ---
+  # --- GRAPHICS & AUDIO ---
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
@@ -80,8 +78,6 @@ in
     pulse.enable = true;
   };
 
-  hardware.bluetooth.enable = true;
-  services.blueman.enable = true;
 
   # --- PORTALS & PACKAGE COMPATIBILITY ---
   xdg.portal = {
@@ -98,7 +94,6 @@ in
       };
     };
   };
-
   services.flatpak.enable = true;
   programs.appimage.binfmt = true;
 

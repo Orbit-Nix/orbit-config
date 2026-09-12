@@ -1,10 +1,9 @@
 { pkgs, ... }:
 
 {
-  # --- /srv FILESYSTEM DIRECTORY STRUCTURE & PERMISSIONS ---
-  # Enforce the Lunar /srv hierarchy declaratively on boot
-  systemd.tmpfiles.rules = [
-    # Top-level /srv directories
+  # --- /srv FILESYSTEM DIRECTORY STRUCTURE ---
+    systemd.tmpfiles.rules = [
+    # Top-level /srv dirs
     "d /srv 0755 root root -"
     "d /srv/stacks 0755 root root -"
     "d /srv/data 0755 root root -"

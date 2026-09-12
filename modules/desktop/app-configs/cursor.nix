@@ -4,7 +4,7 @@
   orbitos.apps.cursor = {
     enable = true;
     mode = "overwrite";
-    source = ../../config/cursor;
+    source = ../../../config/cursor;
     targetDir = "$HOME/.config/cursor";
     extraActivation = ''
       # Ensure scripts in ~/.config/cursor are executable
@@ -21,7 +21,7 @@ if [ -x "$HOME/.config/cursor/cursor-material-set-color.sh" ]; then
   "$HOME/.config/cursor/cursor-material-set-color.sh" &
 fi
 EOF
-        echo "[OrbitOS] Injected Material Cursor hook into quickshell/ii applycolor.sh"
+        echo "[🗨✓ 🚀]⤷ Injected Material Cursor hook into quickshell/ii applycolor.sh"
       fi
 
       # Inject into quickshell/end4-pC if present and writable
@@ -34,7 +34,7 @@ if [ -x "$HOME/.config/cursor/cursor-material-set-color.sh" ]; then
   "$HOME/.config/cursor/cursor-material-set-color.sh" &
 fi
 EOF
-        echo "[OrbitOS] Injected Material Cursor hook into quickshell/end4-pC applycolor.sh"
+        echo "[🗨✓ 🚀]⤷ Injected Material Cursor hook into quickshell/end4-pC applycolor.sh"
       fi
 
       # Ensure quickshell user generated state directory is user-writable

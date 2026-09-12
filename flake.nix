@@ -79,16 +79,16 @@
 
       #=========================================#
       #               Andromeda                 #
-      #   PC: Main (RTX5050, R5 5600), NixOS    #
+      #         PC: Zoko Smile, NixOS           #
       #=========================================#
-      pc-main-nix = nixpkgs.lib.nixosSystem {
+      pc-smile-nix = nixpkgs.lib.nixosSystem {
         inherit system specialArgs;
         modules = [
           nix-flatpak.nixosModules.nix-flatpak
           driftwm.nixosModules.default
           home-manager.nixosModules.home-manager
           homeManagerModule
-          ./hosts/pc-main-nix/default.nix
+          ./hosts/pc-smile-nix/default.nix
         ];
       };
 
@@ -103,12 +103,17 @@
           ./hosts/srv-c4030-nix/default.nix
         ];
       };
-    };
 
-    templates = {
-      default = {
-        path = ./template;
-        description = "OrbitOS multi-host NixOS starter template";
+      #=========================================#
+      #                Voyager                  #
+      #   Portable: General purpose, NixOS      #
+      #=========================================#
+      prt-roam-nix = nixpkgs.lib.nixosSystem {
+        inherit system specialArgs;
+        modules = [
+          disko.nixosModules.disko
+          ./hosts/prt-roam-nix/default.nix
+        ];
       };
     };
   };

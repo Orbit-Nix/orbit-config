@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ pkgs, lib, ... }:
 
 {
   # --- DISKO DECLARATIVE PARTITIONING (BTRFS) ---
@@ -40,8 +40,6 @@
                     mountpoint = "/nix";
                     mountOptions = [ "compress=zstd" "noatime" ];
                   };
-                  # Single @srv subvolume ensures /srv/data/downloads and /srv/data/media
-                  # live on the exact same subvolume for instant atomic hardlinking
                   "@srv" = {
                     mountpoint = "/srv";
                     mountOptions = [ "compress=zstd" "noatime" ];
@@ -62,4 +60,16 @@
       };
     };
   };
+
+  # --- BTRFS AUTOMATED SCRUB & UTILITIES ---
+  services.btrfs.autoScrub = {
+    enable = true;
+    interval = "monthly";
+    fileSystems = [ "/" ];
+  };
+
+  environment.systemPackages = with pkgs; [
+    btrfs-progs
+    compsize
+  ];
 }

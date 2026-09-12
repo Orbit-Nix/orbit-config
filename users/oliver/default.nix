@@ -1,18 +1,16 @@
 { pkgs, lib, ... }:
 
 {
-  # --- RESTRICTED DEV USER: OLIVER ---
-  # Oliver has SSH-key only access, no sudo/wheel privileges, and is restricted to the pocketbase group
+  # --- DEV USER: OLIVER ---
   users.users.oliver = {
     isNormalUser = true;
-    description = "Oliver (Pocketbase Dev)";
+    description = "Oliver (Dev)";
     group = "pocketbase";
     extraGroups = [ "pocketbase" ];
     createHome = true;
     home = "/home/oliver";
     openssh.authorizedKeys.keys = [
-      # Add Oliver's public SSH key here when available
-      # "ssh-ed25519 AAAAC3... oliver"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILqs/vQve3v+GqID2nGB1Y+ZWth7+j0fNBS+LaDFCpnS olive@MACBOOK-PRO-2019--WINDOWS"
     ];
   };
 }

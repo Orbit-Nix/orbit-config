@@ -6,10 +6,10 @@ Declarative, multi-host, multi-dots, feature-full, flake based NixOS configs.
 
 ## 🖥️ Hosts
 
-| Host | Codename | Role | Hardware |
-| :--- | :--- | :--- | :--- |
-| `lt-hp15-nix` | **Orion** | Coding & Remote desktop | HP 15 Laptop, Intel Core i5 8th gen, NVIDIA GeForce MX150, 24GB DDR4, 1.5TB Total Storage |
-| `pc-main-nix` | **Andromeda** | Gaming & Workstation | Ryzen 5 5600, RTX 5050, 16 GB DDR4, 512 GB Total Storage |
+| Host            | Codename | Role | Hardware |
+|:----------------| :--- | :--- | :--- |
+| `lt-hp15-nix`   | **Orion** | Coding & Remote desktop | HP 15 Laptop, Intel Core i5 8th gen, NVIDIA GeForce MX150, 24GB DDR4, 1.5TB Total Storage |
+| `pc-smile-nix`  | **Andromeda** | Gaming & Workstation | Ryzen 5 5600, RTX 5050, 16 GB DDR4, 512 GB Total Storage |
 | `srv-c4030-nix` | **Lunar** | Server & WoL Relay | Lenovo AIO C40-30, Intel Core i3-4005U, NVIDIA GeForce 820A, 4GB DDR3L, 4.5TB Total Storage |
 
 ---

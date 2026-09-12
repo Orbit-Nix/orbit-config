@@ -10,11 +10,11 @@ let
     TARGET_HOME="''${TARGET_HOME:-/home/$TARGET_USER}"
 
     if [ ! -f "$ARCHIVE" ]; then
-      echo "error: encrypted SSH archive not found at: $ARCHIVE"
+      echo "[🗨X 🚀]⤷ error: encrypted SSH archive not found at: $ARCHIVE"
       exit 1
     fi
 
-    echo "==> Restoring SSH keys for $TARGET_USER into $TARGET_HOME/.ssh from $ARCHIVE..."
+    echo "[🗨↻ 🚀]⤷ Restoring SSH keys for $TARGET_USER into $TARGET_HOME/.ssh from $ARCHIVE..."
     mkdir -p "$TARGET_HOME/.ssh"
 
     if ${pkgs.age}/bin/age -d "$ARCHIVE" | ${pkgs.gnutar}/bin/tar -xz -C "$TARGET_HOME/"; then
@@ -22,9 +22,9 @@ let
       chmod 700 "$TARGET_HOME/.ssh"
       chmod 600 "$TARGET_HOME/.ssh"/* 2>/dev/null || true
       chmod 644 "$TARGET_HOME/.ssh"/*.pub 2>/dev/null || true
-      echo "==> SSH keys successfully restored to $TARGET_HOME/.ssh/"
+      echo "[🗨✓ 🚀]⤷ SSH keys successfully restored to $TARGET_HOME/.ssh/"
     else
-      echo "error: decryption failed or incorrect passphrase."
+      echo "[🗨X 🚀]⤷ error: decryption failed or incorrect passphrase."
       exit 1
     fi
   '';
@@ -38,17 +38,17 @@ let
     TARGET_HOME="''${TARGET_HOME:-/home/$TARGET_USER}"
 
     if [ ! -d "$TARGET_HOME/.ssh" ]; then
-      echo "error: directory $TARGET_HOME/.ssh does not exist."
+      echo "[🗨X 🚀]⤷ error: directory $TARGET_HOME/.ssh does not exist."
       exit 1
     fi
 
-    echo "==> Backing up $TARGET_HOME/.ssh to $ARCHIVE..."
-    echo "==> You will be prompted to set an age passphrase:"
+    echo "[🗨⏱ 🚀]⤷ Backing up $TARGET_HOME/.ssh to $ARCHIVE..."
+    echo "[🗨⟢ 🚀]⤷ You will be prompted to set an age passphrase:"
 
     mkdir -p "$(dirname "$ARCHIVE")"
     ${pkgs.gnutar}/bin/tar -cz -C "$TARGET_HOME" .ssh | ${pkgs.age}/bin/age -p -o "$ARCHIVE"
     chmod 644 "$ARCHIVE"
-    echo "==> Encrypted SSH archive saved to $ARCHIVE"
+    echo "[🗨✓ 🚀]⤷ Encrypted SSH archive saved to $ARCHIVE"
   '';
 
   syncChatsScript = pkgs.writeScriptBin "sync-chats" ''
@@ -317,15 +317,15 @@ EOF
     done
 
     if [ "$ACTION" = "clean" ]; then
-      echo "==> Running nh clean all..."
+      echo "[🗨⏱ 🚀]⤷ Running nh clean all..."
       exec ${pkgs.nh}/bin/nh clean all "''${EXTRA_ARGS[@]}"
     fi
 
     HOST="''${HOST:-$(hostname)}"
 
     if [ "$DO_UPDATE" -eq 1 ]; then
-      echo "==> Updating flake inputs in /orbitos..."
-      sudo ${pkgs.nix}/bin/nix flake update --flake /orbitos
+      echo "[🗨↻ 🚀]⤷ Updating flake inputs in /orbitos..."
+      sudo ${pkgs.nix}/bin/nix flake update --flake .
     fi
 
     # Clean up stale Home Manager .backup files that could block generation activation
@@ -334,8 +334,8 @@ EOF
     TARGET_HOME="''${TARGET_HOME:-/home/$TARGET_USER}"
     rm -f "$TARGET_HOME"/.config/gtk-3.0/*.backup "$TARGET_HOME"/.config/gtk-4.0/*.backup "$TARGET_HOME"/.config/matugen/templates/*/*.backup "$TARGET_HOME"/.config/fish/*.backup 2>/dev/null || true
 
-    echo "==> Building and applying configuration ($ACTION) for: $HOST..."
-    ${pkgs.nh}/bin/nh os "$ACTION" /orbitos -H "$HOST" "''${EXTRA_ARGS[@]}"
+    echo "[🗨⏱ 🚀]⤷ Building and applying configuration ($ACTION) for: $HOST..."
+    ${pkgs.nh}/bin/nh os "$ACTION" . -H "$HOST" "''${EXTRA_ARGS[@]}"
 
     # Post-build step: Sync Antigravity IDE chat history
     if [ "$ACTION" = "switch" ] || [ "$ACTION" = "test" ]; then
@@ -345,9 +345,9 @@ EOF
       if [ -f /orbitos/secrets/ssh.tar.age ]; then
         if [ ! -f "$TARGET_HOME/.ssh/id_ed25519" ] && [ ! -f "$TARGET_HOME/.ssh/m_uvex" ] && [ ! -f "$TARGET_HOME/.ssh/id_rsa" ]; then
           echo ""
-          echo "==> No SSH keys detected in $TARGET_HOME/.ssh/"
-          echo "==> Found encrypted backup: /orbitos/secrets/ssh.tar.age"
-          read -p "==> Would you like to restore ~/.ssh now? [Y/n] " -r resp || resp="Y"
+          echo "[🗨⟢ 🚀]⤷ No SSH keys detected in $TARGET_HOME/.ssh/"
+          echo "[🗨✓ 🚀]⤷ Found encrypted backup: /orbitos/secrets/ssh.tar.age"
+          read -p "[🗨? 🚀]⤷ Would you like to restore ~/.ssh now? [Y/n] " -r resp || resp="Y"
           if [[ "$resp" =~ ^([yY][eE][sS]|[yY]|"")$ ]]; then
             ${restoreSshScript}/bin/restore-ssh /orbitos/secrets/ssh.tar.age || true
           fi
@@ -356,14 +356,14 @@ EOF
 
       # Reload Hyprland if running
       if pgrep -x Hyprland >/dev/null 2>&1 || [ -n "$HYPRLAND_INSTANCE_SIGNATURE" ]; then
-        echo "==> Reloading Hyprland configuration..."
+        echo "[🗨↻ 🚀]⤷ Reloading Hyprland configuration..."
         if [ -n "$SUDO_USER" ] && [ "$SUDO_USER" != "root" ]; then
           TARGET_UID=$(id -u "$SUDO_USER" 2>/dev/null || echo "1000")
           sudo -u "$SUDO_USER" env XDG_RUNTIME_DIR="/run/user/$TARGET_UID" ${pkgs.hyprland}/bin/hyprctl reload >/dev/null 2>&1 || ${pkgs.hyprland}/bin/hyprctl reload >/dev/null 2>&1 || true
         else
           ${pkgs.hyprland}/bin/hyprctl reload >/dev/null 2>&1 || true
         fi
-        echo "==> Hyprland reloaded."
+        echo "[🗨✓ 🚀]⤷ Hyprland reloaded."
       fi
     fi
   '';

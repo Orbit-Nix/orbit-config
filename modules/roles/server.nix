@@ -2,7 +2,7 @@
 
 {
   # --- HEADLESS & 24/7 UPTIME OPTIMIZATION ---
-  # Turn off the AIO screen (backlight / console blanking) after 1 minute of inactivity
+  # Turn off screen after 1 minute of inactivity
   boot.kernelParams = [
     "consoleblank=60"
   ];
@@ -23,29 +23,8 @@
     };
   };
 
-  # --- MEMORY & RESOURCE MANAGEMENT (4GB RAM TUNING) ---
-  # ZRAM swap with zstd compression to handle container spikes and Nix rebuilds gracefully
-  zramSwap = {
-    enable = true;
-    memoryPercent = 50;
-    algorithm = "zstd";
-    priority = 100;
-  };
-
-  # Prevent out-of-memory lockups
-  services.earlyoom = {
-    enable = true;
-    freeMemThreshold = 5;
-    freeSwapThreshold = 10;
-    enableNotifications = false;
-  };
-
   # --- SERVER KERNEL & NETWORK SYSCTL TUNING ---
   boot.kernel.sysctl = {
-    # Virtual memory tuning
-    "vm.swappiness" = 10;
-    "vm.vfs_cache_pressure" = 50;
-
     # Container inotify & file limits
     "fs.inotify.max_user_watches" = 524288;
     "fs.inotify.max_user_instances" = 1024;
@@ -61,7 +40,7 @@
   };
 
   # --- TAILSCALE ROUTING CAPABILITIES ---
-  # Enable routing features so Lunar can act as a Tailscale subnet router or exit node
+  # Enable routing features
   services.tailscale.useRoutingFeatures = "both";
 
   # --- STORAGE & DISK HEALTH ---
@@ -86,7 +65,5 @@
     iperf3
     nethogs
     hdparm
-    tree
-    rsync
   ];
 }

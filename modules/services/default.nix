@@ -2,10 +2,9 @@
 
 {
   imports = [
-    ../server.nix
     ./filesystem.nix
     ./users.nix
-    ./restic-server.nix
+    #./restic.nix
     ./stacks/default.nix
   ];
 }

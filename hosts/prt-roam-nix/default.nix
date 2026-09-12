@@ -3,27 +3,26 @@
 {
   imports = [
     # Hardware
-    ./hardware-configuration.nix
+    ../../modules/hardware/universal-hardware-configuration.nix
     ../../modules/hardware/default.nix
     ../../modules/hardware/swap.nix
-    ../../modules/hardware/intel-cpu.nix
-    ../../modules/hardware/intel-integrated.nix
-    ../../modules/hardware/nvidia-hybrid.nix
+    ../../modules/hardware/universal-cpu.nix
+    ../../modules/hardware/universal-gpu.nix
 
     # Users
     ../../users/m_uvex
+    ../../users/incognito
 
     # Modules
     ../../modules/core
     ../../modules/desktop
     ../../modules/desktop/apps.nix
     ../../modules/desktop/gaming.nix
-    ../../modules/desktop/ollama.nix
     ../../modules/desktop/remote-desktop/client.nix
   ];
 
   # --- HOST CONFIGURATION ---
-  networking.hostName = "lt-hp15-nix";
+  networking.hostName = "prt-roam-nix";
   system.stateVersion = "24.05";
 
   # --- INSTALLED APPS ---
@@ -36,13 +35,12 @@
     ];
 
     fileManagers = [
-      "nautilus"
       "dolphin"
     ];
 
     ides = [
+      "vscode"
       "idea"
-      "android-studio"
     ];
 
     ais = [
@@ -52,37 +50,26 @@
     ];
 
     messaging = true;
-    media = true;
+    media = false;
     sync = true;
   };
 
   # --- INSTALLED GAMING APPS ---
   mySystem.gaming = {
-    enable = true;
+    enable = false;
 
     optimizations = true;
     controllers = true;
 
     launchers = [
-      "steam"
-      "heroic"
-      "hydra"
-      "sober"
     ];
 
     minecraft = [
-      "prism"
-      "lunar"
-      "bedrock"
-      "modrinth"
     ];
 
     emulators = [ ];
 
     tools = [
-      "mangohud"
-      "dualsensectl"
-      "protonup-qt"
     ];
   };
 }

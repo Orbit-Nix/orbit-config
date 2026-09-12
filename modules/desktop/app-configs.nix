@@ -86,13 +86,13 @@ let
           
           $DRY_RUN_CMD cp -rf "${sourcePath}"/* "$targetDir"/
           $DRY_RUN_CMD chmod -R u+w "$targetDir"
-          echo "[OrbitOS] Overwrite: ${appName} -> $targetDir"
+          echo "[🗨⟢ 🚀]⤷ Overwrite: ${appName} -> $targetDir"
         '' else ''
           targetDir="${if layerSubdir != "" then "$baseTarget/$layerSubdir" else "$baseTarget"}"
           $DRY_RUN_CMD mkdir -p "$targetDir"
           $DRY_RUN_CMD cp -rf "${sourcePath}"/* "$targetDir"/
           $DRY_RUN_CMD chmod -R u+w "$targetDir"
-          echo "[OrbitOS] Layer: ${appName} -> $targetDir"
+          echo "[🗨⟢ 🚀]⤷ Layer: ${appName} -> $targetDir"
         ''}
         ${appCfg.extraActivation}
       fi
@@ -111,7 +111,7 @@ in {
 
     configDir = mkOption {
       type = types.path;
-      default = ../config;
+      default = ../../config;
       description = "Root directory containing modular application configurations.";
     };
 
@@ -150,7 +150,7 @@ in {
 
     # 2. Restore preserved dynamic configs and apply OrbitOS layered/overwrite modular configurations
     home.activation.applyOrbitOSConfigs = lib.hm.dag.entryAfter [ "copyIllogicalImpulseConfigs" ] ''
-      echo "=== Applying OrbitOS Modular Configurations ==="
+      echo "[🗨↻ 🚀]⤷ === Applying OrbitOS Modular Configurations ==="
       
       # Restore preserved dynamic runtime configs (e.g. nwg-displays outputs)
       PRESERVE_DIR="$HOME/.local/state/orbitos/preserved"
@@ -161,7 +161,7 @@ in {
             mkdir -p "$HOME/.config/hypr"
             cp -f "$f" "$HOME/.config/hypr/$baseName"
             chmod u+w "$HOME/.config/hypr/$baseName"
-            echo "[OrbitOS] Restored preserved dynamic config: ~/.config/hypr/$baseName"
+            echo "[🗨✓ 🚀]⤷ Restored preserved dynamic config: ~/.config/hypr/$baseName"
           fi
         done
       fi

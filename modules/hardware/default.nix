@@ -29,6 +29,7 @@
   services.power-profiles-daemon.enable = true;
 
   # --- BLUETOOTH BASE ---
+  services.blueman.enable = true;
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;
