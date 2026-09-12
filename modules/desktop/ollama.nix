@@ -20,7 +20,7 @@
   # 2. Open WebUI Setup
   services.open-webui = {
     enable = true;
-    port = 8080;
+    port = 14409;
 
     environment = {
       OLLAMA_BASE_URL = "http://127.0.0.1:11434";
@@ -37,5 +37,5 @@
   ];
 
   # 4. Open Local Ports (Optional)
-  networking.firewall.allowedTCPPorts = [ 11434 8080 ];
+  networking.firewall.allowedTCPPorts = [ 11434 14409 ];
 }
