@@ -19,7 +19,7 @@ let
           - /srv/data/downloads:/downloads
         environment:
           - TZ=Europe/Istanbul
-          - JELLYFIN_PublishedServerUrl=http://lunar:8096
+          - JELLYFIN_PublishedServerUrl=http://srv-c4030-nix:8096
         group_add:
           - "1050"
 
@@ -102,6 +102,14 @@ in
 
   systemd.tmpfiles.rules = [
     "d /srv/stacks/media 0755 root root -"
-    "L+ /srv/stacks/media/docker-compose.yml 0644 root root - /etc/stacks/media/docker-compose.yml"
+    "d /srv/apps/jellyfin 0755 1000 1050 -"
+    "d /srv/apps/arr-stack/jellyseerr 0755 1000 1050 -"
+    "d /srv/apps/arr-stack/radarr 0755 1000 1050 -"
+    "d /srv/apps/arr-stack/sonarr 0755 1000 1050 -"
+    "d /srv/apps/arr-stack/prowlarr 0755 1000 1050 -"
+    "d /srv/apps/arr-stack/qbittorrent 0755 1000 1050 -"
+    "d /srv/data/media 0775 1000 1050 -"
+    "d /srv/data/downloads 0775 1000 1050 -"
+    "L+ /srv/stacks/media/docker-compose.yml - - - - /etc/stacks/media/docker-compose.yml"
   ];
 }
