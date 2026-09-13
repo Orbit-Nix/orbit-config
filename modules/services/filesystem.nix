@@ -30,7 +30,6 @@
     "d /srv/apps/pocketbase 0770 oliver pocketbase -"
 
     # /srv/infra: Core networking, identity, and security tools
-    "d /srv/infra/lldap 0750 root root -"
     "d /srv/infra/authelia 0750 root root -"
     "d /srv/infra/vaultwarden 0750 root root -"
     "d /srv/infra/nginx 0755 root root -"

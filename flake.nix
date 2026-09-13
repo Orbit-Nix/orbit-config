@@ -28,10 +28,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Declarative Partitioning
+    # Declarative Partitioning & Persistence
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    impermanence = {
+      url = "github:nix-community/impermanence";
     };
 
     # illogical-impulse & end4-pC UI Profiles
@@ -45,7 +48,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, driftwm, nix-flatpak, disko, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, driftwm, nix-flatpak, disko, impermanence, ... }@inputs:
   let
     system = "x86_64-linux";
     username = "m_uvex";
@@ -69,6 +72,7 @@
       lt-hp15-nix = nixpkgs.lib.nixosSystem {
         inherit system specialArgs;
         modules = [
+          impermanence.nixosModules.impermanence
           nix-flatpak.nixosModules.nix-flatpak
           driftwm.nixosModules.default
           home-manager.nixosModules.home-manager

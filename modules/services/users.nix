@@ -2,7 +2,7 @@
 
 {
   # --- SERVER GROUPS ---
-  users.groups.media = { };
+  users.groups.media = { gid = 1050; };
   users.groups.pocketbase = { };
 
   # --- ADMIN USER PERMISSIONS ---
