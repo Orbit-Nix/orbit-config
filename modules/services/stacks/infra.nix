@@ -4,16 +4,15 @@ let
   autheliaConfig = ''
     server:
       address: "tcp://0.0.0.0:9091"
-      enable_pprof: false
-      enable_expvars: false
+      endpoints:
+        enable_pprof: false
+        enable_expvars: false
 
     log:
       level: info
       format: json
 
     theme: dark
-
-    jwt_secret: ${builtins.hashString "sha256" "m_uvex-authelia-jwt-secret"}
 
     identity_validation:
       reset_password:
@@ -35,8 +34,7 @@ let
       inactivity: 5m
       remember_me: 1M
       cookies:
-        - domain: home.arpa
-          authelia_url: https://auth.home.arpa
+        - authelia_url: https://auth.home.arpa
 
     storage:
       encryption_key: ${builtins.hashString "sha256" "m_uvex-authelia-storage-key"}

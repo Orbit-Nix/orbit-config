@@ -18,7 +18,7 @@
     ../../modules/desktop
     ../../modules/desktop/apps.nix
     ../../modules/desktop/gaming.nix
-    ../../modules/desktop/ollama.nix
+    #../../modules/desktop/ollama.nix
     ../../modules/desktop/remote-desktop/client.nix
   ];
 
