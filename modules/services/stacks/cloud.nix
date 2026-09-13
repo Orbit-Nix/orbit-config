@@ -105,7 +105,7 @@ let
           - MEILI_NO_ANALYTICS=true
 
       hoarder-chrome:
-        image: gcr.io/zenika-hub/alpine-chrome:123
+        image: zenika/alpine-chrome:123
         container_name: hoarder_chrome
         restart: unless-stopped
         command:
