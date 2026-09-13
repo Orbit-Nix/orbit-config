@@ -72,6 +72,6 @@ in
     "d /srv/apps/uptime-kuma 0755 root root -"
     "d /srv/apps/pocketbase/pb_data 0770 oliver pocketbase -"
     "d /srv/apps/pocketbase/pb_public 0770 oliver pocketbase -"
-    "C+ /srv/stacks/dev/docker-compose.yml 0644 root root - /etc/stacks/dev/docker-compose.yml"
+    "L+ /srv/stacks/dev/docker-compose.yml 0644 root root - /etc/stacks/dev/docker-compose.yml"
   ];
 }

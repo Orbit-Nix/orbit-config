@@ -121,6 +121,6 @@ in
 
   systemd.tmpfiles.rules = [
     "d /srv/stacks/cloud 0755 root root -"
-    "C+ /srv/stacks/cloud/docker-compose.yml 0644 root root - /etc/stacks/cloud/docker-compose.yml"
+    "L+ /srv/stacks/cloud/docker-compose.yml - - - - /etc/stacks/cloud/docker-compose.yml"
   ];
 }

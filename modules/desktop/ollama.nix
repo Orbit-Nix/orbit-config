@@ -14,6 +14,7 @@
       OLLAMA_KEEP_ALIVE = "30m";
       OMP_NUM_THREADS = "4";
       OLLAMA_NUM_PARALLEL = "1";
+      OLLAMA_KV_CACHE_TYPE = "q8_0";
     };
   };
 

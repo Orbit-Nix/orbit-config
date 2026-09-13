@@ -102,6 +102,6 @@ in
 
   systemd.tmpfiles.rules = [
     "d /srv/stacks/media 0755 root root -"
-    "C+ /srv/stacks/media/docker-compose.yml 0644 root root - /etc/stacks/media/docker-compose.yml"
+    "L+ /srv/stacks/media/docker-compose.yml 0644 root root - /etc/stacks/media/docker-compose.yml"
   ];
 }
