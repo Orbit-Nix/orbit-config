@@ -61,6 +61,16 @@ let
           - /srv/apps/uptime-kuma:/app/data
         environment:
           - TZ=Europe/Istanbul
+
+      # Glyphix Discord bot
+      glyphix-discord-bot:
+        image: discord-bot:latest
+        container_name: glyphix-discord-bot
+        restart: unless-stopped
+        environment:
+          - DISCORD_TOKEN: ${DISCORD_TOKEN} # Uses dockhand to inject the token
+        networks:
+          - authelia-net
   '';
 in
 {

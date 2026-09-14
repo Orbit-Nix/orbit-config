@@ -29,12 +29,13 @@ let
     session:
       name: authelia_session
       secret: ${builtins.hashString "sha256" "m_uvex-authelia-session-secret"}
+      domain: auth.home.arpa
       same_site: lax
       expiration: 1h
       inactivity: 5m
       remember_me: 1M
       cookies:
-        - authelia_url: https://auth.home.arpa
+        - authelia_url: https://auth.lunar.srv
 
     storage:
       encryption_key: ${builtins.hashString "sha256" "m_uvex-authelia-storage-key"}
@@ -48,11 +49,11 @@ let
     access_control:
       default_policy: deny
       rules:
-        - domain: auth.home.arpa
+        - domain: auth.lunar.srv
           policy: bypass
-        - domain: gitea.home.arpa
+        - domain: gitea.lunar.srv
           policy: one_factor
-        - domain: immich.home.arpa
+        - domain: immich.lunar.srv
           policy: one_factor
 
     regulation:
@@ -94,10 +95,12 @@ let
         networks:
           - authelia-net
         healthcheck:
-          test: ["CMD", "curl", "-f", "http://localhost:9091/api/health"]
+          test: ["CMD", "curl", "-f", "http://auth.lunar.srv:9091/api/health"]
           interval: 30s
           timeout: 10s
           retries: 3
+
+
 
     networks:
       authelia-net:
