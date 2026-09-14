@@ -6,8 +6,17 @@ let
   # Helper to resolve host Platform system for flakes
   system = pkgs.stdenv.hostPlatform.system;
 
+  # --- TEMPORARY ---
+  # Wrapper script for the flatpak version of IDEA
+  # As the official nixpkgs is outdated and i need the latest version.
+  # Will be replaced with nixpkgs version once its updated.
+  ideaWrapper = pkgs.writeShellScriptBin "idea" ''
+    exec flatpak run com.jetbrains.IntelliJ-IDEA-Community "$@"
+  '';
+  # -----------------
+
   #==================================#
-  #     GAMING APP DICTIONARIES      #
+  #        APPS DICTIONARIES         #
   #==================================#
   browserMap = {
     "zen"                = [ inputs.zen-browser.packages.${system}.default ];
@@ -27,7 +36,8 @@ let
   };
 
   ideMap = {
-    "idea"               = pkgs.jetbrains.idea;
+    # "idea"               = pkgs.jetbrains.idea;  # Will be back once it gets updated
+    "idea"               = ideaWrapper;            # Temporary
     "pycharm"            = pkgs.jetbrains.pycharm;
     "clion"              = pkgs.jetbrains.clion;
     "webstorm"           = pkgs.jetbrains.webstorm;
@@ -74,6 +84,9 @@ let
       if builtins.isList val then val else [ val ]
     ) selectedKeys;
 
+  # Check selections
+  hasIdea = builtins.elem "idea" cfg.ides;
+
 in
 {
   options.mySystem.apps = {
@@ -112,6 +125,9 @@ in
 
   config = lib.mkIf cfg.enable {
     programs.kdeconnect.enable = true;
+
+    # Auto-install Flatpaks
+    services.flatpak.packages = lib.optional hasIdea "com.jetbrains.IntelliJ-IDEA-Community";
 
     environment.systemPackages =
       # Base Utilities & System Tools
