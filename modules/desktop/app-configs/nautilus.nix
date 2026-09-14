@@ -210,7 +210,7 @@ let
     '';
 
     "PDF Tools" = mkNautilusScript "pdf-tools" ''
-      PATH="${lib.makeBinPath (with pkgs; [ zenity poppler_utils libnotify coreutils ])}:$PATH"
+      PATH="${lib.makeBinPath (with pkgs; [ zenity poppler-utils libnotify coreutils ])}:$PATH"
 
       ACTION=$(zenity --list \
         --title="OrbitOS PDF Tools" \
@@ -367,7 +367,7 @@ in {
       gtkhash                     # Checksum verification tool
       ffmpegthumbnailer           # Video thumbnails
       webp-pixbuf-loader          # WebP thumbnailer
-      poppler_utils               # PDF thumbnailer and command tools
+      poppler-utils               # PDF thumbnailer and command tools
       libheif                     # HEIC/HEIF image preview support
       file-roller                 # Archive manager integration
       nautilus-open-any-terminal  # Open terminal here extension

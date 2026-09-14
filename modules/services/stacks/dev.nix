@@ -68,7 +68,7 @@ let
         container_name: glyphix-discord-bot
         restart: unless-stopped
         environment:
-          - DISCORD_TOKEN: ${DISCORD_TOKEN} # Uses dockhand to inject the token
+          - DISCORD_TOKEN=''${DISCORD_TOKEN} # Uses dockhand to inject the token
         networks:
           - authelia-net
   '';
