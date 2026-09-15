@@ -29,13 +29,13 @@ let
     session:
       name: authelia_session
       secret: ${builtins.hashString "sha256" "m_uvex-authelia-session-secret"}
-      domain: auth.home.arpa
       same_site: lax
       expiration: 1h
       inactivity: 5m
       remember_me: 1M
       cookies:
-        - authelia_url: https://auth.lunar.srv
+        - domain: lunar.srv
+          authelia_url: https://auth.lunar.srv
 
     storage:
       encryption_key: ${builtins.hashString "sha256" "m_uvex-authelia-storage-key"}
@@ -89,13 +89,13 @@ let
           - /srv/infra/authelia/data:/data
         environment:
           - TZ=Europe/Istanbul
-          - AUTHELIA_JWT_SECRET=${builtins.hashString "sha256" "m_uvex-authelia-jwt-secret"}
+          - AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET=${builtins.hashString "sha256" "m_uvex-authelia-jwt-secret"}
           - AUTHELIA_SESSION_SECRET=${builtins.hashString "sha256" "m_uvex-authelia-session-secret"}
           - AUTHELIA_STORAGE_ENCRYPTION_KEY=${builtins.hashString "sha256" "m_uvex-authelia-storage-key"}
         networks:
           - authelia-net
         healthcheck:
-          test: ["CMD", "curl", "-f", "http://auth.lunar.srv:9091/api/health"]
+          test: ["CMD", "wget", "--spider", "-q", "http://localhost:9091/api/health"]
           interval: 30s
           timeout: 10s
           retries: 3
