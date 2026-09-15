@@ -36,6 +36,8 @@ let
       cookies:
         - domain: lunar.srv
           authelia_url: https://auth.lunar.srv
+        - domain: 192.168.5.23
+          authelia_url: https://192.168.5.23:9091
 
     storage:
       encryption_key: ${builtins.hashString "sha256" "m_uvex-authelia-storage-key"}
@@ -50,6 +52,8 @@ let
       default_policy: deny
       rules:
         - domain: auth.lunar.srv
+          policy: bypass
+        - domain: 192.168.5.23
           policy: bypass
         - domain: gitea.lunar.srv
           policy: one_factor
