@@ -24,7 +24,7 @@ let
       file:
         path: /config/users_database.yml
         password:
-          algorithm: argon2id
+          algorithm: argon2
 
     session:
       name: authelia_session
@@ -54,7 +54,7 @@ let
         - domain: auth.lunar.srv
           policy: bypass
         - domain: 192.168.5.23
-          policy: bypass
+          policy: one_factor
         - domain: gitea.lunar.srv
           policy: one_factor
         - domain: immich.lunar.srv
@@ -68,10 +68,11 @@ let
 
   usersDatabase = ''
     users:
-      m_uvex:
-        displayname: "m_uvex"
-        password: "$argon2id$v=19$m=19456,t=2,p=1$yZlPAmR+2kYuth2wW3yeZw$aZvw8rUb3HmedHpJr+aTaVQ2MsnfFNlKbErDQIPFV0A"
-        email: musamurado@proton.me
+      # Temporary admin user (username: admin, password: admin)
+      admin:
+        displayname: "Admin"
+        password: "$argon2id$v=19$m=65536,t=3,p=4$LEhLJo7X72FgWaSjuTxy9A$YcZP2y2M3/MQvoijSGu2zgPFuUjD5bMKLqe/KFRh1fI"
+        email: admin@lunar.srv
         groups:
           - admins
           - dev
