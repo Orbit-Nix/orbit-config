@@ -16,6 +16,9 @@ let
       types_hash_max_size 2048;
       client_max_body_size 100M;
 
+      # Docker internal DNS resolver
+      resolver 127.0.0.11 valid=10s ipv6=off;
+
       # SSL Configuration
       ssl_certificate /etc/nginx/certs/cert.pem;
       ssl_certificate_key /etc/nginx/certs/key.pem;
@@ -44,6 +47,7 @@ let
           proxy_set_header X-Forwarded-Proto $scheme;
           proxy_set_header X-Forwarded-Host $host;
           proxy_set_header X-Forwarded-URI $request_uri;
+          proxy_set_header X-Forwarded-Ssl on;
         }
       }
 
@@ -303,8 +307,7 @@ let
       rules:
         - domain: auth.lunar.srv
           policy: bypass
-        - domain:
-            - "*.lunar.srv"
+        - domain: "*.lunar.srv"
           policy: one_factor
 
     regulation:
@@ -407,7 +410,7 @@ in
   systemd.tmpfiles.rules = [
     "d /srv/stacks/infra 0755 root root -"
     "d /srv/infra/authelia 0755 root root -"
-    "d /srv/infra/authelia/data 0755 1000 1000 -"
+    "d /srv/infra/authelia/data 0777 root root -"
     "d /srv/infra/nginx 0755 root root -"
     "d /srv/infra/nginx/certs 0755 root root -"
     "L+ /srv/stacks/infra/docker-compose.yml - - - - /etc/stacks/infra/docker-compose.yml"

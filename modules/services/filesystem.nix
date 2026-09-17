@@ -8,7 +8,7 @@
     "d /srv/stacks 0755 root root -"
     "d /srv/data 0755 root root -"
     "d /srv/apps 0755 root root -"
-    "d /srv/infra 0750 root root -"
+    "d /srv/infra 0755 root root -"
 
     # /srv/data: User data & media with setgid media group (2775)
     "d /srv/data/media 2775 root media -"
@@ -30,9 +30,11 @@
     "d /srv/apps/pocketbase 0770 oliver pocketbase -"
 
     # /srv/infra: Core networking, identity, and security tools
-    "d /srv/infra/authelia 0750 root root -"
-    "d /srv/infra/vaultwarden 0750 root root -"
+    "d /srv/infra/authelia 0755 root root -"
+    "d /srv/infra/authelia/data 0777 root root -"
+    "d /srv/infra/vaultwarden 0755 root root -"
     "d /srv/infra/nginx 0755 root root -"
+    "d /srv/infra/nginx/certs 0755 root root -"
     "d /srv/infra/pihole 0755 root root -"
     "d /srv/infra/redis 0750 root root -"
 
