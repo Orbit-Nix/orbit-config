@@ -40,8 +40,26 @@
   };
 
   # --- TAILSCALE ROUTING CAPABILITIES ---
-  # Enable routing features
-  services.tailscale.useRoutingFeatures = "both";
+  # Enable routing features, exit node, and subnet router
+  services.tailscale = {
+    useRoutingFeatures = "both";
+    extraUpFlags = [
+      "--advertise-exit-node"
+      "--advertise-routes=192.168.5.0/24"
+      "--accept-routes=true"
+    ];
+  };
+
+  # --- LOCAL DNS RESOLVER FOR TAILSCALE SPLIT-DNS (*.lunar.srv) ---
+  services.dnsmasq = {
+    enable = true;
+    settings = {
+      bind-dynamic = true;
+      address = [
+        "/lunar.srv/192.168.5.23"
+      ];
+    };
+  };
 
   # --- STORAGE & DISK HEALTH ---
   services.fstrim = {
