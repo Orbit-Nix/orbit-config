@@ -44,23 +44,22 @@
   programs.fish = {
     enable = true;
     interactiveShellInit = builtins.readFile ../../config/fish/config.fish;
-    functions = {
-      mkcd = builtins.readFile ../../config/fish/functions/mkcd.fish;
-      y = builtins.readFile ../../config/fish/functions/y.fish;
-    };
-    plugins = with pkgs.fishPlugins; [
-      { name = "autopair-fish"; src = autopair-fish.src; }
-      { name = "done"; src = done.src; }
-      { name = "fzf-fish"; src = fzf-fish.src; }
-    ];
     vendor = {
       functions.enable = true;
       completions.enable = true;
       config.enable = true;
     };
   };
+
+  environment.etc."fish/functions".source = ../../config/fish/functions;
+
   programs.nix-ld.enable = true;
   environment.systemPackages = with pkgs; [
+    # Fish plugins
+      fishPlugins.autopair-fish
+      fishPlugins.done
+      fishPlugins.fzf-fish
+
     # Filesystem support
       ntfs3g
       exfatprogs
