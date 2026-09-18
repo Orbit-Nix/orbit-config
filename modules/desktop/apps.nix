@@ -126,8 +126,11 @@ in
   config = lib.mkIf cfg.enable {
     programs.kdeconnect.enable = true;
 
-    # Auto-install Flatpaks
+    # TEMPORARY: Flatpak IDEA until nixpkgs updates (see ideaWrapper above)
     services.flatpak.packages = lib.optional hasIdea "com.jetbrains.IntelliJ-IDEA-Community";
+
+    # Flatpaks
+    services.flatpak.packages = [ "com.github.tchx84.Flatseal" ];
 
     environment.systemPackages =
       # Base Utilities & System Tools
@@ -136,7 +139,6 @@ in
         wl-clipboard grim slurp rofi waybar awww cliphist quickshell
         matugen dart-sass gtk4 adwaita-icon-theme gtk4-layer-shell glib cairo
         python3Packages.pygobject3 python3Packages.pycairo mission-center obsidian
-        flatseal
       ])
 
       # AUTOMATIC SELECTION RESOLUTION
