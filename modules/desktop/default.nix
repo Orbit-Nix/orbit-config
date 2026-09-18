@@ -64,12 +64,7 @@ in
     };
   };
 
-  # --- GRAPHICS & AUDIO ---
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-  };
-
+  # --- AUDIO ---
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -77,7 +72,6 @@ in
     alsa.support32Bit = true;
     pulse.enable = true;
   };
-
 
   # --- PORTALS & PACKAGE COMPATIBILITY ---
   xdg.portal = {

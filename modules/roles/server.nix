@@ -1,7 +1,7 @@
 { pkgs, lib, ... }:
 
 {
-  # --- HEADLESS & 24/7 UPTIME OPTIMIZATION ---
+  # --- HEADLESS & 24/7 UP ---
   # Turn off screen after 1 minute of inactivity
   boot.kernelParams = [
     "consoleblank=60"
@@ -39,11 +39,8 @@
     "net.ipv6.conf.all.forwarding" = 1;
   };
 
-  # --- TAILSCALE ROUTING CAPABILITIES ---
-  # Enable routing features, exit node, and subnet router
-  services.tailscale = {
-    useRoutingFeatures = "both";
-    extraUpFlags = [
+  # --- TAILSCALE CONFIG ---
+  services.tailscale.extraSetFlags = [
       "--advertise-exit-node"
       "--advertise-routes=192.168.5.0/24"
       "--accept-routes=true"

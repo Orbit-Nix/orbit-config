@@ -41,12 +41,9 @@
     };
   };
 
-  # --- INPUT CONTROLLERS & PERIPHERALS ---
-  hardware.xone.enable = true;
-  hardware.xpadneo.enable = true;
+  # --- PERIPHERALS ---
   hardware.opentabletdriver.enable = true;
   services.hardware.openrgb.enable = true;
-  services.udev.packages = [ pkgs.dualsensectl ];
 
   # --- HARDWARE MONITORING & DIAGNOSTIC UTILITIES ---
   environment.systemPackages = with pkgs; [
@@ -62,7 +59,6 @@
     usbutils
     inxi
     fwupd
-    dualsensectl
     openrgb
   ];
 }

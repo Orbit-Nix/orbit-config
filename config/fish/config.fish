@@ -1,6 +1,7 @@
 # OrbitOS
 # Commands to run in interactive sessions can go here
 if status is-interactive
+    fastfetch
     # No greeting
     set fish_greeting
 
@@ -23,13 +24,13 @@ if status is-interactive
     alias clear "printf '\033[2J\033[3J\033[1;1H'"
     alias celar "printf '\033[2J\033[3J\033[1;1H'"
     alias claer "printf '\033[2J\033[3J\033[1;1H'"
-    # alias cd z
     zoxide init fish --cmd cd | source
     alias nano micro
     alias cat bat
     alias neofetch fastfetch
-    alias find fd
-    alias q 'qs -c ii'
+    if type -q qs
+        alias q 'qs -c ii'
+    end
     if test "$TERM" != "linux"
         alias ls 'eza --icons=auto'
     end

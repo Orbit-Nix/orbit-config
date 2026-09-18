@@ -29,7 +29,7 @@
         ForwardAgent yes
 
       Host andromeda
-        HostName pc-main-nix
+        HostName pc-smile-nix
         User m_uvex
         ForwardAgent yes
 
@@ -41,7 +41,10 @@
   };
 
   # --- CORE PACKAGES & SHELL ---
-  programs.fish.enable = true;
+  programs.fish = {
+    enable = true;
+    interactiveShellInit = builtins.readFile ../../config/fish/config.fish;
+  };
   programs.nix-ld.enable = true;
   environment.systemPackages = with pkgs; [
     # Filesystem support
@@ -51,13 +54,15 @@
     rsync
     gparted
 
-    # CLI tools
+    # CLI tools & Shell environment
     git
     micro
     zoxide
     tree
     fastfetch
     bat
+    eza
+    starship
     age
     trashy
     btop
@@ -109,7 +114,10 @@
 
   # --- NETWORKING BASE ---
   networking.networkmanager.enable = true;
-  networking.firewall.enable = false;
+  networking.firewall = {
+    enable = true;
+    trustedInterfaces = [ "tailscale0" ];
+  };
   services.tailscale.enable = true;
 
   # WoL alias for pc-smile-nix (wake-pc via Lunar)
