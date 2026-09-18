@@ -41,11 +41,10 @@
 
   # --- TAILSCALE CONFIG ---
   services.tailscale.extraSetFlags = [
-      "--advertise-exit-node"
-      "--advertise-routes=192.168.5.0/24"
-      "--accept-routes=true"
-    ];
-  };
+    "--advertise-exit-node"
+    "--advertise-routes=192.168.5.0/24"
+    "--accept-routes=true"
+  ];
 
   # --- LOCAL DNS RESOLVER FOR TAILSCALE SPLIT-DNS (*.lunar.srv) ---
   services.dnsmasq = {

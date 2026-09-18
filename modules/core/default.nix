@@ -44,29 +44,47 @@
   programs.fish = {
     enable = true;
     interactiveShellInit = builtins.readFile ../../config/fish/config.fish;
+    functions = {
+      mkcd = builtins.readFile ../../config/fish/functions/mkcd.fish;
+      y = builtins.readFile ../../config/fish/functions/y.fish;
+    };
+    plugins = with pkgs.fishPlugins; [
+      { name = "autopair-fish"; src = autopair-fish.src; }
+      { name = "done"; src = done.src; }
+      { name = "fzf-fish"; src = fzf-fish.src; }
+    ];
+    vendor = {
+      functions.enable = true;
+      completions.enable = true;
+      config.enable = true;
+    };
   };
   programs.nix-ld.enable = true;
   environment.systemPackages = with pkgs; [
     # Filesystem support
-    ntfs3g
-    exfatprogs
-    dosfstools
-    rsync
-    gparted
+      ntfs3g
+      exfatprogs
+      dosfstools
+      rsync
+      gparted
 
     # CLI tools & Shell environment
-    git
-    micro
-    zoxide
-    tree
-    fastfetch
-    bat
-    eza
-    starship
-    age
-    trashy
-    btop
-    fd
+      git
+      micro
+      zoxide
+      tree
+      fastfetch
+      bat
+      eza
+      starship
+      fzf
+      atuin
+      direnv
+      yazi
+      age
+      trashy
+      btop
+      fd
     home-manager
     wget
     curl
