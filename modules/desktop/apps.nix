@@ -136,6 +136,7 @@ in
         wl-clipboard grim slurp rofi waybar awww cliphist quickshell
         matugen dart-sass gtk4 adwaita-icon-theme gtk4-layer-shell glib cairo
         python3Packages.pygobject3 python3Packages.pycairo mission-center obsidian
+        flatseal
       ])
 
       # AUTOMATIC SELECTION RESOLUTION
