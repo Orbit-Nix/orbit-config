@@ -13,6 +13,9 @@ let
   ideaWrapper = pkgs.writeShellScriptBin "idea" ''
     exec flatpak run com.jetbrains.IntelliJ-IDEA-Community "$@"
   '';
+  flatsealWrapper = pkgs.writeShellScriptBin "flatseal" ''
+    exec flatpak run com.github.tchx84.Flatseal "$@"
+  '';
   # -----------------
 
   #==================================#
@@ -74,6 +77,10 @@ let
     "yazi"               = pkgs.yazi;
   };
 
+  utilitiesMap = {
+    "flatseal"           = flatsealWrapper;
+  };
+
   #==================================#
   #  AUTOMATIC RESOLUTION FUNCTION   #
   #         ( DONT TOUCH!)           #
@@ -86,6 +93,7 @@ let
 
   # Check selections
   hasIdea = builtins.elem "idea" cfg.ides;
+  hasFlatseal = builtins.elem "flatseal" cfg.utilities;
 
 in
 {
@@ -117,6 +125,12 @@ in
       description = "List of file managers to install.";
     };
 
+    utilities = lib.mkOption {
+      type = lib.types.listOf (lib.types.enum (builtins.attrNames utilitiesMap));
+      default = [ "flatseal" ];
+      description = "List of system utilities to install.";
+    };
+
     # Boolean toggles for full feature suites
     messaging = lib.mkEnableOption "Social & messaging clients";
     media     = lib.mkEnableOption "Creative and media software";
@@ -126,16 +140,15 @@ in
   config = lib.mkIf cfg.enable {
     programs.kdeconnect.enable = true;
 
-    # TEMPORARY: Flatpak IDEA until nixpkgs updates (see ideaWrapper above)
-    services.flatpak.packages = lib.optional hasIdea "com.jetbrains.IntelliJ-IDEA-Community";
-
     # Flatpaks
-    services.flatpak.packages = [ "com.github.tchx84.Flatseal" ];
+    services.flatpak.packages = lib.unique (
+      lib.optional hasFlatseal "com.github.tchx84.Flatseal"
+      ++ lib.optional hasIdea "com.jetbrains.IntelliJ-IDEA-Community" # TEMPORARY
+    );
 
     environment.systemPackages =
       # Base Utilities & System Tools
-      (with pkgs; [
-        kitty polkit_gnome playerctl libnotify steam-run
+      (with pkgs; [\n        kitty polkit_gnome playerctl libnotify steam-run
         wl-clipboard grim slurp rofi waybar awww cliphist quickshell
         matugen dart-sass gtk4 adwaita-icon-theme gtk4-layer-shell glib cairo
         python3Packages.pygobject3 python3Packages.pycairo mission-center obsidian
@@ -146,10 +159,10 @@ in
       ++ (resolveApps ideMap cfg.ides)
       ++ (resolveApps aiMap cfg.ais)
       ++ (resolveApps fileManagerMap cfg.fileManagers)
+      ++ (resolveApps utilitiesMap cfg.utilities)
 
       # Optional Bundles
       ++ lib.optionals cfg.messaging (with pkgs; [ beeper vesktop signal-desktop ])
       ++ lib.optionals cfg.media     (with pkgs; [ krita gimp inkscape obs-studio feishin pear-desktop stremio-linux-shell vacuum-tube ])
       ++ lib.optionals cfg.sync      (with pkgs; [ localsend rquickshare trayscale proton-vpn scrcpy android-tools ]);
-  };
-}
+  };\n}\n
