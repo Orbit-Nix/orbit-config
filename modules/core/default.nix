@@ -55,35 +55,38 @@
 
   programs.nix-ld.enable = true;
   environment.systemPackages = with pkgs; [
+    # Orbit CLI
+    inputs.orbit-cli.packages.${pkgs.system}.default
+
     # Fish plugins
-      fishPlugins.autopair-fish
-      fishPlugins.done
-      fishPlugins.fzf-fish
+    fishPlugins.autopair-fish
+    fishPlugins.done
+    fishPlugins.fzf-fish
 
     # Filesystem support
-      ntfs3g
-      exfatprogs
-      dosfstools
-      rsync
-      gparted
+    ntfs3g
+    exfatprogs
+    dosfstools
+    rsync
+    gparted
 
     # CLI tools & Shell environment
-      git
-      micro
-      zoxide
-      tree
-      fastfetch
-      bat
-      eza
-      starship
-      fzf
-      atuin
-      direnv
-      yazi
-      age
-      trashy
-      btop
-      fd
+    git
+    micro
+    zoxide
+    tree
+    fastfetch
+    bat
+    eza
+    starship
+    fzf
+    atuin
+    direnv
+    yazi
+    age
+    trashy
+    btop
+    fd
     home-manager
     wget
     curl
