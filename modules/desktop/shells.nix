@@ -1,0 +1,25 @@
+
+{ config, lib, ... }:
+
+{
+  options.mySystem.desktop = {
+    shell = lib.mkOption {
+      type = lib.types.enum [ "end4-pC" "midnight" "dms" "none" ];
+      default = "end4-pC";
+      example = "midnight";
+      description = ''
+        The active desktop shell suite for this host.
+        Choices:
+          - "end4-pC"   : Illogical Impulse Material 3 Quickshell desktop
+          - "midnight"  : Midnight Shell (dim-ghub/midnight-shell) Caelestia fork
+          - "dms"       : DankMaterialShell (AvengeMedia/DankMaterialShell)
+          - "none"      : No desktop shell bar/widgets
+      '';
+    };
+  };
+
+  config = {
+    # Automatically propagate host desktop shell setting to home-manager
+    home-manager.users.m_uvex.orbitos.desktop.shell = lib.mkDefault config.mySystem.desktop.shell;
+  };
+}
