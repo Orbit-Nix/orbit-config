@@ -2,3 +2,5 @@
 result
 result-*
 flake.lock
+*.qcow2
+diff_since_last_commit.txt
