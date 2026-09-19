@@ -152,6 +152,18 @@ in
         wl-clipboard grim slurp rofi waybar awww cliphist quickshell
         matugen dart-sass gtk4 adwaita-icon-theme gtk4-layer-shell glib cairo
         python3Packages.pygobject3 python3Packages.pycairo mission-center obsidian
+
+        # Thumbnailing, Image & Icon Support for Quickshell
+        imagemagick
+        file
+        kdePackages.qtsvg
+        kdePackages.qtimageformats
+        librsvg
+        gnome-desktop
+        python3Packages.loguru
+        python3Packages.tqdm
+        python3Packages.click
+        python3Packages.pillow
       ])
 
       # AUTOMATIC SELECTION RESOLUTION

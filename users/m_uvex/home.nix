@@ -42,6 +42,12 @@
       ${pkgs.gnused}/bin/sed -i "s/material_colors\['primary_paletteKeyColor'\]/material_colors.get('primary_paletteKeyColor', material_colors.get('primary', '#c7bfff'))/g" "$out/scripts/colors/generate_colors_material.py"
     fi
 
+    # Fix thumbgen-venv.sh
+    if [ -f "$out/scripts/thumbnails/thumbgen-venv.sh" ]; then
+      ${pkgs.gnused}/bin/sed -i 's|source $(eval echo $ILLOGICAL_IMPULSE_VIRTUAL_ENV)/bin/activate|[ -f "$(eval echo $ILLOGICAL_IMPULSE_VIRTUAL_ENV)/bin/activate" ] \&\& source "$(eval echo $ILLOGICAL_IMPULSE_VIRTUAL_ENV)/bin/activate" \|\| true|' "$out/scripts/thumbnails/thumbgen-venv.sh"
+      ${pkgs.gnused}/bin/sed -i 's|deactivate|type deactivate \&>/dev/null \&\& deactivate \|\| true|' "$out/scripts/thumbnails/thumbgen-venv.sh"
+    fi
+
     # Inject dynamic Material cursor switcher into applycolor.sh
     if [ -f "$out/scripts/colors/applycolor.sh" ]; then
       cat << 'EOF' >> "$out/scripts/colors/applycolor.sh"
