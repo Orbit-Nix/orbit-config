@@ -1,4 +1,3 @@
-
 { config, lib, ... }:
 
 {
@@ -16,10 +15,5 @@
           - "none"      : No desktop shell bar/widgets
       '';
     };
-  };
-
-  config = {
-    # Automatically propagate host desktop shell setting to home-manager
-    home-manager.users.m_uvex.orbitos.desktop.shell = lib.mkDefault config.mySystem.desktop.shell;
   };
 }

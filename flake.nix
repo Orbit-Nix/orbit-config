@@ -75,7 +75,7 @@
       home-manager.useUserPackages = true;
       home-manager.backupFileExtension = "backup";
       home-manager.extraSpecialArgs = specialArgs;
-      home-manager.users.m_uvex = import ./users/m_uvex/home.nix;
+      home-manager.users.m_uvex = ./users/m_uvex/home.nix;
     };
   in {
 

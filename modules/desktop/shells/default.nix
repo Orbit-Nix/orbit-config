@@ -2,11 +2,8 @@
 
 {
   imports = [
-    # Upstream shell modules from flake inputs (guarded if inputs are available)
-    (lib.mkIf (inputs ? illogical-flake) inputs.illogical-flake.homeManagerModules.default)
-    (lib.mkIf (inputs ? dms) inputs.dms.homeModules.dank-material-shell)
-
-    # Shell submodules
+    inputs.illogical-flake.homeManagerModules.default
+    inputs.dms.homeModules.dank-material-shell
     ./end4-pC.nix
     ./midnight.nix
     ./dms.nix
