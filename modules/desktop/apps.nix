@@ -148,7 +148,8 @@ in
 
     environment.systemPackages =
       # Base Utilities & System Tools
-      (with pkgs; [\n        kitty polkit_gnome playerctl libnotify steam-run
+      (with pkgs; [
+        kitty polkit_gnome playerctl libnotify steam-run
         wl-clipboard grim slurp rofi waybar awww cliphist quickshell
         matugen dart-sass gtk4 adwaita-icon-theme gtk4-layer-shell glib cairo
         python3Packages.pygobject3 python3Packages.pycairo mission-center obsidian
@@ -177,4 +178,5 @@ in
       ++ lib.optionals cfg.messaging (with pkgs; [ beeper vesktop signal-desktop ])
       ++ lib.optionals cfg.media     (with pkgs; [ krita gimp inkscape obs-studio feishin pear-desktop stremio-linux-shell vacuum-tube ])
       ++ lib.optionals cfg.sync      (with pkgs; [ localsend rquickshare trayscale proton-vpn scrcpy android-tools ]);
-  };\n}\n
+  };
+}
