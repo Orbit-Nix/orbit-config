@@ -24,13 +24,25 @@ in
 
       # Fix KeyError on primary_paletteKeyColor in generate_colors_material.py
       if [ -f "$out/scripts/colors/generate_colors_material.py" ]; then
-        ${pkgs.gnused}/bin/sed -i "s/material_colors\\['primary_paletteKeyColor'\\]/material_colors.get('primary_paletteKeyColor', material_colors.get('primary', '#c7bfff'))/g" "$out/scripts/colors/generate_colors_material.py"
+        ${pkgs.python3}/bin/python3 -c "
+import pathlib
+path = pathlib.Path('$out/scripts/colors/generate_colors_material.py')
+content = path.read_text()
+content = content.replace(\"material_colors['primary_paletteKeyColor']\", \"material_colors.get('primary_paletteKeyColor', material_colors.get('primary', '#c7bfff'))\")
+path.write_text(content)
+"
       fi
 
       # Fix thumbgen-venv.sh virtualenv activation errors
       if [ -f "$out/scripts/thumbnails/thumbgen-venv.sh" ]; then
-        ${pkgs.gnused}/bin/sed -i 's|source $(eval echo $ILLOGICAL_IMPULSE_VIRTUAL_ENV)/bin/activate|[ -f "$(eval echo $ILLOGICAL_IMPULSE_VIRTUAL_ENV)/bin/activate" ] \&\& source "$(eval echo $ILLOGICAL_IMPULSE_VIRTUAL_ENV)/bin/activate" \\|\\| true|' "$out/scripts/thumbnails/thumbgen-venv.sh"
-        ${pkgs.gnused}/bin/sed -i 's|deactivate|type deactivate \&>/dev/null \&\& deactivate \\|\\| true|' "$out/scripts/thumbnails/thumbgen-venv.sh"
+        ${pkgs.python3}/bin/python3 -c "
+import pathlib
+path = pathlib.Path('$out/scripts/thumbnails/thumbgen-venv.sh')
+content = path.read_text()
+content = content.replace('source \$(eval echo \$ILLOGICAL_IMPULSE_VIRTUAL_ENV)/bin/activate', '[ -f \"\$(eval echo \$ILLOGICAL_IMPULSE_VIRTUAL_ENV)/bin/activate\" ] && source \"\$(eval echo \$ILLOGICAL_IMPULSE_VIRTUAL_ENV)/bin/activate\" || true')
+content = content.replace('deactivate', 'type deactivate &>/dev/null && deactivate || true')
+path.write_text(content)
+"
       fi
 
       # Inject dynamic Material cursor switcher into applycolor.sh
