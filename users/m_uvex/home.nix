@@ -1,4 +1,4 @@
-{ pkgs, inputs, ... }:
+{ pkgs, inputs, osConfig, lib, ... }:
 
 {
   # --- WALLPAPERS ---
@@ -25,44 +25,14 @@
     style.name = "";
   };
 
-  # --- ILLOGICAL-IMPULSE & END4-PC ---
+  # --- MODULAR SHELLS & DESKTOP CONFIGS ---
   imports = [
-    inputs.illogical-flake.homeManagerModules.default
+    ../../modules/desktop/shells
     ../../modules/desktop/app-configs.nix
   ];
-  programs.illogical-impulse.enable = true;
 
-  # Build end4-pC with dynamic Material cursor integration and compatibility fixes
-  xdg.configFile."quickshell/end4-pC".source = pkgs.runCommand "quickshell-end4-pC" { } ''
-    cp -r "${inputs.end4-pC}" "$out"
-    chmod -R u+w "$out"
-
-    # Fix KeyError on primary_paletteKeyColor in generate_colors_material.py
-    if [ -f "$out/scripts/colors/generate_colors_material.py" ]; then
-      ${pkgs.gnused}/bin/sed -i "s/material_colors\['primary_paletteKeyColor'\]/material_colors.get('primary_paletteKeyColor', material_colors.get('primary', '#c7bfff'))/g" "$out/scripts/colors/generate_colors_material.py"
-    fi
-
-    # Fix thumbgen-venv.sh
-    if [ -f "$out/scripts/thumbnails/thumbgen-venv.sh" ]; then
-      ${pkgs.gnused}/bin/sed -i 's|source $(eval echo $ILLOGICAL_IMPULSE_VIRTUAL_ENV)/bin/activate|[ -f "$(eval echo $ILLOGICAL_IMPULSE_VIRTUAL_ENV)/bin/activate" ] \&\& source "$(eval echo $ILLOGICAL_IMPULSE_VIRTUAL_ENV)/bin/activate" \|\| true|' "$out/scripts/thumbnails/thumbgen-venv.sh"
-      ${pkgs.gnused}/bin/sed -i 's|deactivate|type deactivate \&>/dev/null \&\& deactivate \|\| true|' "$out/scripts/thumbnails/thumbgen-venv.sh"
-    fi
-
-    # Inject dynamic Material cursor switcher into applycolor.sh
-    if [ -f "$out/scripts/colors/applycolor.sh" ]; then
-      cat << 'EOF' >> "$out/scripts/colors/applycolor.sh"
-
-# Dynamic Material Cursor integration
-if [ -x "$HOME/.config/cursor/cursor-material-set-color.sh" ]; then
-  "$HOME/.config/cursor/cursor-material-set-color.sh" &
-fi
-EOF
-    fi
-  '';
-
-  home.sessionVariables = {
-    qsConfig = "end4-pC";
-  };
+  # Default shell (switchable with "orbit shell {shell name}
+  orbitos.desktop.shell = lib.mkDefault (osConfig.mySystem.desktop.shell or "end4-pC");
 
   # --- ORBITOS MODULAR CONFIGURATION MANAGER ---
   orbitos = {

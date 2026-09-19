@@ -31,6 +31,10 @@
   networking.hostName = "pc-smile-nix";
   system.stateVersion = "24.05";
 
+  # --- DESKTOP SHELL SELECTION ---
+  # Choices: "end4-pC" | "midnight" | "dms" | "none"
+  mySystem.desktop.shell = "end4-pC";
+
   # --- INSTALLED APPS ---
   mySystem.apps = {
     enable = true;

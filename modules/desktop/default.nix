@@ -26,6 +26,10 @@ let
 
 in
 {
+  imports = [
+    ./shells.nix
+  ];
+
   # --- DISPLAY & DESKTOP MANAGERS ---
   services.xserver.enable = true;
   services.displayManager.gdm.enable = true;

@@ -6,11 +6,12 @@ Declarative, multi-host, multi-dots, feature-full, flake based NixOS configs.
 
 ## 🖥️ Hosts
 
-| Host            | Codename | Role | Hardware |
-|:----------------| :--- | :--- | :--- |
-| `lt-hp15-nix`   | **Orion** | Coding & Remote desktop | HP 15 Laptop, Intel Core i5 8th gen, NVIDIA GeForce MX150, 24GB DDR4, 1.5TB Total Storage |
-| `pc-smile-nix`  | **Andromeda** | Gaming & Workstation | Ryzen 5 5600, RTX 5050, 16 GB DDR4, 512 GB Total Storage |
-| `srv-c4030-nix` | **Lunar** | Server & WoL Relay | Lenovo AIO C40-30, Intel Core i3-4005U, NVIDIA GeForce 820A, 4GB DDR3L, 4.5TB Total Storage |
+| Host            | Codename | Role | Hardware | Default Shell |
+|:----------------| :--- | :--- | :--- | :--- |
+| `lt-hp15-nix`   | **Orion** | Coding & Remote desktop | HP 15 Laptop, Intel Core i5 8th gen, NVIDIA GeForce MX150, 24GB DDR4, 1.5TB Total Storage | `end4-pC` |
+| `pc-smile-nix`  | **Andromeda** | Gaming & Workstation | Ryzen 5 5600, RTX 5050, 16 GB DDR4, 512 GB Total Storage | `end4-pC` |
+| `srv-c4030-nix` | **Lunar** | Server & WoL Relay | Lenovo AIO C40-30, Intel Core i3-4005U, NVIDIA GeForce 820A, 4GB DDR3L, 4.5TB Total Storage | *Headless* |
+| `prt-roam-nix`  | **Voyager** | Portable / General | Universal Hardware, Disko tmpfs root | `end4-pC` |
 
 ---
 
@@ -28,42 +29,93 @@ Declarative, multi-host, multi-dots, feature-full, flake based NixOS configs.
 ├── flake.nix               # Flake inputs, outputs, and system definitions
 ├── hosts/                  # Per-host NixOS machine definitions
 │   ├── lt-hp15-nix/        # Orion (Laptop)
-│   ├── pc-main-nix/        # Andromeda (Main PC)
-│   └── srv-c4030-nix/      # Lunar (Server & WoL Relay)
+│   ├── pc-smile-nix/       # Andromeda (Main PC)
+│   ├── srv-c4030-nix/      # Lunar (Server & WoL Relay)
+│   └── prt-roam-nix/       # Voyager (Portable)
 ├── modules/                # Modular system & hardware configurations
-│   ├── app-configs/        # Per-app integration hooks (fish, gtk, hypr, kitty)
-│   ├── app-configs.nix     # Modular app layer & overwrite engine
-│   ├── apps.nix            # System-wide GUI apps and tools
-│   ├── assets/             # Wallpapers and media
-│   ├── core.nix            # Base system, OpenSSH, nh, and networking
-│   ├── desktop.nix         # Hyprland, audio, display managers
-│   ├── docker.nix          # Docker daemon configuration
-│   ├── gaming.nix          # Steam, GameMode, Minecraft, controller drivers
+│   ├── desktop/
+│   │   ├── app-configs/    # Per-app integration hooks (fish, gtk, hypr, kitty)
+│   │   ├── app-configs.nix # Modular app layer & overwrite engine
+│   │   ├── apps.nix        # System-wide GUI apps and tools
+│   │   ├── assets/         # Wallpapers and media
+│   │   ├── gaming.nix      # Steam, GameMode, Minecraft, controller drivers
+│   │   ├── remote-desktop/ # Sunshine streaming host & Moonlight client
+│   │   ├── shells.nix      # NixOS-level desktop shell module (mySystem.desktop.shell)
+│   │   └── shells/         # Modular Desktop Shells (end4-pC, midnight, dms)
+│   ├── core/               # Base system, OpenSSH, nh, and networking
 │   ├── hardware/           # Modular CPU & GPU hardware profiles
-│   ├── rebuild.nix         # OrbitOS rebuild CLI & SSH key tools
-│   ├── remote-desktop/     # Sunshine streaming host & Moonlight client
-│   └── server/             # Server stacks, storage, and filesystem profiles
+│   ├── roles/              # Server and workstation role profiles
+│   └── services/           # Docker stacks, filesystem, restic, and users
 ├── secrets/
 │   └── ssh.tar.age         # Passphrase-encrypted ~/.ssh archive bundle
 └── users/                  # Modular user accounts & user environments
     ├── m_uvex/             # Musa Murad (NixOS account & Home Manager environment)
-    │   ├── default.nix     # System user account, groups, password & SSH keys
-    │   └── home.nix        # Desktop Home Manager dotfiles, themes & services
+    ├── incognito/          # Ephemeral tmpfs user
     └── oliver/             # Oliver (Pocketbase dev user)
-        └── default.nix     # System user account & restricted developer groups
+```
+
+---
+
+## 🐚 Modular Desktop Shells (3-Shell Suite)
+
+OrbitOS features 3 switchable, beginner-friendly desktop shells:
+
+1. **`end4-pC`** (Illogical Impulse) — Feature-rich Material 3 Quickshell desktop with dynamic sidebar, widgets, overview, and system control center.
+2. **`midnight`** (Midnight Shell) — Sleek, refined Caelestia fork ([`dim-ghub/midnight-shell`](https://github.com/dim-ghub/midnight-shell)) with a minimalist QML interface.
+3. **`dms`** (DankMaterialShell) — High-performance Material shell ([`AvengeMedia/DankMaterialShell`](https://github.com/AvengeMedia/DankMaterialShell)) with plugin registry, `dgop` monitoring stats, `cava` audio visualizer, and `matugen` dynamic theming.
+
+### 1. Instant Runtime Switching via `orbit shell`
+
+Switch shells instantly on-the-fly without rebuilding:
+
+```bash
+# Interactive selector menu:
+orbit shell
+
+# Or switch directly by shell name:
+orbit shell end4-pC
+orbit shell midnight
+orbit shell dms
+orbit shell none
+
+# List all available shells:
+orbit shell list
+
+# Check currently active shell:
+orbit shell status
+
+# Restart the active shell:
+orbit shell restart
+```
+
+### 2. Per-Host Declarative Shell Selection
+
+Each host sets its default shell in its machine definition `hosts/{hostname}/default.nix`:
+
+```nix
+# In hosts/lt-hp15-nix/default.nix (or pc-smile-nix / prt-roam-nix):
+mySystem.desktop.shell = "midnight"; # Choices: "end4-pC" | "midnight" | "dms" | "none"
+```
+
+Rebuild to apply:
+```bash
+rebuild
+# or
+orbit
 ```
 
 ---
 
 ## ✨ Key Features
 
+* **Modular 3-Shell Desktop Suite:** Seamlessly switch between **end4-pC**, **Midnight Shell**, and **DankMaterialShell** via `orbit shell {shellname}` or per-host in `hosts/{hostname}/default.nix`.
 * **Modular User Management:** User accounts and their respective desktop/service environments live under `users/`, allowing any host to reference only the users it needs.
-* **Dynamic material cursors:** Cursors are dynamically colored based on the wallpaper, allowing for an overhauled and visually consistent experience.
+* **Dynamic Material Cursors:** Cursors dynamically adapt to wallpaper palettes across Hyprland, GTK3/4, Qt, and X11 in all 3 desktop shells.
 * **Masterized SSH across devices:** `~/.ssh` is encrypted with age passphrase and committed. On first rebuild, it extracts all keys using the passphrase.
-* **Visual Rebuild Tool:** Custom `rebuild` CLI tool for quick and easy system rebuild with visual package diffs, flake updating (`rebuild update`), SSH key syncing and more.
+* **Orbit CLI Tool:** Fast, unified Rust CLI tool (`orbit`) for system rebuilds with visual diffs, package search/running (`orbit run <pkg>`), secrets management (`orbit secrets`), and instant shell switching (`orbit shell <shell>`).
 * **Remote Kiosk Specialisation:** Selectable boot-entry on Orion (`remote-kiosk`) boots directly into Moonlight sending a background Wake-on-LAN magic packet via Lunar to Andromeda.
 * **Tailscale WoL Relay:** Built-in alias (`wake-pc`) and scripts allowing remote devices to trigger Wake-on-LAN on Andromeda via the always-on Lunar server node.
-* **One config for all:** Single modular repository configuring desktops, laptops and servers seamlessly.
+
 ---
 
 ## 🚀 Quick Install (Fresh System)
@@ -73,13 +125,12 @@ Declarative, multi-host, multi-dots, feature-full, flake based NixOS configs.
 ### 1. Install NixOS
 
 - Visit `https://nixos.org/download/`
-- Select and download your preferred ISO file (GUI Recommended, Use Minimal only if you're comfortable using the terminal, want a fast download and install and don't have enough space on a usb stick.)
-- Flash the ISO file onto a USB drive, you can use Belena Etcher, or Rufus for Windows.
-- After flashing complete, reboot and select your USB drive, then simply follow the instructions in the Installer. Most of the settings you input here aren't important and will change with the config files you provide.
+- Select and download your preferred ISO file.
+- Flash the ISO file onto a USB drive and boot into the installer.
 
 ### 2. Generate Hardware Config & Clone Repo
 
-- Once you're in, launch any type of terminal window and run the following
+- Once booted into the live environment, launch a terminal:
 ```bash
 # Get into a temporary shell with git installed
 nix-shell -p git
@@ -91,9 +142,8 @@ sudo ln -s /orbitos /etc/nixos
 # Generate hardware profile into host (e.g. lt-hp15-nix)
 sudo nixos-generate-config --root /orbitos/hosts/lt-hp15-nix/
 ```
-### 3. Build
-***PLEASE EDIT THE CONFIG BEFORE GENERATING! with my exact config, you won't be able to log in or do much of anything because of the hashed password. It is advised that you fork the repo into your own first!***
 
+### 3. Build & Install
 ```bash
 cd /orbitos
 sudo git add .
@@ -103,16 +153,4 @@ sudo nixos-install --flake .#lt-hp15-nix
 sudo reboot
 ```
 
-Note: After first rebuild, you can simply use the "rebuild" command. Run `rebuild -h` for more info.
-
-
-## Have issues or question?
-OrbitOS is still in alpha stages and is full of bugs but I'm making it better each day. If you want to report a bug or ask a question, feel free to DM me on;
-
-Discord:    m_uvex
-
-Instagram:  m.uvex
-
-Signal:     m_uvex.01
-
-Note: I'll be setting up proper github issues and a discord server soon but in the meantime js DM me on one of thoseissues st
+After first install, manage your system with `rebuild` or `orbit`.

@@ -36,7 +36,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # illogical-impulse & end4-pC UI Profiles
+    # illogical-impulse & end4-pC Shell
     illogical-flake = {
       url = "github:soymou/illogical-flake";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -44,6 +44,22 @@
     end4-pC = {
       url = "github:pctrade/end4-pC";
       flake = false;
+    };
+
+    # Midnight Shell
+    midnight-shell = {
+      url = "github:dim-ghub/midnight-shell";
+      flake = false;
+    };
+
+    # DankMaterialShell (DMS) & Plugins
+    dms = {
+      url = "github:AvengeMedia/DankMaterialShell/stable";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    dms-plugin-registry = {
+      url = "github:AvengeMedia/dms-plugin-registry";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 

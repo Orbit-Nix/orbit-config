@@ -8,6 +8,9 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("systemctl --user start nixos-fake-graphical-session.target")
     hl.exec_cmd("bash -c 'systemctl --user restart xdg-desktop-portal-hyprland xdg-desktop-portal-gtk; sleep 0.5; systemctl --user restart xdg-desktop-portal'")
 
+    -- Initialize active desktop shell (end4-pC, midnight, dms)
+    hl.exec_cmd("orbit-shell-autostart")
+
     -- Initialize Material cursor based on active wallpaper palette
     hl.exec_cmd("~/.config/cursor/cursor-material-set-color.sh")
 end)
