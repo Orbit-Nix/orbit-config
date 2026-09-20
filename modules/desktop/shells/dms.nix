@@ -58,6 +58,7 @@ in
   config = lib.mkIf (cfg.enable || isCurrentShell) {
     programs.dank-material-shell = {
       enable = true;
+      quickshell = lib.mkForce (lib.lowPrio (inputs.dms.packages.${pkgs.system}.quickshell or pkgs.quickshell));
       systemd.enable = cfg.systemd;
       enableDynamicTheming = cfg.enableDynamicTheming;
       enableSystemMonitoring = cfg.enableSystemMonitoring;
