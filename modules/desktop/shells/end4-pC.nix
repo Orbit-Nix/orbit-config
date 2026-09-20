@@ -8,7 +8,7 @@ in
   options.orbitos.shells.end4-pC = {
     enable = lib.mkOption {
       type = lib.types.bool;
-      default = isCurrentShell;
+      default = true;
       description = "Enable the Illogical Impulse / end4-pC Shell.";
     };
   };

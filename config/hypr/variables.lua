@@ -1,6 +1,16 @@
 -- OrbitOS
--- Set active quickshell configuration to end4-pC
-hl.env("qsConfig", "end4-pC")
+-- Dynamically detect active quickshell configuration
+local active_shell = "end4-pC"
+local home_dir = os.getenv("HOME") or "/root"
+local f = io.open(home_dir .. "/.local/state/orbitos/active_shell", "r")
+if f then
+    local content = f:read("*a")
+    f:close()
+    if content and content:match("%S+") then
+        active_shell = content:match("%S+")
+    end
+end
+hl.env("qsConfig", active_shell)
 
 -- Apps
 terminal = "~/.config/hypr/hyprland/scripts/launch_first_available.sh 'kitty -1' 'foot' 'alacritty' 'wezterm' 'konsole' 'kgx' 'uxterm' 'xterm'"

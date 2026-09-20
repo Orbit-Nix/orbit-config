@@ -8,7 +8,7 @@ in
   options.orbitos.shells.midnight = {
     enable = lib.mkOption {
       type = lib.types.bool;
-      default = isCurrentShell;
+      default = true;
       description = "Enable the Midnight Shell.";
     };
   };

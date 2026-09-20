@@ -8,7 +8,7 @@ in
   options.orbitos.shells.dms = {
     enable = lib.mkOption {
       type = lib.types.bool;
-      default = isCurrentShell;
+      default = true;
       description = "Enable the DankMaterialShell (DMS).";
     };
 
