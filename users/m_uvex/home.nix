@@ -7,10 +7,14 @@
     recursive = true;
   };
 
-  # --- ICONS ---
+  # --- ICONS & GTK ---
   home.packages = with pkgs; [
     whitesur-icon-theme
   ];
+
+  # Forcefully apply gtk settings so user doesn't have to delete them each time and get errors
+  xdg.configFile."gtk-3.0/settings.ini".force = lib.mkForce true;
+  xdg.configFile."gtk-4.0/settings.ini".force = lib.mkForce true;
 
   gtk = {
     enable = true;
