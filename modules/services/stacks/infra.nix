@@ -361,9 +361,6 @@ let
           - /srv/infra/authelia/data:/data
         environment:
           - TZ=Europe/Istanbul
-          - AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET=${builtins.hashString "sha256" "m_uvex-authelia-jwt-secret"}
-          - AUTHELIA_SESSION_SECRET=${builtins.hashString "sha256" "m_uvex-authelia-session-secret"}
-          - AUTHELIA_STORAGE_ENCRYPTION_KEY=${builtins.hashString "sha256" "m_uvex-authelia-storage-key"}
         networks:
           - authelia-net
         healthcheck:
