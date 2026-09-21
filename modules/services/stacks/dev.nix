@@ -26,7 +26,6 @@ let
           - "2222:22"
         volumes:
           - /srv/apps/gitea:/data
-          - /etc/timezone:/etc/timezone:ro
           - /etc/localtime:/etc/localtime:ro
         environment:
           - USER_UID=1000
@@ -86,6 +85,7 @@ in
     "d /srv/apps/uptime-kuma 0755 root root -"
     "d /srv/apps/pocketbase/pb_data 0770 1000 1000 -"
     "d /srv/apps/pocketbase/pb_public 0770 1000 1000 -"
+    "d /srv/apps/gitea 0770 1000 1000 -"
     "L+ /srv/stacks/dev/docker-compose.yml 0644 root root - /etc/stacks/dev/docker-compose.yml"
   ];
 }

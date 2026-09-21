@@ -29,8 +29,8 @@
 
   systemd.services.docker-compose-media = {
     description = "Docker Compose Media Stack";
-    after = [ "docker.service" ];
-    requires = [ "docker.service" ];
+    after = [ "docker.service" "docker-compose-infra.service" ];
+    requires = [ "docker.service" "docker-compose-infra.service" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       Type = "oneshot";
@@ -45,8 +45,8 @@
 
   systemd.services.docker-compose-cloud = {
     description = "Docker Compose Cloud Stack";
-    after = [ "docker.service" ];
-    requires = [ "docker.service" ];
+    after = [ "docker.service" "docker-compose-infra.service" ];
+    requires = [ "docker.service" "docker-compose-infra.service" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       Type = "oneshot";
@@ -61,8 +61,8 @@
 
   systemd.services.docker-compose-dev = {
     description = "Docker Compose Development Stack";
-    after = [ "docker.service" ];
-    requires = [ "docker.service" ];
+    after = [ "docker.service" "docker-compose-infra.service" ];
+    requires = [ "docker.service" "docker-compose-infra.service" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       Type = "oneshot";
