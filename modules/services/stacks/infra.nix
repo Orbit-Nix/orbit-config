@@ -371,6 +371,7 @@ let
 
     networks:
       authelia-net:
+        name: authelia-net
         driver: bridge
   '';
 

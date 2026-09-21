@@ -71,6 +71,10 @@ let
           - DISCORD_TOKEN=''${DISCORD_TOKEN} # Uses dockhand to inject the token
         networks:
           - authelia-net
+
+    networks:
+      authelia-net:
+        external: true
   '';
 in
 {
