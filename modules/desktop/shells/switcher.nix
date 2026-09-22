@@ -14,7 +14,7 @@ let
       export qsConfig="$CURRENT"
       case "$CURRENT" in
         end4-pC|ii) exec qs -c end4-pC ;;
-        midnight)   exec qs -c midnight ;;
+        midnight)   (command -v caelestia-shell >/dev/null 2>&1 && exec caelestia-shell) || exec qs -c midnight ;;
         dms)        (command -v dms >/dev/null 2>&1 && exec dms run) || exec qs -c dms ;;
         none)       exit 0 ;;
         *)          exec qs -c end4-pC ;;

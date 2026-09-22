@@ -49,7 +49,6 @@
     # Midnight Shell
     midnight-shell = {
       url = "github:dim-ghub/midnight-shell";
-      flake = false;
     };
 
     # DankMaterialShell (DMS) & Plugins
