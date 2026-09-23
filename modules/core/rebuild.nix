@@ -118,7 +118,7 @@ let
     def make_timestamp(sec, nano=0):
         return encode_field(1, 0, sec) + encode_field(2, 0, nano)
 
-    def make_ws_info(uri="file:///etc/nixos", repo="m-uvex/NixOS", repo_url="git@github.com:m-uvex/NixOS.git", branch="main"):
+    def make_ws_info(uri="file:///etc/nixos", repo="Orbit-Nix/orbit-config", repo_url="git@github.com:Orbit-Nix/orbit-config.git", branch="main"):
         repo_msg = encode_field(1, 2, repo) + encode_field(2, 2, repo_url)
         return (encode_field(1, 2, uri) +
                 encode_field(2, 2, uri) +

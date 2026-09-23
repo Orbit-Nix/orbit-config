@@ -6,7 +6,7 @@
 
     # Orbit CLI
     orbit-cli = {
-      url = "github:orbit-nix/orbit-cli";
+      url = "github:Orbit-Nix/orbit-cli";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

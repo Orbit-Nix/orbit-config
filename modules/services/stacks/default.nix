@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   imports = [
@@ -25,6 +25,7 @@
       Restart = "on-failure";
       RestartSec = "10s";
     };
+    restartTriggers = [ config.environment.etc."stacks/infra/docker-compose.yml".source ];
   };
 
   systemd.services.docker-compose-media = {
@@ -41,6 +42,7 @@
       Restart = "on-failure";
       RestartSec = "10s";
     };
+    restartTriggers = [ config.environment.etc."stacks/media/docker-compose.yml".source ];
   };
 
   systemd.services.docker-compose-cloud = {
@@ -57,6 +59,7 @@
       Restart = "on-failure";
       RestartSec = "10s";
     };
+    restartTriggers = [ config.environment.etc."stacks/cloud/docker-compose.yml".source ];
   };
 
   systemd.services.docker-compose-dev = {
@@ -73,5 +76,6 @@
       Restart = "on-failure";
       RestartSec = "10s";
     };
+    restartTriggers = [ config.environment.etc."stacks/dev/docker-compose.yml".source ];
   };
 }
