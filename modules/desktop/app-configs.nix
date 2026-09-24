@@ -172,7 +172,6 @@ in {
           sed -i 's#local qsIsAlive = qsIpcCall \.\. " TEST_ALIVE"#local qsIsAlive = "(pgrep -x quickshell >/dev/null || pgrep -x .quickshell-wra >/dev/null || pgrep -f caelestia-shell >/dev/null || pgrep -x qs >/dev/null || pgrep -f \\\"dms run\\\" >/dev/null || " .. qsIpcCall .. " TEST_ALIVE)"#g' "$KEYBINDS_FILE"
           sed -i '/hl.bind("SUPER + SUPER_L", hl.dsp.global("quickshell:searchToggleRelease")/a hl.bind("SUPER + SUPER_L", hl.dsp.global("caelestia:launcher"))\nhl.bind("SUPER + SUPER_L", hl.dsp.exec_cmd("pgrep -f \\"dms run\\" >/dev/null \&\& dms ipc call spotlight toggle"))' "$KEYBINDS_FILE"
           sed -i '/hl.bind("SUPER + SUPER_R", hl.dsp.global("quickshell:searchToggleRelease")/a hl.bind("SUPER + SUPER_R", hl.dsp.global("caelestia:launcher"))\nhl.bind("SUPER + SUPER_R", hl.dsp.exec_cmd("pgrep -f \\"dms run\\" >/dev/null \&\& dms ipc call spotlight toggle"))' "$KEYBINDS_FILE"
-          echo "[🗨✓ 🚀]⤷ Hand-patched keybinds.lua for multi-shell launcher compatibility"
         fi
       fi
 
