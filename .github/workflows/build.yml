@@ -1,0 +1,44 @@
+name: "Build and Cache NixOS"
+
+on:
+  pull_request: # Runs when flake-update finishes
+  push:
+    branches: [ main ] # Or on code merge
+
+jobs:
+  check:
+    name: Validate Flake
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/determinate-nix-action@v3
+      - name: Run nix flake check
+        run: nix flake check
+
+  build:
+    name: Build Hosts
+    needs: check # Syntax checks
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # All hosts to build
+        host: [ lt-hp15-nix, pc-smile-nix, srv-c4030-nix, prt-roam-nix ]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: DeterminateSystems/determinate-nix-action@v3
+
+      - name: Setup Cachix
+        if: ${{ secrets.CACHIX_AUTH_TOKEN != '' }}
+        uses: cachix/cachix-action@v15
+        with:
+          name: m_uvex
+          authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}' # Can be ignored, if so cachix will not be used
+
+      - name: Build NixOS System
+        # Builds and compiles everything
+        run: nix build .#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel --print-build-logs
