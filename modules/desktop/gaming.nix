@@ -113,6 +113,18 @@ in
       default = [ "mangohud" "dualsensectl" ];
       description = "List of gaming utilities and driver managers.";
     };
+
+    # --- PLUGINS ---
+    deckyLoader = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = ''
+        Enable Decky Loader, the Steam Deck plugin loader, so plugins can be
+        dropped into a directory instead of Steam itself being patched. The
+        package comes from the Jovian overlay flake.nix already applies to
+        every graphical host; nothing else is needed to turn it on.
+      '';
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -145,5 +157,9 @@ in
       ++ (resolveApps minecraftMap cfg.minecraft)
       ++ (resolveApps emulatorMap cfg.emulators)
       ++ (resolveApps toolMap cfg.tools);
+
+    # Decky Loader. The option lives in Jovian's namespace because that is
+    # where the module is; flake.nix imports it on every graphical host.
+    jovian.decky-loader.enable = cfg.deckyLoader;
   };
 }

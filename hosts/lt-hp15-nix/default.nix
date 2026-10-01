@@ -58,6 +58,10 @@
     messaging = true;
     media = true;
     sync = true;
+
+    cad = [
+      "fusion360"
+    ];
   };
 
   # --- INSTALLED GAMING APPS ---
@@ -66,6 +70,7 @@
 
     optimizations = true;
     controllers = true;
+    deckyLoader = true;
 
     launchers = [
       "steam"

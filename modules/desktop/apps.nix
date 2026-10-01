@@ -81,6 +81,16 @@ let
     "flatseal"           = flatsealWrapper;
   };
 
+  # Software that is not in nixpkgs and reaches the config through a flake
+  # overlay instead. Resolving through `pkgs` rather than
+  # `inputs.fusion-nix.packages` keeps it in this host's package set, so it
+  # shares one nixpkgs and one wine with everything else. The overlay it
+  # depends on is added in flake.nix; referencing it here without that
+  # overlay present would fail to evaluate.
+  cadMap = {
+    "fusion360"          = pkgs.fusion360;
+  };
+
   #==================================#
   #  AUTOMATIC RESOLUTION FUNCTION   #
   #         ( DONT TOUCH!)           #
@@ -131,6 +141,12 @@ in
       description = "List of system utilities to install.";
     };
 
+    cad = lib.mkOption {
+      type = lib.types.listOf (lib.types.enum (builtins.attrNames cadMap));
+      default = [ ];
+      description = "List of CAD and engineering tools to install.";
+    };
+
     # Boolean toggles for full feature suites
     messaging = lib.mkEnableOption "Social & messaging clients";
     media     = lib.mkEnableOption "Creative and media software";
@@ -173,6 +189,7 @@ in
       ++ (resolveApps aiMap cfg.ais)
       ++ (resolveApps fileManagerMap cfg.fileManagers)
       ++ (resolveApps utilitiesMap cfg.utilities)
+      ++ (resolveApps cadMap cfg.cad)
 
       # Optional Bundles
       ++ lib.optionals cfg.messaging (with pkgs; [ beeper vesktop signal-desktop ])
