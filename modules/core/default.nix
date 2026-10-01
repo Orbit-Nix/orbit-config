@@ -1,5 +1,16 @@
 { config, pkgs, inputs, ... }:
 
+let
+  # GParted bakes its filesystem helper binaries into a wrapper PATH at build
+  # time. Upstream nixpkgs passes `withAllTools = false` by default, which
+  # leaves only dosfstools, e2fsprogs and util-linux on that PATH. GParted
+  # then cannot exec `btrfs`, so it reports btrfs volumes as unreadable and
+  # blames a missing btrfs-progs. That message is misleading: btrfs-progs can
+  # be present in the store and on the system PATH and GParted still fails,
+  # because it does not look at the system PATH. The override is the only fix.
+  gparted = pkgs.gparted.override { withAllTools = true; };
+in
+
 {
   imports = [
     ../hardware
@@ -68,6 +79,9 @@
     exfatprogs
     dosfstools
     rsync
+    # Gives the `btrfs` CLI on the desktop hosts; GParted gets its own copy
+    # through the withAllTools override above.
+    btrfs-progs
     gparted
 
     # CLI tools & Shell environment
