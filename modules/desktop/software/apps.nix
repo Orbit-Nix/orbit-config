@@ -19,9 +19,13 @@ let
   rasterMap = {
     "gimp"  = pkgs.gimp;
     "krita" = pkgs.krita;
+    "photocraft" = pkgs.photocraft;
+    "lightcraft" = pkgs.lightcraft;
   };
   vectorMap = {
     "inkscape" = pkgs.inkscape;
+    "vectorcraft" = pkgs.vectorcraft;
+    "designcraft" = pkgs.designcraft;
   };
   threeDMap = {
     "blender" = pkgs.blender;
@@ -49,6 +53,8 @@ let
     "kdenlive" = pkgs.kdePackages.kdenlive;
     "ardour"   = pkgs.ardour;
     "lmms"     = pkgs.lmms;
+    "filmcraft"   = pkgs.filmcraft;
+    "effectcraft" = pkgs.effectcraft;
   };
 
   # 3. NETWORK
@@ -95,6 +101,9 @@ let
   suitesMap = {
     "libreoffice" = pkgs.libreoffice-qt6-fresh;
     "onlyoffice"  = pkgs.onlyoffice-bin;
+    "wordcraft" = pkgs.wordcraft;
+    "deckcraft" = pkgs.deckcraft;
+    "gridcraft" = pkgs.gridcraft;
   };
   notesMap = {
     "obsidian" = pkgs.obsidian;
@@ -104,6 +113,7 @@ let
   officeUtilitiesMap = {
     "evince"   = pkgs.evince;
     "zathura"  = pkgs.zathura;
+    "pdfcraft" = pkgs.pdfcraft;
   };
 
   # 5. DEVELOPMENT
@@ -130,15 +140,15 @@ let
   };
   aiMap = {
     "cursor"             = pkgs.code-cursor;
-    "opendesign"         = [ ];
     "antigravity"        = [ pkgs.antigravity-cli pkgs.antigravity-ide ];
     "codex"              = pkgs.codex;
     "claude-code"        = pkgs.claude-code;
     "opencode"           = [ pkgs.opencode pkgs.opencode-desktop pkgs.opencode-claude-auth ];
+    "opendesign"         = [ ];
     "ollama"             = pkgs.ollama;
     "chatgpt"            = [ pkgs.chatgpt-desktop pkgs.chatgpt-cli ];
     "windsurf"           = pkgs.windsurf;
-    "github-copilot-cli" = pkgs.github-copilot-cli;
+    "github-copilot"     = pkgs.github-copilot-cli;
   };
 
   # 6. SYSTEM
