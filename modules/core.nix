@@ -1,23 +1,16 @@
 { config, pkgs, inputs, ... }:
 
 let
-  # GParted bakes its filesystem helper binaries into a wrapper PATH at build
-  # time. Upstream nixpkgs passes `withAllTools = false` by default, which
-  # leaves only dosfstools, e2fsprogs and util-linux on that PATH. GParted
-  # then cannot exec `btrfs`, so it reports btrfs volumes as unreadable and
-  # blames a missing btrfs-progs. That message is misleading: btrfs-progs can
-  # be present in the store and on the system PATH and GParted still fails,
-  # because it does not look at the system PATH. The override is the only fix.
-  gparted = pkgs.gparted.override { withAllTools = true; };
+  gparted = pkgs.gparted.override { withAllTools = true; }; # gparted fix
 in
 
 {
   imports = [
-    ../hardware
-    ./rebuild.nix
+    ./hardware
+    
   ];
 
-  # --- SSH SERVER & CLIENT INFRASTRUCTURE ---
+  # --- SSH CONFIG ---
   services.openssh = {
     enable = true;
     settings = {
@@ -51,10 +44,10 @@ in
     '';
   };
 
-  # --- CORE PACKAGES & SHELL ---
+  # --- CORE PACKAGES & TERMINAL SHELL ---
   programs.fish = {
     enable = true;
-    interactiveShellInit = builtins.readFile ../../config/fish/config.fish;
+    interactiveShellInit = builtins.readFile ../config/fish/config.fish;
     vendor = {
       functions.enable = true;
       completions.enable = true;
@@ -62,7 +55,7 @@ in
     };
   };
 
-  environment.etc."fish/functions".source = ../../config/fish/functions;
+  environment.etc."fish/functions".source = ../config/fish/functions;
 
   programs.nix-ld.enable = true;
   environment.systemPackages = with pkgs; [
@@ -74,17 +67,15 @@ in
     fishPlugins.done
     fishPlugins.fzf-fish
 
-    # Filesystem support
+    # Filesystem
     ntfs3g
     exfatprogs
     dosfstools
     rsync
-    # Gives the `btrfs` CLI on the desktop hosts; GParted gets its own copy
-    # through the withAllTools override above.
     btrfs-progs
     gparted
 
-    # CLI tools & Shell environment
+    # CLI tools
     git
     micro
     zoxide
@@ -110,7 +101,7 @@ in
     wakeonlan
   ];
 
-  # --- BOOT & NIX SYSTEM SETTINGS ---
+  # --- BOOT & SYSTEM SETTINGS ---
   boot.loader = {
     systemd-boot = {
       enable = true;
@@ -133,8 +124,21 @@ in
   system.autoUpgrade.enable = true;
   system.autoUpgrade.dates = "daily";
   system.autoUpgrade.flake = inputs.self.outPath;
-  nix.settings.auto-optimise-store = true;
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings = {
+    auto-optimise-store = true;
+    experimental-features = [ "nix-command" "flakes" ];
+    substituters = [
+      "https://cache.nixos.org"
+      "https://nix-community.cachix.org"
+      "https://jovian-advice.cachix.org"
+    ];
+    trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "jovian-advice.cachix.org-1:vq5qQhrRkUADRzXk1q7P83XQ02kZJ/14aN2qUaK2N64="
+    ];
+  };
+  
 
   # --- NIX HELPER (NH) ---
   programs.nh = {

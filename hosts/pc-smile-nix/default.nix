@@ -19,10 +19,10 @@
     ../../users/m_uvex
 
     # Modules
-    ../../modules/core
+    ../../modules/core.nix
     ../../modules/desktop
-    ../../modules/desktop/apps.nix
-    ../../modules/desktop/gaming.nix
+    ../../modules/desktop/software/apps.nix
+    ../../modules/desktop/software/gaming.nix
     #../../modules/desktop/ollama.nix
     ../../modules/desktop/remote-desktop/host.nix
   ];
@@ -39,33 +39,40 @@
   mySystem.apps = {
     enable = true;
 
-    browsers = [
-      "zen"
-      "ungoogled"
-    ];
+    network = {
+      browsers = [ "zen" "ungoogled" ];
+      messaging = [ "beeper" "vesktop" "signal-desktop" ];
+      sharing = [ "localsend" "rquickshare" ];
+      vpn = [ "trayscale" "proton-vpn" ];
+      remote = [ "scrcpy" "android-tools" ];
+    };
 
-    fileManagers = [
-      "nautilus"
-      "dolphin"
-    ];
+    development = {
+      ide = [ "idea" "vscode" "android-studio" ];
+      terminals = [ "kitty" ];
+      ai = [ "antigravity" "opencode" "ollama" ];
+    };
 
-    ides = [
-      "idea"
-      "vscode"
-      "android-studio"
-    ];
+    system = {
+      fileManagers = [ "nautilus" "dolphin" ];
+      utilities = [ "flatseal" "mission-center" ];
+    };
 
-    ais = [
-      "antigravity"
-      "opencode"
-      "ollama"
-    ];
+    office = {
+      notes = [ "obsidian" ];
+    };
 
-    messaging = true;
-    media = true;
-    sync = true;
+    graphics = {
+      raster = [ "gimp" "krita" ];
+      vector = [ "inkscape" ];
+    };
+
+    media = {
+      broadcasting = [ "obs-studio" ];
+      streaming = [ "stremio" "pear-desktop" ];
+      players = [ "feishin" "vacuum-tube" ];
+    };
   };
-
   # --- INSTALLED GAMING APPS ---
   mySystem.gaming = {
     enable = true;

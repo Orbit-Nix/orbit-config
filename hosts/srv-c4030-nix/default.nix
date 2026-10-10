@@ -14,7 +14,7 @@
     ../../users/oliver
 
     # Modules
-    ../../modules/core
+    ../../modules/core.nix
     ../../modules/roles/server.nix
     ../../modules/services
     ../../modules/services/docker.nix

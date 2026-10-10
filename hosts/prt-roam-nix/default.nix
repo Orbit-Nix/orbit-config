@@ -14,10 +14,10 @@
     ../../users/incognito
 
     # Modules
-    ../../modules/core
+    ../../modules/core.nix
     ../../modules/desktop
-    ../../modules/desktop/apps.nix
-    ../../modules/desktop/gaming.nix
+    ../../modules/desktop/software/apps.nix
+    ../../modules/desktop/software/gaming.nix
     ../../modules/desktop/remote-desktop/client.nix
   ];
 
@@ -33,31 +33,29 @@
   mySystem.apps = {
     enable = true;
 
-    browsers = [
-      "zen"
-      "ungoogled"
-    ];
+    network = {
+      browsers = [ "zen" "ungoogled" ];
+      messaging = [ "beeper" "vesktop" "signal-desktop" ];
+      sharing = [ "localsend" "rquickshare" ];
+      vpn = [ "trayscale" "proton-vpn" ];
+      remote = [ "scrcpy" "android-tools" ];
+    };
 
-    fileManagers = [
-      "dolphin"
-    ];
+    development = {
+      ide = [ "vscode" "idea" ];
+      terminals = [ "kitty" ];
+      ai = [ "antigravity" "opencode" "ollama" ];
+    };
 
-    ides = [
-      "vscode"
-      "idea"
-    ];
+    system = {
+      fileManagers = [ "dolphin" ];
+      utilities = [ "flatseal" "mission-center" ];
+    };
 
-    ais = [
-      "antigravity"
-      "opencode"
-      "ollama"
-    ];
-
-    messaging = true;
-    media = false;
-    sync = true;
+    office = {
+      notes = [ "obsidian" ];
+    };
   };
-
   # --- INSTALLED GAMING APPS ---
   mySystem.gaming = {
     enable = false;
