@@ -36,7 +36,7 @@
 
     network = {
       browsers = [ "zen" "ungoogled" ];
-      messaging = [ "beeper" "vesktop" "signal-desktop" ];
+      messaging = [ "beeper" "vesktop" "signal" ];
       sharing = [ "localsend" "rquickshare" ];
       vpn = [ "trayscale" "proton-vpn" ];
       remote = [ "scrcpy" "android-tools" ];
