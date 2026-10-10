@@ -54,19 +54,22 @@
     };
 
     office = {
+      suites = [ "wordcraft" "deckcraft" "gridcraft" ];
       notes = [ "obsidian" ];
+      utilities = [ "pdfcraft" ];
     };
 
     graphics = {
-      raster = [ "gimp" "krita" ];
-      vector = [ "inkscape" ];
-      cad = [ "fusion360" ];
+      raster = [ "gimp" "krita" "photocraft" "lightcraft" ];
+      vector = [ "inkscape" "vectorcraft" "designcraft" ];
+      cad = [ "fusion360" "cadcraft" ];
     };
 
     media = {
       broadcasting = [ "obs-studio" ];
       streaming = [ "stremio" "pear-desktop" ];
       players = [ "feishin" "vacuum-tube" ];
+      production = [ "filmcraft" "effectcraft" "soundcraft" ];
     };
   };
   # --- INSTALLED GAMING APPS ---

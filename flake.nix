@@ -19,7 +19,7 @@
     # Custom Software
     # ArtCraft Suite
     artcraft = {
-      url = "github:m-uvex/artcraft-flake";
+      url = "github:Hy4ri/artcraft-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
