@@ -17,6 +17,12 @@
     };
 
     # Custom Software
+    # ArtCraft Suite (Community Flake)
+    artcraft = {
+      url = "github:Hy4ri/artcraft-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # OpenDesign
     opendesign = {
       url = "github:m-uvex/opendesign-nix";
@@ -81,7 +87,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, opendesign, home-manager, driftwm, nix-flatpak, disko, jovian, fusion-nix, ... }@inputs:
+  outputs = { self, nixpkgs, opendesign, home-manager, driftwm, nix-flatpak, disko, jovian, fusion-nix, artcraft, ... }@inputs:
   let
     system = "x86_64-linux";
     username = "m_uvex";
@@ -120,6 +126,10 @@
     fusionModules = [
       { nixpkgs.overlays = [ fusion-nix.overlays.default ]; }
     ];
+    
+    artcraftModules = [
+      { nixpkgs.overlays = [ artcraft.overlays.default ]; }
+    ];
   in {
 
     nixosConfigurations = {
@@ -137,7 +147,8 @@
           ./hosts/lt-hp15-nix/default.nix
         ]
         ++ jovianModules
-        ++ fusionModules;
+        ++ fusionModules
+        ++ artcraftModules;
       };
 
       #=========================================#
@@ -154,7 +165,8 @@
           ./hosts/pc-smile-nix/default.nix
         ]
         ++ jovianModules
-        ++ fusionModules;
+        ++ fusionModules
+        ++ artcraftModules;
       };
 
       #=========================================#
@@ -184,7 +196,8 @@
           ./hosts/prt-roam-nix/default.nix
         ]
         ++ jovianModules
-        ++ fusionModules;
+        ++ fusionModules
+        ++ artcraftModules;
       };
     };
   };
