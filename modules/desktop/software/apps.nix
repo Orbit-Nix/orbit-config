@@ -32,7 +32,7 @@ let
   };
   cadMap = {
     "fusion360" = pkgs.fusion360;
-    # "cadcraft"  = pkgs.cadcraft;  # Not packaged in flake yet
+    "cadcraft"  = pkgs.cadcraft;
   };
 
   # 2. MEDIA
@@ -56,7 +56,7 @@ let
     "lmms"     = pkgs.lmms;
     "filmcraft"   = pkgs.filmcraft;
     "effectcraft" = pkgs.effectcraft;
-    # "soundcraft"= pkgs.soundcraft;# Not packaged in flake yet
+    "soundcraft"= pkgs.soundcraft;
   };
 
   # 3. NETWORK
@@ -103,9 +103,9 @@ let
   suitesMap = {
     "libreoffice" = pkgs.libreoffice-qt6-fresh;
     "onlyoffice"  = pkgs.onlyoffice-bin;
-    # "wordcraft" = pkgs.wordcraft; # Not packaged yet
-    # "deckcraft" = pkgs.deckcraft; # Not packaged yet
-    # "gridcraft" = pkgs.gridcraft; # Not packaged yet
+    "wordcraft" = pkgs.wordcraft;
+    "deckcraft" = pkgs.deckcraft;
+    "gridcraft" = pkgs.gridcraft;
   };
   notesMap = {
     "obsidian" = pkgs.obsidian;
