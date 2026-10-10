@@ -32,6 +32,7 @@ let
   };
   cadMap = {
     "fusion360" = pkgs.fusion360;
+    # "cadcraft"  = pkgs.cadcraft;  # Not packaged in flake yet
   };
 
   # 2. MEDIA
@@ -55,6 +56,7 @@ let
     "lmms"     = pkgs.lmms;
     "filmcraft"   = pkgs.filmcraft;
     "effectcraft" = pkgs.effectcraft;
+    # "soundcraft"= pkgs.soundcraft;# Not packaged in flake yet
   };
 
   # 3. NETWORK
@@ -77,8 +79,8 @@ let
   messagingMap = {
     "beeper"         = pkgs.beeper;
     "vesktop"        = pkgs.vesktop;
-    "signal-desktop" = pkgs.signal-desktop;
     "discord"        = pkgs.discord;
+    "signal"         = pkgs.signal-desktop;
     "telegram"       = pkgs.telegram-desktop;
   };
   sharingMap = {
@@ -101,9 +103,9 @@ let
   suitesMap = {
     "libreoffice" = pkgs.libreoffice-qt6-fresh;
     "onlyoffice"  = pkgs.onlyoffice-bin;
-    "wordcraft" = pkgs.wordcraft;
-    "deckcraft" = pkgs.deckcraft;
-    "gridcraft" = pkgs.gridcraft;
+    # "wordcraft" = pkgs.wordcraft; # Not packaged yet
+    # "deckcraft" = pkgs.deckcraft; # Not packaged yet
+    # "gridcraft" = pkgs.gridcraft; # Not packaged yet
   };
   notesMap = {
     "obsidian" = pkgs.obsidian;
@@ -136,7 +138,7 @@ let
     "kitty"         = pkgs.kitty;
     "wezterm"       = pkgs.wezterm;
     "alacritty"     = pkgs.alacritty;
-    "warp-terminal" = pkgs.warp-terminal;
+    "warp"          = pkgs.warp-terminal;
   };
   aiMap = {
     "cursor"             = pkgs.code-cursor;
