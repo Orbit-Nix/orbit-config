@@ -18,6 +18,8 @@
     ../../modules/desktop
     ../../modules/desktop/software/apps.nix
     ../../modules/desktop/software/gaming.nix
+    ../../modules/desktop/software/waydroid/minimal.nix
+    ../../modules/desktop/software/waydroid/gaming.nix
     #../../modules/desktop/ollama.nix
     ../../modules/desktop/remote-desktop/client.nix
   ];
@@ -72,6 +74,9 @@
       production = [ "filmcraft" "effectcraft" "soundcraft" ];
     };
   };
+  # --- WAYDROID ---
+  mySystem.waydroid.gaming.enable = true;
+
   # --- INSTALLED GAMING APPS ---
   mySystem.gaming = {
     enable = true;
