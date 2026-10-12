@@ -14,6 +14,7 @@
     device = "/var/lib/swapfile";
     size = 12288; # 12 GB
     priority = 10; # Lower priority than zRAM
+    options = [ "defaults" "nofail" ];
   } ];
 
   boot.kernel.sysctl = {
