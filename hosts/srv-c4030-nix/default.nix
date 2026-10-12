@@ -4,10 +4,10 @@
   imports = [
     # Hardware
     ./hardware-configuration.nix
+    ./disko.nix
     ../../modules/hardware/swap.nix
     ../../modules/hardware/intel-cpu.nix
     ../../modules/hardware/intel-integrated.nix
-    #./disko.nix
 
     # Users
     ../../users/m_uvex
