@@ -75,7 +75,7 @@
     };
   };
   # --- WAYDROID ---
-  mySystem.waydroid.gaming.enable = true;
+  mySystem.waydroid.gaming.enable = false;
 
   # --- INSTALLED GAMING APPS ---
   mySystem.gaming = {

@@ -85,9 +85,15 @@
       url = "github:Jovian-Experiments/Jovian-NixOS/development";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # OpenCode v2
+    opencode = {
+      url = "github:anomalyco/opencode/v2";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, opendesign, home-manager, driftwm, nix-flatpak, disko, jovian, fusion-nix, artcraft, ... }@inputs:
+  outputs = { self, nixpkgs, opendesign, home-manager, driftwm, nix-flatpak, disko, jovian, fusion-nix, artcraft, opencode, ... }@inputs:
   let
     system = "x86_64-linux";
     username = "m_uvex";
@@ -130,6 +136,10 @@
     artcraftModules = [
       { nixpkgs.overlays = [ artcraft.overlays.default ]; }
     ];
+
+    opencodeModules = [
+      { nixpkgs.overlays = [ opencode.overlays.default ]; }
+    ];
   in {
 
     nixosConfigurations = {
@@ -148,7 +158,8 @@
         ]
         ++ jovianModules
         ++ fusionModules
-        ++ artcraftModules;
+        ++ artcraftModules
+        ++ opencodeModules;
       };
 
       #=========================================#
@@ -166,7 +177,8 @@
         ]
         ++ jovianModules
         ++ fusionModules
-        ++ artcraftModules;
+        ++ artcraftModules
+        ++ opencodeModules;
       };
 
       #=========================================#
@@ -197,7 +209,8 @@
         ]
         ++ jovianModules
         ++ fusionModules
-        ++ artcraftModules;
+        ++ artcraftModules
+        ++ opencodeModules;
       };
     };
   };

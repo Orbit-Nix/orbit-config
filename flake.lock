@@ -467,6 +467,27 @@
         "type": "github"
       }
     },
+    "opencode": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1791634782,
+        "narHash": "sha256-CIZdrUVk/W5cUYU86Q71XMYIV3Y9+XEZn5eWw3UlNIo=",
+        "owner": "anomalyco",
+        "repo": "opencode",
+        "rev": "4617210822bdbb31e5749751afbfb4584ccedac8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "anomalyco",
+        "ref": "v2",
+        "repo": "opencode",
+        "type": "github"
+      }
+    },
     "opendesign": {
       "inputs": {
         "nixpkgs": [
@@ -565,6 +586,7 @@
         "midnight-shell": "midnight-shell",
         "nix-flatpak": "nix-flatpak",
         "nixpkgs": "nixpkgs_2",
+        "opencode": "opencode",
         "opendesign": "opendesign",
         "orbit-cli": "orbit-cli",
         "zen-browser": "zen-browser"
