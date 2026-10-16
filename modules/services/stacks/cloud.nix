@@ -46,6 +46,7 @@ let
           - TZ=Europe/Istanbul
           - DB_HOSTNAME=immich-postgres
           - DB_USERNAME=postgres
+          - DB_PASSWORD=immichpassword
           - DB_DATABASE_NAME=immich
           - REDIS_HOSTNAME=immich-redis
         depends_on:
@@ -69,7 +70,7 @@ let
         restart: unless-stopped
 
       immich-postgres:
-        image: tensorchord/pgvecto-rs:pg14-v0.2.0
+        image: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0
         container_name: immich_postgres
         restart: unless-stopped
         environment:
@@ -89,6 +90,9 @@ let
           - /srv/apps/hoarder/data:/data
         environment:
           - TZ=Europe/Istanbul
+          - DATA_DIR=/data
+          - NEXTAUTH_SECRET=${builtins.hashString "sha256" "m_uvex-hoarder-secret"}
+          - NEXTAUTH_URL=http://100.100.5.5:3030
           - MEILI_ADDR=http://hoarder-meilisearch:7700
           - BROWSER_WEB_URL=http://hoarder-chrome:9222
         depends_on:

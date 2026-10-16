@@ -19,6 +19,8 @@
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = "yes";
+      TimeoutStartSec = "600s";
+      TimeoutStopSec = "180s";
       WorkingDirectory = "/srv/stacks/infra";
       ExecStart = "${pkgs.docker-compose}/bin/docker-compose up -d";
       ExecStop = "${pkgs.docker-compose}/bin/docker-compose down";
@@ -34,6 +36,8 @@
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = "yes";
+      TimeoutStartSec = "600s";
+      TimeoutStopSec = "180s";
       WorkingDirectory = "/srv/stacks/media";
       ExecStart = "${pkgs.docker-compose}/bin/docker-compose up -d";
       ExecStop = "${pkgs.docker-compose}/bin/docker-compose down";
@@ -49,6 +53,8 @@
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = "yes";
+      TimeoutStartSec = "600s";
+      TimeoutStopSec = "180s";
       WorkingDirectory = "/srv/stacks/cloud";
       ExecStart = "${pkgs.docker-compose}/bin/docker-compose up -d";
       ExecStop = "${pkgs.docker-compose}/bin/docker-compose down";
@@ -64,6 +70,8 @@
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = "yes";
+      TimeoutStartSec = "600s";
+      TimeoutStopSec = "180s";
       WorkingDirectory = "/srv/stacks/dev";
       ExecStart = "${pkgs.docker-compose}/bin/docker-compose up -d";
       ExecStop = "${pkgs.docker-compose}/bin/docker-compose down";

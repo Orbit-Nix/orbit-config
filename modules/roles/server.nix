@@ -42,7 +42,7 @@
   # --- TAILSCALE CONFIG ---
   services.tailscale.extraSetFlags = [
     "--advertise-exit-node"
-    "--advertise-routes=192.168.5.0/24"
+    "--advertise-routes=10.10.5.0/24"
     "--accept-routes=true"
   ];
 
@@ -52,7 +52,7 @@
     settings = {
       bind-dynamic = true;
       address = [
-        "/lunar.srv/192.168.5.23"
+        "/lunar.srv/100.100.5.5"
       ];
     };
   };
@@ -79,5 +79,6 @@
     iperf3
     nethogs
     hdparm
+    cloudflared
   ];
 }

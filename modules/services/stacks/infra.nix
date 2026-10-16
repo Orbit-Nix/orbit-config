@@ -291,7 +291,7 @@ let
       cookies:
         - domain: lunar.srv
           authelia_url: https://auth.lunar.srv
-          default_redirection_url: https://auth.lunar.srv
+          default_redirection_url: https://homepage.lunar.srv
 
     storage:
       encryption_key: ${builtins.hashString "sha256" "m_uvex-authelia-storage-key"}
@@ -314,18 +314,82 @@ let
       max_retries: 3
       find_time: 10m
       ban_time: 15m
+
+    identity_providers:
+      oidc:
+        enforce_pkce: public_clients_only
+        cors:
+          endpoints:
+            - authorization
+            - token
+            - revocation
+            - introspection
+            - userinfo
+          allowed_origins:
+            - https://immich.lunar.srv
+        jwks:
+          - key_id: main
+            algorithm: RS256
+            use: sig
+            key: |
+              -----BEGIN PRIVATE KEY-----
+              MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCzIlSgNIAkVVmS
+              EVLFoRFX9BqNTz7825HpMnuNlgLZGZxTKF6MaGjFLfok8xVGVv8q4EROjDwPqBm3
+              /g23SMfTYs1YB1y5bgT2q6z3mva7EUIMl+gQ0eCPoh3wingR24my/nUgB3pSgQJ4
+              mT0mnLQ4Bri0QL5kSg8bdeBJhwrbh/MPbqhKtrptyUSSOX8X6kVRHVR//mEmjixH
+              DlGpPocTzxgwqJWEAMCELNK0TAdJIVC/K9YX4hUS2bc2mICu7DsnP2HsRjN98Txi
+              O10sndBRuRo47YwENfcvvOXBb2YHHqFxdd3HydxArxrwjJUUA64SQrsLYLmDA9FC
+              gaoluj9pAgMBAAECggEALaefR+F5k0kJdhfiL6pYYEE/jypWVF2lt3h9Ut2bxjcn
+              x23vgvuNUEviiA5IKtA7YnMcFaTaHedq/qDKYB81hqOU0E24DS6EJ1Yj1EtzfMPu
+              QIVqyPaktBbOaKLx7SM12h/OPCaLv4FP3uq3UiL4L5tO8enaXHcfmJEXY8X+N2rm
+              jt+sczJRDIufBAgM2wchCwMWqjTmoh+1Ez/moQlio6Aa9ExuUdqSdJGJAZPJJpyQ
+              ulMuqlgMrHehbFC4J/svWNT88Qq/CYiUgh3zhbquWlTRKvgabyJjX8eELbqVQpwk
+              m/NrdzW6EVcxWKQbqGV4302sCd/zmLdObwpF7dslLQKBgQDb19SFeBPjMKYXsC45
+              DXvmN2WeBC47oVzsPbIT8BUEIVHERis+thxQdunJqqBxVTILUW2xSpGpQ+j2x3OH
+              lj32qp+k3f6oS4a1wkoVGcsJqRtXKFI1OmsVwa6mQZFSCtZyEaLcmJalbkN7uTwJ
+              3yZHsgal0Rl3Aea5J8X5BR7a9wKBgQDQmIIw4Re3suWJ3AEdIgTctwsEjYGxNNhe
+              QuGhWNmC/jfjtC59WKVFqAO6Sb0T2s2rjSnjyzvt4I+0lmixqezyv/bAQjIGJH14
+              CduF95mnDhdLTmJVUDGu/M8mLRuJsNKwJZkcFpUllBk3Nl9r2xxACEByHRys4D9N
+              AanSUqHAnwKBgQCUB7uJd7Zkd2CPeMlXD1ZLSSf6g7Qh4OCyDkT3meR82Ha3Y8xA
+              uN1N7RQ0/9hzF7vP1S+4fo6gXCLk8J5BQRBOJMvEdtq/tcNqZf3+QVTvF1haksLw
+              JnrutnEEcAgLJ1MIkgmI4pIlqJ52E99ygjjDdAN36dlswfH64OY0bJc/NwKBgQDG
+              8Sz5wTQFlzEkEhdd2ZwZhNmVNgCDKYtSGydl4n9QV3SmTqooEetOS7eCa+FQllWh
+              T7ir8KDvdkSYTvr6tr2tpzeGlZtwEE05tu0PD94TXXUJ9XADPcCky6glGNAyudm2
+              9aTZDRCiDmUeK1VGYGrJBxWvv+QhXJ4Cq5tzZCuwsQKBgGnArMB2SoOninlB62rN
+              ahE6hLdQGFSQ3WDISbNYb/JW+arNdjccTDC6K2LHT3r81se2Y+8eZN6dF25gUySj
+              4bSypLjLJOee/NzZlJLkOSOjKJ3KtxAonZetLeRWIpcrp+GMUcjdtJT+2hxCGDhS
+              0sdMYImUpIekyGWHDhl+3f3c
+              -----END PRIVATE KEY-----
+        clients:
+          - client_id: immich
+            client_name: Immich
+            client_secret: "$argon2id$v=19$m=65536,t=3,p=4$HPktgOtP6Az+dfM7n9SzaQ$0k1EeMclnd+X+IJyNZT5qPf8df3FZllmSwh4a+CKkfA"
+            public: false
+            authorization_policy: one_factor
+            require_pkce: false
+            pkce_challenge_method: ""
+            redirect_uris:
+              - https://immich.lunar.srv/auth/login
+              - https://immich.lunar.srv/user-settings
+              - app.immich:///oauth-callback
+            scopes:
+              - openid
+              - profile
+              - email
+            userinfo_signed_response_alg: none
+            token_endpoint_auth_method: client_secret_post
   '';
 
   usersDatabase = ''
     users:
-      # Temporary admin user (username: admin, password: admin)
-      admin:
-        displayname: "Admin"
-        password: "$argon2id$v=19$m=65536,t=3,p=4$LEhLJo7X72FgWaSjuTxy9A$YcZP2y2M3/MQvoijSGu2zgPFuUjD5bMKLqe/KFRh1fI"
-        email: admin@lunar.srv
+      m_uvex:
+        displayname: "Musa Murad"
+        password: "$argon2id$v=19$m=65536,t=3,p=4$4mljxYIbW+dAtAGuwnA4Vw$YfdgVbZ6iN22LDkpU+CtS8x8cMbTqimu38K7C/GgL30"
+        email: m_uvex@lunar.srv
         groups:
           - admins
           - dev
+          - media
   '';
 
   composeContent = ''
@@ -358,6 +422,7 @@ let
         volumes:
           - /srv/infra/authelia/configuration.yml:/config/configuration.yml:ro
           - /srv/infra/authelia/users_database.yml:/config/users_database.yml:ro
+          - /srv/infra/authelia/keys:/keys:ro
           - /srv/infra/authelia/data:/data
         environment:
           - TZ=Europe/Istanbul

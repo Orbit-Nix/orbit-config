@@ -11,11 +11,23 @@ let
         restart: unless-stopped
         ports:
           - "8090:8090"
+        networks:
+          pocketbase_net:
+            ipv4_address: 172.28.0.2
+          default: {}
         volumes:
           - /srv/apps/pocketbase/pb_data:/pb_data
           - /srv/apps/pocketbase/pb_public:/pb_public
         environment:
           - TZ=Europe/Istanbul
+
+      cloudflared:
+        image: cloudflare/cloudflared:latest
+        container_name: cloudflared
+        restart: unless-stopped
+        command: tunnel --no-autoupdate run --token eyJhIjoiMGEyZGZjYjVhMjdmNDhlYWFhZjc4N2QzNTQ3NDg1NjUiLCJ0IjoiNjQ3ZDcyN2MtZjA0Ny00NjljLWJmMTgtMmFmNzc0YTA5N2ZhIiwicyI6Ik9UUTJaREUyTkdZdE1tTXdNUzAwTWpNeExXRTVZell0TkRRNVl6bGpPV016TjJNMyJ9
+        networks:
+          - pocketbase_net
 
       gitea:
         image: gitea/gitea:latest
@@ -56,22 +68,31 @@ let
         restart: unless-stopped
         ports:
           - "3002:3001"
+        networks:
+          pocketbase_net:
+            ipv4_address: 172.28.0.5
+          default: {}
         volumes:
           - /srv/apps/uptime-kuma:/app/data
         environment:
           - TZ=Europe/Istanbul
 
-      # Glyphix Discord bot
-      glyphix-discord-bot:
-        image: discord-bot:latest
-        container_name: glyphix-discord-bot
-        restart: unless-stopped
-        environment:
-          - DISCORD_TOKEN=''${DISCORD_TOKEN} # Uses dockhand to inject the token
-        networks:
-          - authelia-net
+      # Glyphix Discord bot (commented out for now)
+      # glyphix-discord-bot:
+      #   image: discord-bot:latest
+      #   container_name: glyphix-discord-bot
+      #   restart: unless-stopped
+      #   environment:
+      #     - DISCORD_TOKEN=''${DISCORD_TOKEN} # Uses dockhand to inject the token
+      #   networks:
+      #     - authelia-net
 
     networks:
+      pocketbase_net:
+        driver: bridge
+        ipam:
+          config:
+            - subnet: 172.28.0.0/16
       authelia-net:
         external: true
   '';
