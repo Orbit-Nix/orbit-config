@@ -91,6 +91,12 @@
       url = "github:anomalyco/opencode/v2";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Riff Audio Player
+    riff = {
+      url = "github:rootscripts/riff";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, opendesign, home-manager, driftwm, nix-flatpak, disko, jovian, fusion-nix, artcraft, opencode, ... }@inputs:

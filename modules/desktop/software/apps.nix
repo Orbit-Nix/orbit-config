@@ -44,11 +44,20 @@ let
     "spotify"      = pkgs.spotify;
     "pear-desktop" = pkgs.pear-desktop;
   };
+  riffPkg = inputs.riff.packages.${system}.default.overrideAttrs (old: {
+    npmDeps = pkgs.fetchNpmDeps {
+      src = inputs.riff;
+      hash = "sha256-kRAkzNTffKviBJYkNCu8wdQd4jmXXg5Fg7JTOr9t36s=";
+      forceGitDeps = true;
+    };
+  });
+
   playersMap = {
     "vlc"         = pkgs.vlc;
     "mpv"         = pkgs.mpv;
     "feishin"     = pkgs.feishin;
     "vacuum-tube" = pkgs.vacuum-tube;
+    "riff"        = riffPkg;
   };
   productionMap = {
     "kdenlive" = pkgs.kdePackages.kdenlive;
