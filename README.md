@@ -76,6 +76,7 @@ Declarative, multi-host, multi-shells, feature-full, flake based NixOS configs.
 * **Native Android Integration:** KDE Connect, RQuickShare, LocalSend, and more tools are available natively to integrate your PC and smartphone seamlessly.
 * **Local AI Made Easy:** Native integration for local LLMs via Ollama with easy-to-use GUI options.
 * **Gaming Ready:** Configurable system-wide gaming apps, Minecraft launchers and built-in controller support pre-configured.
+* **Auto Wallpaper Sorting:** No more will you have a mess of wallpapers, drop anything you like into unsorted and it'll neatly get categorized and renamed for easier access.
 
 ### Networking & Remote
 * **Remote Desktop Host:** Use your most powerful machine from anywhere via moonlight|sunshine & Tailscale by setting it as a remote desktop host.
