@@ -10,6 +10,13 @@ let
   soberWrapper = pkgs.writeShellScriptBin "sober" ''
     exec flatpak run org.vinegarhq.Sober "$@"
   '';
+  geforceNowWrapper = pkgs.symlinkJoin {
+    name = "geforcenow-wrapper";
+    paths = [
+      (pkgs.writeShellScriptBin "geforcenow" ''exec flatpak run com.nvidia.geforcenow "$@"'')
+      (pkgs.writeShellScriptBin "gfn" ''exec flatpak run com.nvidia.geforcenow "$@"'')
+    ];
+  };
 
   #==================================#
   #      GAMING APP DICTIONARIES     #
@@ -23,6 +30,8 @@ let
     "itch"         = pkgs.itch;
     "sober"        = soberWrapper;
     "roblox"       = soberWrapper; # Alias for Sober
+    "geforcenow"   = geforceNowWrapper;
+    "gfn"          = geforceNowWrapper; # Alias for GeForce NOW
   };
 
   minecraftMap = {
@@ -67,6 +76,7 @@ let
   hasSteam  = builtins.elem "steam" cfg.launchers;
   hasSober  = builtins.elem "sober" cfg.launchers || builtins.elem "roblox" cfg.launchers;
   hasModrinth = builtins.elem "modrinth" cfg.minecraft;
+  hasGeforceNow = builtins.elem "geforcenow" cfg.launchers || builtins.elem "gfn" cfg.launchers;
 
 in
 {
@@ -146,9 +156,18 @@ in
     services.udev.packages = lib.optionals cfg.controllers [ pkgs.dualsensectl ];
 
     # Auto-install Flatpaks (safely deduplicated)
+    services.flatpak.remotes = lib.optional hasGeforceNow {
+      name = "GeForceNOW";
+      location = "https://international.download.nvidia.com/GFNLinux/flatpak/geforcenow.flatpakrepo";
+    };
+
     services.flatpak.packages = lib.unique (
       lib.optional hasModrinth "com.modrinth.ModrinthApp"
       ++ lib.optional hasSober "org.vinegarhq.Sober"
+      ++ lib.optional hasGeforceNow {
+        appId = "com.nvidia.geforcenow";
+        origin = "GeForceNOW";
+      }
     );
 
     # Package Resolutions

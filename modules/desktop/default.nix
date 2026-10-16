@@ -92,7 +92,15 @@ in
       };
     };
   };
-  services.flatpak.enable = true;
+  services.flatpak = {
+    enable = true;
+    remotes = [
+      {
+        name = "flathub";
+        location = "https://dl.flathub.org/repo/flathub.flatpakrepo";
+      }
+    ];
+  };
   programs.appimage.binfmt = true;
 
   # --- FONTS ---
