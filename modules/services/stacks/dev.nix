@@ -25,9 +25,12 @@ let
         image: cloudflare/cloudflared:latest
         container_name: cloudflared
         restart: unless-stopped
+        depends_on:
+          - pocketbase
         command: tunnel --no-autoupdate run --token eyJhIjoiMGEyZGZjYjVhMjdmNDhlYWFhZjc4N2QzNTQ3NDg1NjUiLCJ0IjoiNjQ3ZDcyN2MtZjA0Ny00NjljLWJmMTgtMmFmNzc0YTA5N2ZhIiwicyI6Ik9UUTJaREUyTkdZdE1tTXdNUzAwTWpNeExXRTVZell0TkRRNVl6bGpPV016TjJNMyJ9
         networks:
-          - pocketbase_net
+          pocketbase_net:
+            ipv4_address: 172.28.0.3
 
       gitea:
         image: gitea/gitea:latest
