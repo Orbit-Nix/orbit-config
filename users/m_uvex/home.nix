@@ -1,15 +1,29 @@
 { pkgs, inputs, osConfig, lib, ... }:
 
+let
+  wallpaperSorterPython = pkgs.python3.withPackages (ps: with ps; [
+    torch
+    transformers
+    opencv4
+    pillow
+    numpy
+  ]);
+
+  wallpaperSorter = pkgs.writeShellScriptBin "wallpaper-sorter" ''
+    exec ${wallpaperSorterPython}/bin/python3 ~/Pictures/Wallpapers/Wallpaper-Sorter.py "$@"
+  '';
+in
 {
   # --- WALLPAPERS ---
-  home.file."Pictures/Wallpapers" = {
-    source = ../../modules/desktop/assets/Wallpapers;
-    recursive = true;
-  };
+  # home.file."Pictures/Wallpapers" = {
+  #   source = ../../modules/desktop/assets/Wallpapers;
+  #   recursive = true;
+  # };
 
   # --- ICONS & GTK ---
   home.packages = with pkgs; [
     whitesur-icon-theme
+    wallpaperSorter
   ];
 
   # Forcefully apply gtk settings so user doesn't have to delete them each time and get errors
@@ -75,6 +89,34 @@
     Timer = {
       OnCalendar = "*:0/5";
       Persistent = true;
+    };
+  };
+
+  # --- WALLPAPER SORTER AUTOMATION ---
+  systemd.user.paths.wallpaper-sorter = {
+    Unit = {
+      Description = "Watch Unsorted Wallpapers Folder";
+    };
+    Install = {
+      WantedBy = [ "default.target" ];
+    };
+    Path = {
+      DirectoryNotEmpty = "%h/Pictures/Wallpapers/Unsorted";
+      MakeDirectory = true;
+    };
+  };
+
+  systemd.user.services.wallpaper-sorter = {
+    Unit = {
+      Description = "Wallpaper Sorter Automated Service";
+      After = [ "default.target" ];
+    };
+    Service = {
+      Type = "oneshot";
+      ExecStart = "${wallpaperSorter}/bin/wallpaper-sorter";
+      WorkingDirectory = "%h/Pictures/Wallpapers";
+      StandardOutput = "journal";
+      StandardError = "journal";
     };
   };
 
