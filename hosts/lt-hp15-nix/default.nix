@@ -26,6 +26,19 @@
 
   # --- HOST CONFIGURATION ---
   networking.hostName = "lt-hp15-nix";
+  networking.hosts = {
+    "100.100.5.5" = [
+      "auth.lunar.srv"
+      "homepage.lunar.srv"
+      "lunar.srv"
+      "gitea.lunar.srv"
+      "immich.lunar.srv"
+      "dockhand.lunar.srv"
+      "jellyfin.lunar.srv"
+      "vaultwarden.lunar.srv"
+      "uptime.lunar.srv"
+    ];
+  };
   system.stateVersion = "24.05";
 
   # --- DESKTOP SHELL SELECTION ---
@@ -56,7 +69,7 @@
     };
 
     office = {
-      suites = [ "wordcraft" "deckcraft" "gridcraft" ];
+      suites = [ "wordcraft" "deckcraft" "gridcraft" "libreoffice" ];
       notes = [ "obsidian" ];
       utilities = [ "pdfcraft" ];
     };
@@ -70,7 +83,7 @@
     media = {
       broadcasting = [ "obs-studio" ];
       streaming = [ "stremio" "pear-desktop" ];
-      players = [ "feishin" "vacuum-tube" ];
+      players = [ "feishin" "vacuum-tube" "riff" ];
       production = [ "filmcraft" "effectcraft" "soundcraft" ];
     };
   };
@@ -90,6 +103,7 @@
       "heroic"
       "hydra"
       "sober"
+      "geforcenow"
     ];
 
     minecraft = [
