@@ -64,7 +64,7 @@
     };
 
     system = {
-      fileManagers = [ "nautilus" "dolphin" ];
+      fileManagers = [ "loaf" "nautilus" "dolphin" ];
       utilities = [ "flatseal" "mission-center" ];
     };
 

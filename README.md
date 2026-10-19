@@ -4,7 +4,23 @@ Declarative, multi-host, multi-shells, feature-full, flake based NixOS configs.
 
 ---
 
-## 🖥️ Hosts
+## 🖥️ Desktop Shells (Tree View)
+
+OrbitOS supports multiple modular desktop shells grouped hierarchically by their upstream base, where both parents and specific forks/patches are selectable:
+
+```text
+├── Illogical Impulse (selectable)
+│   ├── illogical-impulse : Default Illogical Impulse suite
+│   ├── end4-pC           : Material 3 Quickshell desktop
+│   └── ii-vynx           : vaguesyntax ii-vynx scrolling-dots Quickshell fork
+├── Caelestia (selectable)
+│   ├── caelestia         : Default Caelestia shell suite
+│   └── midnight          : Midnight Shell (dim-ghub/midnight-shell) Caelestia fork
+├── DMS (selectable, no childs)
+│   └── dms               : DankMaterialShell (AvengeMedia/DankMaterialShell)
+└── Noctalia (selectable, no childs)
+    └── noctalia          : Noctalia Shell (noctalia-dev/noctalia)
+```
 
 | Host            | Codename      | Role                    | Hardware                                                                                    | Default Shell |
 |:----------------|:--------------|:------------------------|:--------------------------------------------------------------------------------------------|:--------------|

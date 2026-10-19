@@ -55,7 +55,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # illogical-impulse & end4-pC Shell
+    # Illogical Impulse & Forks
     illogical-flake = {
       url = "github:soymou/illogical-flake";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -64,19 +64,38 @@
       url = "github:pctrade/end4-pC";
       flake = false;
     };
+    ii-vynx = {
+      url = "github:vaguesyntax/ii-vynx";
+      flake = false;
+    };
 
-    # Midnight Shell
+    # Caelestia Shell & Forks
+    caelestia-shell = {
+      url = "github:caelestia-dots/shell";
+    };
     midnight-shell = {
       url = "github:dim-ghub/midnight-shell";
     };
 
-    # DankMaterialShell (DMS) & Plugins
+    # DMS
     dms = {
       url = "github:AvengeMedia/DankMaterialShell/stable";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     dms-plugin-registry = {
       url = "github:AvengeMedia/dms-plugin-registry";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Noctalia Shell
+    noctalia = {
+      url = "github:noctalia-dev/noctalia";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Loaf File Manager
+    loaf-fm = {
+      url = "github:m-uvex/loaf-fm";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

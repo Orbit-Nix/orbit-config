@@ -2,7 +2,7 @@
 
 let
   cfg = config.orbitos.shells.end4-pC;
-  isCurrentShell = config.orbitos.desktop.shell == "end4-pC";
+  isCurrentShell = config.orbitos.desktop.shell == "end4-pC" || config.orbitos.desktop.shell == "illogical-impulse";
 in
 {
   options.orbitos.shells.end4-pC = {

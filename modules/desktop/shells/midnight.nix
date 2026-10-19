@@ -2,7 +2,7 @@
 
 let
   cfg = config.orbitos.shells.midnight;
-  isCurrentShell = config.orbitos.desktop.shell == "midnight";
+  isCurrentShell = config.orbitos.desktop.shell == "midnight" || config.orbitos.desktop.shell == "caelestia";
 in
 {
   options.orbitos.shells.midnight = {

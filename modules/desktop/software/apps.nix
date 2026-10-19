@@ -170,6 +170,7 @@ let
     "thunar"             = pkgs.xfce.thunar;
     "pcmanfm"            = pkgs.pcmanfm;
     "yazi"               = pkgs.yazi;
+    "loaf"               = inputs.loaf-fm.packages.${system}.default;
   };
   systemUtilitiesMap = {
     "flatseal"       = flatsealWrapper;
