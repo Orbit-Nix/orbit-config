@@ -692,11 +692,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1790710470,
-        "narHash": "sha256-dg/n5Ewzt0OUleDzuJt0ZBozJAIAb9pTVmA5GenFG1E=",
+        "lastModified": 1792786120,
+        "narHash": "sha256-YzEN+OEsAx8Z4Uh8C6/buZTL+XTjZLryiZrgA+QHS0E=",
         "owner": "Orbit-Nix",
         "repo": "orbit-cli",
-        "rev": "e88b5a97e2a0a39abf1bda4cf4237d16afae6252",
+        "rev": "82afb805f018c4cae977dd5e5b2384d0abca10aa",
         "type": "github"
       },
       "original": {
