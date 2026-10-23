@@ -60,7 +60,7 @@ in
   programs.nix-ld.enable = true;
   environment.systemPackages = with pkgs; [
     # Orbit CLI
-    inputs.orbit-cli.packages.${pkgs.system}.default
+    inputs.orbit-cli.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     # Fish plugins
     fishPlugins.autopair-fish
@@ -77,6 +77,7 @@ in
 
     # CLI tools
     git
+    gh
     micro
     zoxide
     tree
@@ -114,6 +115,11 @@ in
   nixpkgs.overlays = [
     (final: prev: {
       gnome-icon-theme = final.adwaita-icon-theme;
+    })
+    # DMS / midnight flake inputs still access `pkgs.swww`, which nixpkgs
+    # renamed to `awww` (the alias warns on every access). Resolve it silently.
+    (final: prev: {
+      swww = prev.awww;
     })
   ];
 

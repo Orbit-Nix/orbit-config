@@ -19,7 +19,7 @@ in
     # Build and deploy Midnight Shell Quickshell configuration
         programs.caelestia = {
       enable = true;
-      package = inputs.midnight-shell.packages.${pkgs.system}.default.overrideAttrs (old: {
+      package = inputs.midnight-shell.packages.${pkgs.stdenv.hostPlatform.system}.default.overrideAttrs (old: {
         prePatch = (old.prePatch or "") + ''
           for script in scripts/colors/applycolor.sh scripts/applycolor.sh scripts/color.sh; do
             if [ -f "$script" ]; then

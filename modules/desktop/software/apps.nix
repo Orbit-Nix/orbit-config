@@ -110,7 +110,7 @@ let
 
   # 4. OFFICE
   suitesMap = {
-    "libreoffice" = pkgs.libreoffice-qt6-fresh;
+    "libreoffice" = pkgs.libreoffice-qt-stable;
     "onlyoffice"  = pkgs.onlyoffice-bin;
     "wordcraft" = pkgs.wordcraft;
     "deckcraft" = pkgs.deckcraft;
