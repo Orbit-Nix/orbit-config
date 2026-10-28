@@ -28,7 +28,6 @@
   networking.hostName = "lt-hp15-nix";
   networking.hosts = {
     "100.100.5.5" = [
-      "auth.lunar.srv"
       "homepage.lunar.srv"
       "lunar.srv"
       "gitea.lunar.srv"
@@ -37,7 +36,7 @@
       "jellyfin.lunar.srv"
       "vaultwarden.lunar.srv"
       "uptime.lunar.srv"
-      "pydio.lunar.srv"
+      "cloud.lunar.srv"
     ];
   };
   system.stateVersion = "24.05";

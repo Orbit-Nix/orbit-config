@@ -87,8 +87,6 @@ let
       #   restart: unless-stopped
       #   environment:
       #     - DISCORD_TOKEN=''${DISCORD_TOKEN} # Uses dockhand to inject the token
-      #   networks:
-      #     - authelia-net
 
     networks:
       pocketbase_net:
@@ -96,8 +94,6 @@ let
         ipam:
           config:
             - subnet: 172.28.0.0/16
-      authelia-net:
-        external: true
   '';
 in
 {

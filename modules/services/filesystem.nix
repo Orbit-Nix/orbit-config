@@ -16,22 +16,20 @@
     "d /srv/data/media/shows 2775 root media -"
     "d /srv/data/media/music 2775 root media -"
     "d /srv/data/downloads 2775 root media -"
-    "d /srv/data/pydio_workspaces 0770 root media -"
+    "d /srv/data/cloudreve_uploads 0770 root media -"
     "d /srv/data/backups 0755 root root -"
     "d /srv/data/backups/restic 0750 restic restic -"
 
     # /srv/apps: Application state and database directories
     "d /srv/apps/immich 0755 root root -"
     "d /srv/apps/jellyfin 0775 root media -"
-    "d /srv/apps/pydio 0755 root root -"
+    "d /srv/apps/cloudreve 0755 root root -"
     "d /srv/apps/arr-stack 0775 root media -"
     "d /srv/apps/gitea 0755 root root -"
     "d /srv/apps/hoarder 0755 root root -"
     "d /srv/apps/pocketbase 0770 oliver pocketbase -"
 
     # /srv/infra: Core networking, identity, and security tools
-    "d /srv/infra/authelia 0755 root root -"
-    "d /srv/infra/authelia/data 0777 root root -"
     "d /srv/infra/vaultwarden 0755 root root -"
     "d /srv/infra/nginx 0755 root root -"
     "d /srv/infra/nginx/certs 0755 root root -"

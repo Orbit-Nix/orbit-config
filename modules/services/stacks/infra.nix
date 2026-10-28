@@ -34,51 +34,12 @@ let
         return 301 https://$host$request_uri;
       }
 
-      # --- 1. Authelia Authentication Portal ---
-      server {
-        listen 443 ssl;
-        server_name auth.lunar.srv;
-
-        location / {
-          proxy_pass http://authelia:9091;
-          proxy_set_header Host $host;
-          proxy_set_header X-Real-IP $remote_addr;
-          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-          proxy_set_header X-Forwarded-Proto $scheme;
-          proxy_set_header X-Forwarded-Host $host;
-          proxy_set_header X-Forwarded-URI $request_uri;
-          proxy_set_header X-Forwarded-Ssl on;
-        }
-      }
-
-      # --- 2. Homepage (Dashboard) ---
+      # --- 1. Homepage (Dashboard) ---
       server {
         listen 443 ssl;
         server_name homepage.lunar.srv lunar.srv;
 
-        location /authelia {
-          internal;
-          proxy_pass http://authelia:9091/api/verify;
-          proxy_pass_request_body off;
-          proxy_set_header Content-Length "";
-          proxy_set_header X-Original-URL $scheme://$http_host$request_uri;
-          proxy_set_header X-Original-Method $request_method;
-          proxy_set_header X-Forwarded-Method $request_method;
-          proxy_set_header X-Forwarded-Proto $scheme;
-          proxy_set_header X-Forwarded-Host $http_host;
-          proxy_set_header X-Forwarded-URI $request_uri;
-          proxy_set_header X-Forwarded-For $remote_addr;
-        }
-
         location / {
-          auth_request /authelia;
-          auth_request_set $user $upstream_http_remote_user;
-          auth_request_set $groups $upstream_http_remote_groups;
-          proxy_set_header Remote-User $user;
-          proxy_set_header Remote-Groups $groups;
-
-          error_page 401 =302 https://auth.lunar.srv/?rd=$scheme://$http_host$request_uri;
-
           proxy_pass http://host.docker.internal:8083;
           proxy_set_header Host $host;
           proxy_set_header X-Real-IP $remote_addr;
@@ -87,38 +48,12 @@ let
         }
       }
 
-      # --- 3. Gitea ---
+      # --- 2. Gitea ---
       server {
         listen 443 ssl;
         server_name gitea.lunar.srv;
 
-        location /authelia {
-          internal;
-          proxy_pass http://authelia:9091/api/verify;
-          proxy_pass_request_body off;
-          proxy_set_header Content-Length "";
-          proxy_set_header X-Original-URL $scheme://$http_host$request_uri;
-          proxy_set_header X-Original-Method $request_method;
-          proxy_set_header X-Forwarded-Method $request_method;
-          proxy_set_header X-Forwarded-Proto $scheme;
-          proxy_set_header X-Forwarded-Host $http_host;
-          proxy_set_header X-Forwarded-URI $request_uri;
-          proxy_set_header X-Forwarded-For $remote_addr;
-        }
-
         location / {
-          auth_request /authelia;
-          auth_request_set $user $upstream_http_remote_user;
-          auth_request_set $groups $upstream_http_remote_groups;
-          auth_request_set $name $upstream_http_remote_name;
-          auth_request_set $email $upstream_http_remote_email;
-          proxy_set_header Remote-User $user;
-          proxy_set_header Remote-Groups $groups;
-          proxy_set_header Remote-Name $name;
-          proxy_set_header Remote-Email $email;
-
-          error_page 401 =302 https://auth.lunar.srv/?rd=$scheme://$http_host$request_uri;
-
           proxy_pass http://host.docker.internal:3001;
           proxy_set_header Host $host;
           proxy_set_header X-Real-IP $remote_addr;
@@ -127,35 +62,13 @@ let
         }
       }
 
-      # --- 4. Immich ---
+      # --- 3. Immich ---
       server {
         listen 443 ssl;
         server_name immich.lunar.srv;
         client_max_body_size 50000M;
 
-        location /authelia {
-          internal;
-          proxy_pass http://authelia:9091/api/verify;
-          proxy_pass_request_body off;
-          proxy_set_header Content-Length "";
-          proxy_set_header X-Original-URL $scheme://$http_host$request_uri;
-          proxy_set_header X-Original-Method $request_method;
-          proxy_set_header X-Forwarded-Method $request_method;
-          proxy_set_header X-Forwarded-Proto $scheme;
-          proxy_set_header X-Forwarded-Host $http_host;
-          proxy_set_header X-Forwarded-URI $request_uri;
-          proxy_set_header X-Forwarded-For $remote_addr;
-        }
-
         location / {
-          auth_request /authelia;
-          auth_request_set $user $upstream_http_remote_user;
-          auth_request_set $groups $upstream_http_remote_groups;
-          proxy_set_header Remote-User $user;
-          proxy_set_header Remote-Groups $groups;
-
-          error_page 401 =302 https://auth.lunar.srv/?rd=$scheme://$http_host$request_uri;
-
           proxy_pass http://host.docker.internal:2283;
           proxy_set_header Host $host;
           proxy_set_header X-Real-IP $remote_addr;
@@ -167,34 +80,12 @@ let
         }
       }
 
-      # --- 5. Dockhand ---
+      # --- 4. Dockhand ---
       server {
         listen 443 ssl;
         server_name dockhand.lunar.srv;
 
-        location /authelia {
-          internal;
-          proxy_pass http://authelia:9091/api/verify;
-          proxy_pass_request_body off;
-          proxy_set_header Content-Length "";
-          proxy_set_header X-Original-URL $scheme://$http_host$request_uri;
-          proxy_set_header X-Original-Method $request_method;
-          proxy_set_header X-Forwarded-Method $request_method;
-          proxy_set_header X-Forwarded-Proto $scheme;
-          proxy_set_header X-Forwarded-Host $http_host;
-          proxy_set_header X-Forwarded-URI $request_uri;
-          proxy_set_header X-Forwarded-For $remote_addr;
-        }
-
         location / {
-          auth_request /authelia;
-          auth_request_set $user $upstream_http_remote_user;
-          auth_request_set $groups $upstream_http_remote_groups;
-          proxy_set_header Remote-User $user;
-          proxy_set_header Remote-Groups $groups;
-
-          error_page 401 =302 https://auth.lunar.srv/?rd=$scheme://$http_host$request_uri;
-
           proxy_pass http://host.docker.internal:3000;
           proxy_set_header Host $host;
           proxy_set_header X-Real-IP $remote_addr;
@@ -206,7 +97,7 @@ let
         }
       }
 
-      # --- 6. Jellyfin ---
+      # --- 5. Jellyfin ---
       server {
         listen 443 ssl;
         server_name jellyfin.lunar.srv;
@@ -223,7 +114,7 @@ let
         }
       }
 
-      # --- 7. Vaultwarden ---
+      # --- 6. Vaultwarden ---
       server {
         listen 443 ssl;
         server_name vaultwarden.lunar.srv;
@@ -237,7 +128,7 @@ let
         }
       }
 
-      # --- 8. Uptime Kuma ---
+      # --- 7. Uptime Kuma ---
       server {
         listen 443 ssl;
         server_name uptime.lunar.srv;
@@ -254,15 +145,14 @@ let
         }
       }
 
-      # --- 9. Pydio Cells ---
+      # --- 8. Cloudreve ---
       server {
         listen 443 ssl;
-        server_name pydio.lunar.srv;
+        server_name cloud.lunar.srv;
         client_max_body_size 50000M;
 
         location / {
-          proxy_pass https://host.docker.internal:8082;
-          proxy_ssl_verify off;
+          proxy_pass http://host.docker.internal:5212;
           proxy_set_header Host $host;
           proxy_set_header X-Real-IP $remote_addr;
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -273,144 +163,6 @@ let
         }
       }
     }
-  '';
-
-  autheliaConfig = ''
-    server:
-      address: "tcp://0.0.0.0:9091"
-      endpoints:
-        enable_pprof: false
-        enable_expvars: false
-
-    log:
-      level: info
-      format: json
-
-    theme: dark
-
-    identity_validation:
-      reset_password:
-        jwt_secret: ${builtins.hashString "sha256" "m_uvex-authelia-jwt-secret"}
-
-    authentication_backend:
-      password_reset:
-        disable: true
-      file:
-        path: /config/users_database.yml
-        password:
-          algorithm: argon2
-
-    session:
-      name: authelia_session
-      secret: ${builtins.hashString "sha256" "m_uvex-authelia-session-secret"}
-      same_site: lax
-      expiration: 1h
-      inactivity: 5m
-      remember_me: 1M
-      cookies:
-        - domain: lunar.srv
-          authelia_url: https://auth.lunar.srv
-          default_redirection_url: https://homepage.lunar.srv
-
-    storage:
-      encryption_key: ${builtins.hashString "sha256" "m_uvex-authelia-storage-key"}
-      local:
-        path: /data/db.sqlite
-
-    notifier:
-      filesystem:
-        filename: /data/notification.txt
-
-    access_control:
-      default_policy: deny
-      rules:
-        - domain: auth.lunar.srv
-          policy: bypass
-        - domain: pydio.lunar.srv
-          policy: bypass
-        - domain: "*.lunar.srv"
-          policy: one_factor
-
-    regulation:
-      max_retries: 3
-      find_time: 10m
-      ban_time: 15m
-
-    identity_providers:
-      oidc:
-        enforce_pkce: public_clients_only
-        cors:
-          endpoints:
-            - authorization
-            - token
-            - revocation
-            - introspection
-            - userinfo
-          allowed_origins:
-            - https://immich.lunar.srv
-        jwks:
-          - key_id: main
-            algorithm: RS256
-            use: sig
-            key: |
-              -----BEGIN PRIVATE KEY-----
-              MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCzIlSgNIAkVVmS
-              EVLFoRFX9BqNTz7825HpMnuNlgLZGZxTKF6MaGjFLfok8xVGVv8q4EROjDwPqBm3
-              /g23SMfTYs1YB1y5bgT2q6z3mva7EUIMl+gQ0eCPoh3wingR24my/nUgB3pSgQJ4
-              mT0mnLQ4Bri0QL5kSg8bdeBJhwrbh/MPbqhKtrptyUSSOX8X6kVRHVR//mEmjixH
-              DlGpPocTzxgwqJWEAMCELNK0TAdJIVC/K9YX4hUS2bc2mICu7DsnP2HsRjN98Txi
-              O10sndBRuRo47YwENfcvvOXBb2YHHqFxdd3HydxArxrwjJUUA64SQrsLYLmDA9FC
-              gaoluj9pAgMBAAECggEALaefR+F5k0kJdhfiL6pYYEE/jypWVF2lt3h9Ut2bxjcn
-              x23vgvuNUEviiA5IKtA7YnMcFaTaHedq/qDKYB81hqOU0E24DS6EJ1Yj1EtzfMPu
-              QIVqyPaktBbOaKLx7SM12h/OPCaLv4FP3uq3UiL4L5tO8enaXHcfmJEXY8X+N2rm
-              jt+sczJRDIufBAgM2wchCwMWqjTmoh+1Ez/moQlio6Aa9ExuUdqSdJGJAZPJJpyQ
-              ulMuqlgMrHehbFC4J/svWNT88Qq/CYiUgh3zhbquWlTRKvgabyJjX8eELbqVQpwk
-              m/NrdzW6EVcxWKQbqGV4302sCd/zmLdObwpF7dslLQKBgQDb19SFeBPjMKYXsC45
-              DXvmN2WeBC47oVzsPbIT8BUEIVHERis+thxQdunJqqBxVTILUW2xSpGpQ+j2x3OH
-              lj32qp+k3f6oS4a1wkoVGcsJqRtXKFI1OmsVwa6mQZFSCtZyEaLcmJalbkN7uTwJ
-              3yZHsgal0Rl3Aea5J8X5BR7a9wKBgQDQmIIw4Re3suWJ3AEdIgTctwsEjYGxNNhe
-              QuGhWNmC/jfjtC59WKVFqAO6Sb0T2s2rjSnjyzvt4I+0lmixqezyv/bAQjIGJH14
-              CduF95mnDhdLTmJVUDGu/M8mLRuJsNKwJZkcFpUllBk3Nl9r2xxACEByHRys4D9N
-              AanSUqHAnwKBgQCUB7uJd7Zkd2CPeMlXD1ZLSSf6g7Qh4OCyDkT3meR82Ha3Y8xA
-              uN1N7RQ0/9hzF7vP1S+4fo6gXCLk8J5BQRBOJMvEdtq/tcNqZf3+QVTvF1haksLw
-              JnrutnEEcAgLJ1MIkgmI4pIlqJ52E99ygjjDdAN36dlswfH64OY0bJc/NwKBgQDG
-              8Sz5wTQFlzEkEhdd2ZwZhNmVNgCDKYtSGydl4n9QV3SmTqooEetOS7eCa+FQllWh
-              T7ir8KDvdkSYTvr6tr2tpzeGlZtwEE05tu0PD94TXXUJ9XADPcCky6glGNAyudm2
-              9aTZDRCiDmUeK1VGYGrJBxWvv+QhXJ4Cq5tzZCuwsQKBgGnArMB2SoOninlB62rN
-              ahE6hLdQGFSQ3WDISbNYb/JW+arNdjccTDC6K2LHT3r81se2Y+8eZN6dF25gUySj
-              4bSypLjLJOee/NzZlJLkOSOjKJ3KtxAonZetLeRWIpcrp+GMUcjdtJT+2hxCGDhS
-              0sdMYImUpIekyGWHDhl+3f3c
-              -----END PRIVATE KEY-----
-        clients:
-          - client_id: immich
-            client_name: Immich
-            client_secret: "$argon2id$v=19$m=65536,t=3,p=4$HPktgOtP6Az+dfM7n9SzaQ$0k1EeMclnd+X+IJyNZT5qPf8df3FZllmSwh4a+CKkfA"
-            public: false
-            authorization_policy: one_factor
-            require_pkce: false
-            pkce_challenge_method: ""
-            redirect_uris:
-              - https://immich.lunar.srv/auth/login
-              - https://immich.lunar.srv/user-settings
-              - app.immich:///oauth-callback
-            scopes:
-              - openid
-              - profile
-              - email
-            userinfo_signed_response_alg: none
-            token_endpoint_auth_method: client_secret_post
-  '';
-
-  usersDatabase = ''
-    users:
-      m_uvex:
-        displayname: "Musa Murad"
-        password: "$argon2id$v=19$m=65536,t=3,p=4$4mljxYIbW+dAtAGuwnA4Vw$YfdgVbZ6iN22LDkpU+CtS8x8cMbTqimu38K7C/GgL30"
-        email: m_uvex@lunar.srv
-        groups:
-          - admins
-          - dev
-          - media
   '';
 
   composeContent = ''
@@ -429,43 +181,11 @@ let
           - /srv/infra/nginx/certs:/etc/nginx/certs:ro
         extra_hosts:
           - "host.docker.internal:host-gateway"
-        networks:
-          - authelia-net
-        depends_on:
-          - authelia
-
-      authelia:
-        image: authelia/authelia:latest
-        container_name: authelia
-        restart: unless-stopped
-        ports:
-          - "9091:9091"
-        volumes:
-          - /srv/infra/authelia/configuration.yml:/config/configuration.yml:ro
-          - /srv/infra/authelia/users_database.yml:/config/users_database.yml:ro
-          - /srv/infra/authelia/keys:/keys:ro
-          - /srv/infra/authelia/data:/data
-        environment:
-          - TZ=Europe/Istanbul
-        networks:
-          - authelia-net
-        healthcheck:
-          test: ["CMD", "wget", "--spider", "-q", "http://localhost:9091/api/health"]
-          interval: 30s
-          timeout: 10s
-          retries: 3
-
-    networks:
-      authelia-net:
-        name: authelia-net
-        driver: bridge
   '';
 
 in
 {
   environment.etc."stacks/infra/docker-compose.yml".text = composeContent;
-  environment.etc."infra/authelia/configuration.yml".text = autheliaConfig;
-  environment.etc."infra/authelia/users_database.yml".text = usersDatabase;
   environment.etc."infra/nginx/nginx.conf".text = nginxConfig;
 
   # Auto-generate self-signed wildcard SSL certificate for *.lunar.srv if missing
@@ -493,13 +213,9 @@ in
 
   systemd.tmpfiles.rules = [
     "d /srv/stacks/infra 0755 root root -"
-    "d /srv/infra/authelia 0755 root root -"
-    "d /srv/infra/authelia/data 0777 root root -"
     "d /srv/infra/nginx 0755 root root -"
     "d /srv/infra/nginx/certs 0755 root root -"
     "L+ /srv/stacks/infra/docker-compose.yml - - - - /etc/stacks/infra/docker-compose.yml"
-    "L+ /srv/infra/authelia/configuration.yml - - - - /etc/infra/authelia/configuration.yml"
-    "L+ /srv/infra/authelia/users_database.yml - - - - /etc/infra/authelia/users_database.yml"
     "L+ /srv/infra/nginx/nginx.conf - - - - /etc/infra/nginx/nginx.conf"
   ];
 }

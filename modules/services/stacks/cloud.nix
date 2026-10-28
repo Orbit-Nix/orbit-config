@@ -17,19 +17,15 @@ let
           - TZ=Europe/Istanbul
           - SIGNUPS_ALLOWED=false
 
-      pydio-cells:
-        image: pydio/cells:latest
-        container_name: pydio-cells
+      cloudreve:
+        image: cloudreve/cloudreve:latest
+        container_name: cloudreve
         restart: unless-stopped
         ports:
-          - "8082:8080"
+          - "5212:5212"
         volumes:
-          - /srv/apps/pydio/data:/var/cells/data
-          - /srv/data/pydio_workspaces:/var/cells/data/workspaces
-        environment:
-          - CELLS_BIND=0.0.0.0:8080
-          - CELLS_EXTERNAL=https://pydio.lunar.srv
-          - CELLS_MINIO_ALLOW_CROSSMOUNT=true
+          - /srv/apps/cloudreve/data:/cloudreve/data
+          - /srv/data/cloudreve_uploads:/cloudreve/uploads
 
       immich-server:
         image: ghcr.io/immich-app/immich-server:release
