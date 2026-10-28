@@ -64,6 +64,7 @@ let
           - /var/run/docker.sock:/var/run/docker.sock:ro
         environment:
           - TZ=Europe/Istanbul
+          - HOMEPAGE_ALLOWED_HOSTS=homepage.lunar.srv,lunar.srv,localhost:3000,100.100.5.5:8083
 
       uptime-kuma:
         image: louislam/uptime-kuma:latest
