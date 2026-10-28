@@ -253,6 +253,25 @@ let
           proxy_set_header Connection "upgrade";
         }
       }
+
+      # --- 9. Pydio Cells ---
+      server {
+        listen 443 ssl;
+        server_name pydio.lunar.srv;
+        client_max_body_size 50000M;
+
+        location / {
+          proxy_pass https://host.docker.internal:8082;
+          proxy_ssl_verify off;
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection "upgrade";
+        }
+      }
     }
   '';
 
@@ -306,6 +325,8 @@ let
       default_policy: deny
       rules:
         - domain: auth.lunar.srv
+          policy: bypass
+        - domain: pydio.lunar.srv
           policy: bypass
         - domain: "*.lunar.srv"
           policy: one_factor

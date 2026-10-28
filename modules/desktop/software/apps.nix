@@ -47,10 +47,22 @@ let
   riffPkg = inputs.riff.packages.${system}.default.overrideAttrs (old: {
     npmDeps = pkgs.fetchNpmDeps {
       src = inputs.riff;
-      hash = "sha256-kRAkzNTffKviBJYkNCu8wdQd4jmXXg5Fg7JTOr9t36s=";
+      hash = "sha256-QaxFwmisgUliFfQ0lsV+v+ff+G8/T+kaJeS2bnbnqA4=";
       forceGitDeps = true;
     };
   });
+
+  davinciResolvePkg = pkgs.davinci-resolve.override {
+    buildFHSEnv = args:
+      pkgs.buildFHSEnv (args // {
+        extraBwrapArgs = (args.extraBwrapArgs or []) ++ [
+          "--setenv" "QT_QPA_PLATFORM" "xcb"
+        ] ++ lib.optionals (config.hardware.nvidia.prime.offload.enable or false) [
+          "--setenv" "__NV_PRIME_RENDER_OFFLOAD" "1"
+          "--setenv" "__GLX_VENDOR_LIBRARY_NAME" "nvidia"
+        ];
+      });
+  };
 
   playersMap = {
     "vlc"         = pkgs.vlc;
@@ -60,12 +72,13 @@ let
     "riff"        = riffPkg;
   };
   productionMap = {
-    "kdenlive" = pkgs.kdePackages.kdenlive;
-    "ardour"   = pkgs.ardour;
-    "lmms"     = pkgs.lmms;
+    "davinci-resolve" = davinciResolvePkg;
+    "kdenlive"    = pkgs.kdePackages.kdenlive;
+    "ardour"      = pkgs.ardour;
+    "lmms"        = pkgs.lmms;
     "filmcraft"   = pkgs.filmcraft;
     "effectcraft" = pkgs.effectcraft;
-    "soundcraft"= pkgs.soundcraft;
+    "soundcraft"  = pkgs.soundcraft;
   };
 
   # 3. NETWORK

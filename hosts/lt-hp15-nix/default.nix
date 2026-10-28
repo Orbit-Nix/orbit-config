@@ -37,6 +37,7 @@
       "jellyfin.lunar.srv"
       "vaultwarden.lunar.srv"
       "uptime.lunar.srv"
+      "pydio.lunar.srv"
     ];
   };
   system.stateVersion = "24.05";
@@ -84,7 +85,7 @@
       broadcasting = [ "obs-studio" ];
       streaming = [ "stremio" "pear-desktop" ];
       players = [ "feishin" "vacuum-tube" "riff" ];
-      production = [ "filmcraft" "effectcraft" "soundcraft" ];
+      production = [ "filmcraft" "effectcraft" "soundcraft" "davinci-resolve" ];
     };
   };
   # --- WAYDROID ---

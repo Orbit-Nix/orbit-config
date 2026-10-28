@@ -14,7 +14,7 @@ hl.env("qsConfig", active_shell)
 
 -- Apps
 terminal = "~/.config/hypr/hyprland/scripts/launch_first_available.sh 'kitty -1' 'foot' 'alacritty' 'wezterm' 'konsole' 'kgx' 'uxterm' 'xterm'"
-fileManager = "~/.config/hypr/hyprland/scripts/launch_first_available.sh 'nautilus' 'dolphin' 'nemo' 'thunar' 'kitty -1 fish -c yazi'"
+fileManager = "~/.config/hypr/hyprland/scripts/launch_first_available.sh 'loaf' 'nautilus' 'dolphin' 'nemo' 'thunar' 'kitty -1 fish -c yazi'"
 browser = "~/.config/hypr/hyprland/scripts/launch_first_available.sh 'zen-browser' 'google-chrome-stable' 'firefox' 'brave' 'chromium' 'microsoft-edge-stable' 'opera' 'librewolf'"
 codeEditor = "~/.config/hypr/hyprland/scripts/launch_first_available.sh 'idea' 'antigravity' 'windsurf' 'code' 'codium' 'cursor' 'zed' 'zedit' 'zeditor' 'kate' 'gnome-text-editor' 'emacs' 'command -v nvim && kitty -1 nvim' 'command -v micro && kitty -1 micro'"
 officeSoftware = "~/.config/hypr/hyprland/scripts/launch_first_available.sh 'wps' 'onlyoffice-desktopeditors' 'libreoffice'"

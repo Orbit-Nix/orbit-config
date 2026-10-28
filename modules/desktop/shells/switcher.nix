@@ -17,7 +17,7 @@ let
         ii-vynx)                   exec qs -c ii-vynx ;;
         caelestia|midnight)        (command -v caelestia-shell >/dev/null 2>&1 && exec caelestia-shell) || exec qs -c midnight ;;
         dms)                       (command -v dms >/dev/null 2>&1 && exec dms run) || exec qs -c dms ;;
-        noctalia)                  (command -v noctalia-shell >/dev/null 2>&1 && exec noctalia-shell) || exec qs -c noctalia ;;
+        noctalia)                  (command -v noctalia >/dev/null 2>&1 && exec noctalia) || exec qs -c noctalia ;;
         none)                      exit 0 ;;
         *)                         exec qs -c end4-pC ;;
       esac

@@ -28,7 +28,8 @@ let
           - /srv/data/pydio_workspaces:/var/cells/data/workspaces
         environment:
           - CELLS_BIND=0.0.0.0:8080
-          - CELLS_EXTERNAL=http://lunar:8082
+          - CELLS_EXTERNAL=https://pydio.lunar.srv
+          - CELLS_MINIO_ALLOW_CROSSMOUNT=true
 
       immich-server:
         image: ghcr.io/immich-app/immich-server:release
