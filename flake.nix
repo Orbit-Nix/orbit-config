@@ -95,7 +95,7 @@
 
     # Loaf File Manager
     loaf-fm = {
-      url = "github:m-uvex/loaf-fm";
+      url = "github:m-uvex/loaf-fm/v0.2.1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
