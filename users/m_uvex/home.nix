@@ -92,6 +92,23 @@ in
     };
   };
 
+  # --- LOCAL DPI BYPASS PROXY (TURKEY ISP BYPASS FOR DISCORD) ---
+  systemd.user.services.pluto-dpi = {
+    Unit = {
+      Description = "Pluto Local DPI Bypass Proxy";
+      After = [ "network.target" ];
+    };
+    Install = {
+      WantedBy = [ "default.target" ];
+    };
+    Service = {
+      Type = "simple";
+      ExecStart = "${pkgs.spoofdpi}/bin/spoofdpi --listen-addr 127.0.0.1:8087 --dns-mode https --dns-https-url https://dns.google/dns-query --dns-addr 127.0.0.1:53 --dns-cache --https-split-mode sni --https-disorder --silent";
+      Restart = "always";
+      RestartSec = 3;
+    };
+  };
+
   # --- WALLPAPER SORTER AUTOMATION ---
   systemd.user.paths.wallpaper-sorter = {
     Unit = {

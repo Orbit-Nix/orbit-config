@@ -98,9 +98,19 @@ let
     "tor"       = pkgs.tor-browser;
     "helium"    = pkgs.helium-browser;
   };
+  vesktopWrapped = pkgs.symlinkJoin {
+    name = "vesktop";
+    paths = [ pkgs.vesktop ];
+    buildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/vesktop \
+        --add-flags "--proxy-server=http://127.0.0.1:8087"
+    '';
+  };
+
   messagingMap = {
     "beeper"         = pkgs.beeper;
-    "vesktop"        = pkgs.vesktop;
+    "vesktop"        = vesktopWrapped;
     "discord"        = pkgs.discord;
     "signal"         = pkgs.signal-desktop;
     "telegram"       = pkgs.telegram-desktop;
