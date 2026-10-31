@@ -103,7 +103,7 @@ in
     };
     Service = {
       Type = "simple";
-      ExecStart = "${pkgs.spoofdpi}/bin/spoofdpi --listen-addr 127.0.0.1:8087 --dns-mode https --dns-https-url https://dns.google/dns-query --dns-addr 127.0.0.1:53 --dns-cache --https-split-mode sni --https-disorder --silent";
+      ExecStart = "${pkgs.spoofdpi}/bin/spoofdpi --listen-addr 127.0.0.1:8087 --dns-mode https --dns-https-url https://cloudflare-dns.com/dns-query --dns-addr 127.0.0.1:53 --dns-cache --https-split-mode random --silent";
       Restart = "always";
       RestartSec = 3;
     };
