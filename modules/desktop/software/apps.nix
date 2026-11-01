@@ -178,7 +178,8 @@ let
     "codex"              = pkgs.codex;
     "claude-code"        = pkgs.claude-code;
     "opencode"           = [ pkgs.opencode pkgs.opencode-desktop pkgs.opencode-claude-auth ];
-    "opendesign"         = [ ];
+    "opendesign"         = [ inputs.open-design-desktop.packages.${system}.default ];
+    "open-design-desktop" = [ inputs.open-design-desktop.packages.${system}.default ];
     "ollama"             = pkgs.ollama;
     "chatgpt"            = [ pkgs.chatgpt-desktop pkgs.chatgpt-cli ];
     "windsurf"           = pkgs.windsurf;
@@ -259,7 +260,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    services.open-design.enable = builtins.elem "opendesign" cfg.development.ai;
+    services.open-design.enable = builtins.elem "opendesign" cfg.development.ai || builtins.elem "open-design-desktop" cfg.development.ai;
     programs.kdeconnect.enable = true;
 
     services.flatpak.packages = lib.unique (
