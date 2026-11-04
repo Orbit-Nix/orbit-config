@@ -27,6 +27,12 @@ let
         image: fallenbagel/jellyseerr:latest
         container_name: jellyseerr
         restart: unless-stopped
+        entrypoint: ["/bin/sh", "-c"]
+        command:
+          - >
+            sed -i "s/'X-Emby-Authorization': authHeaderVal,/'X-Emby-Authorization': authHeaderVal, 'Authorization': authHeaderVal,/g" /app/dist/api/jellyfin.js 2>/dev/null;
+            sed -i "s/'X-Emby-Authorization':/'Authorization':/g" /app/dist/routes/auth.js /app/dist/routes/avatarproxy.js 2>/dev/null;
+            exec /sbin/tini -- pnpm start
         ports:
           - "5055:5055"
         volumes:
