@@ -117,7 +117,7 @@ let
       # --- 6. Vaultwarden ---
       server {
         listen 443 ssl;
-        server_name vaultwarden.lunar.srv;
+        server_name vault.lunar.srv vaultwarden.lunar.srv;
 
         location / {
           proxy_pass http://host.docker.internal:8085;
@@ -153,6 +153,55 @@ let
 
         location / {
           proxy_pass http://host.docker.internal:5212;
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection "upgrade";
+        }
+      }
+
+      # --- 9. Jellyseerr ---
+      server {
+        listen 443 ssl;
+        server_name jellyseerr.lunar.srv seerr.lunar.srv;
+
+        location / {
+          proxy_pass http://host.docker.internal:5055;
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection "upgrade";
+        }
+      }
+
+      # --- 10. IT-Tools ---
+      server {
+        listen 443 ssl;
+        server_name it-tools.lunar.srv tools.lunar.srv;
+
+        location / {
+          proxy_pass http://host.docker.internal:8084;
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+        }
+      }
+
+      # --- 11. Karakeep (Hoarder) ---
+      server {
+        listen 443 ssl;
+        server_name karakeep.lunar.srv hoarder.lunar.srv;
+        client_max_body_size 500M;
+
+        location / {
+          proxy_pass http://host.docker.internal:3030;
           proxy_set_header Host $host;
           proxy_set_header X-Real-IP $remote_addr;
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;

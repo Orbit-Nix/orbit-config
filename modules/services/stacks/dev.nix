@@ -61,6 +61,7 @@ let
           - "8083:3000"
         volumes:
           - /srv/apps/homepage:/app/config
+          - /srv/apps/homepage/icons:/app/public/icons:ro
           - /var/run/docker.sock:/var/run/docker.sock:ro
         environment:
           - TZ=Europe/Istanbul
@@ -102,7 +103,8 @@ in
 
   systemd.tmpfiles.rules = [
     "d /srv/stacks/dev 0755 root root -"
-    "d /srv/apps/homepage 0755 root root -"
+    "d /srv/apps/homepage 0775 1000 1000 -"
+    "d /srv/apps/homepage/icons 0775 1000 1000 -"
     "d /srv/apps/uptime-kuma 0755 root root -"
     "d /srv/apps/pocketbase/pb_data 0770 1000 1000 -"
     "d /srv/apps/pocketbase/pb_public 0770 1000 1000 -"

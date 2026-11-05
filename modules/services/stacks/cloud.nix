@@ -78,7 +78,7 @@ let
           - /srv/apps/immich/postgres:/var/lib/postgresql/data
 
       hoarder-web:
-        image: ghcr.io/hoarder-app/hoarder:latest
+        image: ghcr.io/karakeep-app/karakeep:latest
         container_name: hoarder_web
         restart: unless-stopped
         ports:
@@ -89,7 +89,7 @@ let
           - TZ=Europe/Istanbul
           - DATA_DIR=/data
           - NEXTAUTH_SECRET=${builtins.hashString "sha256" "m_uvex-hoarder-secret"}
-          - NEXTAUTH_URL=http://100.100.5.5:3030
+          - NEXTAUTH_URL=https://karakeep.lunar.srv
           - MEILI_ADDR=http://hoarder-meilisearch:7700
           - BROWSER_WEB_URL=http://hoarder-chrome:9222
         depends_on:

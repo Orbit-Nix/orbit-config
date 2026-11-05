@@ -34,9 +34,16 @@
       "immich.lunar.srv"
       "dockhand.lunar.srv"
       "jellyfin.lunar.srv"
+      "vault.lunar.srv"
       "vaultwarden.lunar.srv"
       "uptime.lunar.srv"
       "cloud.lunar.srv"
+      "jellyseerr.lunar.srv"
+      "seerr.lunar.srv"
+      "it-tools.lunar.srv"
+      "tools.lunar.srv"
+      "karakeep.lunar.srv"
+      "hoarder.lunar.srv"
     ];
   };
   system.stateVersion = "24.05";
