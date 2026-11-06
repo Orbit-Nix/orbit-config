@@ -393,11 +393,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793978465,
-        "narHash": "sha256-CVn2QHDTxuAefqohZu041a8KFwiMKgxV9LIenPE7WhI=",
+        "lastModified": 1793992215,
+        "narHash": "sha256-LN1j038gcApWQDfI8cGtYYp2kWaVHY+D544XxeCcyNA=",
         "owner": "m-uvex",
         "repo": "horizon",
-        "rev": "160e997e4afb971a4ce7b60673e5f08980b76f98",
+        "rev": "41d699a4589ebae31f9cb004dc25c5618d34535e",
         "type": "github"
       },
       "original": {
