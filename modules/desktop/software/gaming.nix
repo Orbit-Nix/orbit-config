@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs ? null, ... }:
 
 let
   cfg = config.mySystem.gaming;
@@ -43,6 +43,7 @@ let
     "atlauncher"   = pkgs.atlauncher;
     "gdlauncher"   = pkgs.gdlauncher-carbon;
     "badlion"      = pkgs.badlion-client;
+    "horizon"      = if inputs ? horizon then inputs.horizon.packages.${pkgs.stdenv.hostPlatform.system}.default else null;
   };
 
   emulatorMap = {
@@ -67,10 +68,12 @@ let
   #         ( DONT TOUCH! )          #
   #==================================#
   resolveApps = mapObj: selectedKeys:
-    lib.concatMap (key:
-      let val = mapObj.${key}; in
-      if builtins.isList val then val else [ val ]
-    ) selectedKeys;
+    lib.filter (pkg: pkg != null) (
+      lib.concatMap (key:
+        let val = mapObj.${key}; in
+        if builtins.isList val then val else [ val ]
+      ) selectedKeys
+    );
 
   # Check launcher selections
   hasSteam  = builtins.elem "steam" cfg.launchers;

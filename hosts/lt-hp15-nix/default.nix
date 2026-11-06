@@ -118,6 +118,7 @@
       "lunar"
       "bedrock"
       "modrinth"
+      "horizon"
     ];
 
     emulators = [ ];

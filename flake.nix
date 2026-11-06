@@ -121,6 +121,12 @@
       url = "github:rootscripts/riff";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Horizon Minecraft
+    horizon = {
+      url = "github:m-uvex/horizon/pluto/add-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, opendesign, home-manager, driftwm, nix-flatpak, disko, jovian, fusion-nix, artcraft, opencode, ... }@inputs:

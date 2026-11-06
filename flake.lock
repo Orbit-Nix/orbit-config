@@ -386,6 +386,27 @@
         "type": "github"
       }
     },
+    "horizon": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793978465,
+        "narHash": "sha256-CVn2QHDTxuAefqohZu041a8KFwiMKgxV9LIenPE7WhI=",
+        "owner": "m-uvex",
+        "repo": "horizon",
+        "rev": "160e997e4afb971a4ce7b60673e5f08980b76f98",
+        "type": "github"
+      },
+      "original": {
+        "owner": "m-uvex",
+        "ref": "pluto/add-flake",
+        "repo": "horizon",
+        "type": "github"
+      }
+    },
     "ii-vynx": {
       "flake": false,
       "locked": {
@@ -838,6 +859,7 @@
         "end4-pC": "end4-pC",
         "fusion-nix": "fusion-nix",
         "home-manager": "home-manager",
+        "horizon": "horizon",
         "ii-vynx": "ii-vynx",
         "illogical-flake": "illogical-flake",
         "jovian": "jovian",
