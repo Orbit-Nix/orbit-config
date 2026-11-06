@@ -26,17 +26,12 @@ let
       ssl_prefer_server_ciphers on;
       ssl_ciphers HIGH:!aNULL:!MD5;
 
-      # HTTP -> HTTPS redirect
+      # --- 1. Homepage (Dashboard) ---
       server {
         listen 80 default_server;
         listen [::]:80 default_server;
-        server_name _;
-        return 301 https://$host$request_uri;
-      }
-
-      # --- 1. Homepage (Dashboard) ---
-      server {
-        listen 443 ssl;
+        listen 443 ssl default_server;
+        listen [::]:443 ssl default_server;
         server_name homepage.lunar.srv lunar.srv;
 
         location / {
@@ -50,6 +45,7 @@ let
 
       # --- 2. Gitea ---
       server {
+        listen 80;
         listen 443 ssl;
         server_name gitea.lunar.srv;
 
@@ -64,6 +60,7 @@ let
 
       # --- 3. Immich ---
       server {
+        listen 80;
         listen 443 ssl;
         server_name immich.lunar.srv;
         client_max_body_size 50000M;
@@ -82,6 +79,7 @@ let
 
       # --- 4. Dockhand ---
       server {
+        listen 80;
         listen 443 ssl;
         server_name dockhand.lunar.srv;
 
@@ -99,6 +97,7 @@ let
 
       # --- 5. Jellyfin ---
       server {
+        listen 80;
         listen 443 ssl;
         server_name jellyfin.lunar.srv;
 
@@ -116,6 +115,7 @@ let
 
       # --- 6. Vaultwarden ---
       server {
+        listen 80;
         listen 443 ssl;
         server_name vault.lunar.srv vaultwarden.lunar.srv;
 
@@ -130,6 +130,7 @@ let
 
       # --- 7. Uptime Kuma ---
       server {
+        listen 80;
         listen 443 ssl;
         server_name uptime.lunar.srv;
 
@@ -147,6 +148,7 @@ let
 
       # --- 8. Cloudreve ---
       server {
+        listen 80;
         listen 443 ssl;
         server_name cloud.lunar.srv;
         client_max_body_size 50000M;
@@ -165,6 +167,7 @@ let
 
       # --- 9. Jellyseerr ---
       server {
+        listen 80;
         listen 443 ssl;
         server_name jellyseerr.lunar.srv seerr.lunar.srv;
 
@@ -182,6 +185,7 @@ let
 
       # --- 10. IT-Tools ---
       server {
+        listen 80;
         listen 443 ssl;
         server_name it-tools.lunar.srv tools.lunar.srv;
 
@@ -196,6 +200,7 @@ let
 
       # --- 11. Karakeep (Hoarder) ---
       server {
+        listen 80;
         listen 443 ssl;
         server_name karakeep.lunar.srv hoarder.lunar.srv;
         client_max_body_size 500M;
