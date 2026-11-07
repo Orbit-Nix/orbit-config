@@ -10,7 +10,11 @@ let
   ]);
 
   wallpaperSorter = pkgs.writeShellScriptBin "wallpaper-sorter" ''
-    exec ${wallpaperSorterPython}/bin/python3 ~/Pictures/Wallpapers/Wallpaper-Sorter.py "$@"
+    if [ -f "$HOME/Pictures/Wallpapers/.wallpaper-sorter/sorter.py" ]; then
+      exec ${wallpaperSorterPython}/bin/python3 "$HOME/Pictures/Wallpapers/.wallpaper-sorter/sorter.py" "$@"
+    else
+      exec ${wallpaperSorterPython}/bin/python3 "$HOME/Pictures/Wallpapers/Wallpaper-Sorter.py" "$@"
+    fi
   '';
 in
 {
@@ -24,6 +28,7 @@ in
   home.packages = with pkgs; [
     whitesur-icon-theme
     wallpaperSorter
+    realesrgan-ncnn-vulkan
   ];
 
   # Forcefully apply gtk settings so user doesn't have to delete them each time and get errors
