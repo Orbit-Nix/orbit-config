@@ -44,6 +44,28 @@ in
   ];
 
   # --- DESKTOP SERVICES & INTEGRATIONS ---
+  # Transparent DPI bypass for Turkey ISP blocks (Discord & Roblox)
+  services.zapret = {
+    enable = true;
+    params = [
+      "--dpi-desync-fwmark=0x40000000"
+      "--filter-tcp=80,443"
+      "--dpi-desync=fake"
+      "--dpi-desync-ttl=3"
+      "--dpi-desync-fooling=md5sig"
+    ];
+    whitelist = [
+      "discord.com"
+      "discord.gg"
+      "discordapp.com"
+      "discordapp.net"
+      "discord.media"
+      "roblox.com"
+      "rbxcdn.com"
+      "robloxlabs.com"
+      "setup.rbxcdn.com"
+    ];
+  };
   services.geoclue2.enable = true;
   services.upower.enable = true;
   services.gvfs.enable = true;
