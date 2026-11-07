@@ -6,6 +6,7 @@
     ./media.nix
     ./cloud.nix
     ./dev.nix
+    ./printer.nix
   ];
 
   # --- DOCKER COMPOSE STACK SERVICES ---
