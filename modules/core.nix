@@ -120,6 +120,14 @@ in
     (final: prev: {
       swww = prev.awww;
     })
+    # illogical-flake expects kde-material-you-colors in python3Packages
+    (final: prev: {
+      pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
+        (pfinal: pprev: {
+          kde-material-you-colors = prev.kde-material-you-colors;
+        })
+      ];
+    })
   ];
 
   time.timeZone = "Europe/Istanbul";
