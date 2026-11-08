@@ -3,8 +3,10 @@
 if status is-interactive
     set fish_greeting # No greeting
 
-    # Show fastfetch on login shells
-    if status is-login
+    # Show animated orbit fetch (fallback to fastfetch)
+    if type -q orbit
+        orbit fetch
+    else if type -q fastfetch
         fastfetch
     end
 
@@ -34,37 +36,36 @@ if status is-interactive
     end
     if type -q fzf
         fzf --fish | source
+        if type -q fzf_configure_bindings
+            fzf_configure_bindings --variables=
+        end
     end
 
-    # Abbreviations
+    # Aliases
     # kitty doesn't clear properly so we need to do this weird printing
-    abbr -a -- clear "printf '\033[2J\033[3J\033[1;1H'"
-    abbr -a -- celar "printf '\033[2J\033[3J\033[1;1H'"
-    abbr -a -- claer "printf '\033[2J\033[3J\033[1;1H'"
-    abbr -a -- nano micro
-    abbr -a -- cat bat
-    abbr -a -- neofetch fastfetch
+    alias clear "printf '\033[2J\033[3J\033[1;1H'"
+    alias celar "printf '\033[2J\033[3J\033[1;1H'"
+    alias claer "printf '\033[2J\033[3J\033[1;1H'"
+    alias nano micro
+    alias cat bat
+    alias neofetch "orbit fetch"
     if type -q qs
-        abbr -a -- q 'qs -c ii'
+        alias q 'qs -c ii'
     end
     if test "$TERM" != "linux"
-        abbr -a -- ls 'eza --icons=auto'
-        abbr -a -- ll 'eza -l --icons=auto --git'
-        abbr -a -- la 'eza -la --icons=auto --git'
-        abbr -a -- tree 'eza --tree --icons=auto'
+        alias ls 'eza --icons=auto'
+        alias ll 'eza -l --icons=auto --git'
+        alias la 'eza -la --icons=auto --git'
+        alias tree 'eza --tree --icons=auto'
     end
     if test "$TERM" = "xterm-kitty"
-        abbr -a -- ssh 'kitten ssh'
+        alias ssh 'kitten ssh'
     end
-    abbr -a -- gs 'git status -sb'
-    abbr -a -- gp 'git pull --rebase'
-    abbr -a -- .. 'cd ..'
-    abbr -a -- ... 'cd ../..'
+    alias gs 'git status -sb'
+    alias gp 'git pull --rebase'
+    alias .. 'cd ..'
+    alias ... 'cd ../..'
 
-    # Vi keybinds with visible cursor feedback
-    set -g fish_key_bindings fish_vi_key_bindings
-    set -g fish_cursor_default block
-    set -g fish_cursor_insert line
-    set -g fish_cursor_replace_one underscore
-    set -g fish_cursor_visual block
+    # Default emacs keybindings
+    set -g fish_key_bindings fish_default_key_bindings
 end
