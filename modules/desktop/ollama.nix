@@ -5,11 +5,16 @@
   services.ollama = {
     enable = true;
 
-    # Updated package selection for CUDA 12 acceleration
-    # (Matches MX150 / Pascal GPU support)
-    package = pkgs.ollama-cuda;
+    # Vulkan backend for hardware acceleration across MX150 & Intel UHD
+    package = pkgs.ollama-vulkan;
 
-    # Environment variables use environmentVariables (or env in newer unstable)
+    # Pre-load recommended models: light everyday (qwen2.5:3b) & heavier coding (qwen2.5-coder:7b)
+    loadModels = [
+      "qwen2.5:3b"
+      "qwen2.5-coder:7b"
+    ];
+
+    # Environment variables for execution performance
     environmentVariables = {
       OLLAMA_KEEP_ALIVE = "30m";
       OMP_NUM_THREADS = "4";
@@ -18,25 +23,6 @@
     };
   };
 
-  # 2. Open WebUI Setup
-  services.open-webui = {
-    enable = true;
-    port = 14409;
-
-    environment = {
-      OLLAMA_BASE_URL = "http://127.0.0.1:11434";
-      WEBUI_AUTH = "False";
-      ENABLE_SIGNUP = "False";
-      DO_NOT_TRACK = "True";
-    };
-  };
-
-  # 3. Native Desktop & CLI Tools
-  environment.systemPackages = with pkgs; [
-    ollama
-    alpaca # GTK4 desktop client for Ollama
-  ];
-
-  # 4. Open Local Ports (Optional)
-  networking.firewall.allowedTCPPorts = [ 11434 14409 ];
+  # 2. Open Local Port
+  networking.firewall.allowedTCPPorts = [ 11434 ];
 }
