@@ -216,6 +216,64 @@ let
           proxy_set_header Connection "upgrade";
         }
       }
+
+      # --- 12. SOGo Webmail (Material 3 Expressive) ---
+      server {
+        listen 80;
+        listen 443 ssl;
+        server_name mail.lunar.srv webmail.lunar.srv;
+
+        location / {
+          proxy_pass http://host.docker.internal:8082;
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+          proxy_set_header Accept-Encoding "";
+
+          # Inject Material 3 Expressive theme
+          sub_filter '</head>' '<script src="/sogo-expressive-theme.js" defer></script></head>';
+          sub_filter_once on;
+        }
+
+        location = /sogo-expressive-theme.js {
+          root /usr/share/nginx/html;
+        }
+      }
+
+      # --- 13. Stalwart Mail Admin ---
+      server {
+        listen 80;
+        listen 443 ssl;
+        server_name stalwart.lunar.srv mail-admin.lunar.srv;
+
+        location / {
+          proxy_pass http://host.docker.internal:8080;
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection "upgrade";
+        }
+      }
+
+      # --- 14. Inbound Mail Webhook ---
+      server {
+        listen 80;
+        listen 443 ssl;
+        server_name inbound-mail.lunar.srv;
+        client_max_body_size 50M;
+
+        location / {
+          proxy_pass http://host.docker.internal:8089;
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+        }
+      }
     }
   '';
 
@@ -233,6 +291,7 @@ let
         volumes:
           - /srv/infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
           - /srv/infra/nginx/certs:/etc/nginx/certs:ro
+          - /srv/apps/sogo/sogo-expressive-theme.js:/usr/share/nginx/html/sogo-expressive-theme.js:ro
         extra_hosts:
           - "host.docker.internal:host-gateway"
   '';

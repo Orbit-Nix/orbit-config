@@ -1,0 +1,26 @@
+# SOGo Configuration for Lunar
+SOGoProfileURL: "postgresql://sogo:sogopassword@sogo-db:5432/sogo/sogo_user_profile"
+OCSFolderInfoURL: "postgresql://sogo:sogopassword@sogo-db:5432/sogo/sogo_folder_info"
+OCSSessionsFolderURL: "postgresql://sogo:sogopassword@sogo-db:5432/sogo/sogo_sessions_folder"
+SOGoMemcachedHost: "sogo-memcached"
+
+SOGoLanguage: "English"
+SOGoTimeZone: "Europe/Istanbul"
+SOGoMailDomain: "muvex.dev"
+SOGoIMAPServer: "stalwart"
+SOGoSMTPServer: "stalwart:587"
+SOGoMailingMechanism: "smtp"
+SOGoForceExternalLoginWithEmail: true
+
+SOGoDraftsFolderName: "Drafts"
+SOGoSentFolderName: "Sent"
+SOGoTrashFolderName: "Trash"
+SOGoJunkFolderName: "Junk"
+
+SOGoUserSources:
+  - type: sql
+    id: users
+    viewURL: "postgresql://sogo:sogopassword@sogo-db:5432/sogo/sogo_users"
+    canAuthenticate: true
+    isAddressBook: false
+    userPasswordAlgorithm: plain

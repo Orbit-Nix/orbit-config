@@ -7,6 +7,7 @@
     ./cloud.nix
     ./dev.nix
     ./printer.nix
+    ./mail.nix
   ];
 
   # --- DOCKER COMPOSE STACK SERVICES ---
@@ -78,5 +79,22 @@
       ExecStop = "${pkgs.docker-compose}/bin/docker-compose down";
     };
     restartTriggers = [ config.environment.etc."stacks/dev/docker-compose.yml".source ];
+  };
+
+  systemd.services.docker-compose-mail = {
+    description = "Docker Compose Mail Stack (Stalwart, SOGo, Receiver)";
+    after = [ "docker.service" "docker-compose-infra.service" ];
+    requires = [ "docker.service" "docker-compose-infra.service" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = "yes";
+      TimeoutStartSec = "600s";
+      TimeoutStopSec = "180s";
+      WorkingDirectory = "/srv/stacks/mail";
+      ExecStart = "${pkgs.docker-compose}/bin/docker-compose up -d";
+      ExecStop = "${pkgs.docker-compose}/bin/docker-compose down";
+    };
+    restartTriggers = [ config.environment.etc."stacks/mail/docker-compose.yml".source ];
   };
 }
