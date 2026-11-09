@@ -43,7 +43,15 @@ let
     "atlauncher"   = pkgs.atlauncher;
     "gdlauncher"   = pkgs.gdlauncher-carbon;
     "badlion"      = pkgs.badlion-client;
-    "horizon"      = if inputs ? horizon then inputs.horizon.packages.${pkgs.stdenv.hostPlatform.system}.default else null;
+    "horizon"      = pkgs.runCommand "horizon-launcher-0.2.47" {
+      meta.mainProgram = "horizon-launcher";
+    } ''
+      mkdir -p $out/bin $out/share
+      ln -s /nix/store/dx554gsq8srsfnmbwpx913j8ymf0zbkj-horizon-launcher-0.2.47/bin/horizon-launcher $out/bin/horizon-launcher
+      if [ -d /nix/store/dx554gsq8srsfnmbwpx913j8ymf0zbkj-horizon-launcher-0.2.47/share ]; then
+        cp -r /nix/store/dx554gsq8srsfnmbwpx913j8ymf0zbkj-horizon-launcher-0.2.47/share/* $out/share/ || true
+      fi
+    '';
   };
 
   emulatorMap = {

@@ -56,11 +56,11 @@ let
   davinciResolvePkg = pkgs.runCommand "davinci-resolve-21.1.1" {
     meta.mainProgram = "davinci-resolve";
   } ''
-    mkdir -p $out/bin $out/share
+    mkdir -p $out/bin $out/share/applications
     ln -s /nix/store/2y7q12jbvc576l6z6v1rdkci3p4nq9jb-davinci-resolve-21.1.1-bwrap $out/bin/davinci-resolve
-    if [ -d /nix/store/9a6znwadrwskmsa81fbfwdpj2nrdb2pv-davinci-resolve-21.1.1/share ]; then
-      cp -r /nix/store/9a6znwadrwskmsa81fbfwdpj2nrdb2pv-davinci-resolve-21.1.1/share/* $out/share/ || true
-    fi
+    for f in /nix/store/9a6znwadrwskmsa81fbfwdpj2nrdb2pv-davinci-resolve-21.1.1/share/applications/*.desktop; do
+      [ -e "$f" ] && ln -s "$f" $out/share/applications/
+    done
   '';
 
   playersMap = {
@@ -101,10 +101,9 @@ let
   beeperPkg = pkgs.runCommand "beeper-4.3.209" {
     meta.mainProgram = "beeper";
   } ''
-    mkdir -p $out/bin $out/share
+    mkdir -p $out/bin $out/share/applications $out/share/icons
     ln -s /nix/store/vfxwp1xds9i9xwrw4ffb34fvc4cvz1bc-beeper-4.3.209/bin/beeper $out/bin/beeper
-    ln -s /nix/store/vfxwp1xds9i9xwrw4ffb34fvc4cvz1bc-beeper-4.3.209/share/applications $out/share/applications
-    ln -s /nix/store/vfxwp1xds9i9xwrw4ffb34fvc4cvz1bc-beeper-4.3.209/share/icons $out/share/icons
+    ln -s /nix/store/vfxwp1xds9i9xwrw4ffb34fvc4cvz1bc-beeper-4.3.209/share/applications/beepertexts.desktop $out/share/applications/beepertexts.desktop
   '';
 
   messagingMap = {
@@ -152,10 +151,9 @@ let
   androidStudioPkg = pkgs.runCommand "android-studio-2026.2.1.8" {
     meta.mainProgram = "android-studio";
   } ''
-    mkdir -p $out/bin $out/share
+    mkdir -p $out/bin $out/share/applications $out/share/pixmaps
     ln -s /nix/store/jlmpc2vhnq5fbmhjdh5l5zl535agp0kx-android-studio-2026.2.1.8/bin/android-studio $out/bin/android-studio
-    ln -s /nix/store/jlmpc2vhnq5fbmhjdh5l5zl535agp0kx-android-studio-2026.2.1.8/share/applications $out/share/applications
-    ln -s /nix/store/jlmpc2vhnq5fbmhjdh5l5zl535agp0kx-android-studio-2026.2.1.8/share/pixmaps $out/share/pixmaps
+    ln -s /nix/store/jlmpc2vhnq5fbmhjdh5l5zl535agp0kx-android-studio-2026.2.1.8/share/applications/android-studio.desktop $out/share/applications/android-studio.desktop
   '';
 
   # 5. DEVELOPMENT
@@ -183,17 +181,16 @@ let
   opencodePkg = pkgs.runCommand "opencode-2.0.26" {
     meta.mainProgram = "opencode";
   } ''
-    mkdir -p $out/bin $out/share
+    mkdir -p $out/bin
     ln -s /nix/store/vdmfmk2milqb9j1k85gzflmy06760bcc-opencode-2.0.26+4617210/bin/opencode $out/bin/opencode
-    cp -r /nix/store/vdmfmk2milqb9j1k85gzflmy06760bcc-opencode-2.0.26+4617210/share/* $out/share/ || true
   '';
 
   opencodeDesktopPkg = pkgs.runCommand "opencode-desktop-2.0.26" {
     meta.mainProgram = "opencode-desktop";
   } ''
-    mkdir -p $out/bin $out/share
+    mkdir -p $out/bin $out/share/applications
     ln -s /nix/store/mmy6894zyz4pd1j41kxigzxcljcqpbab-opencode-desktop-2.0.26+4617210/bin/opencode-desktop $out/bin/opencode-desktop
-    cp -r /nix/store/mmy6894zyz4pd1j41kxigzxcljcqpbab-opencode-desktop-2.0.26+4617210/share/* $out/share/ || true
+    ln -s /nix/store/mmy6894zyz4pd1j41kxigzxcljcqpbab-opencode-desktop-2.0.26+4617210/share/applications/ai.opencode.desktop.desktop $out/share/applications/ai.opencode.desktop.desktop
   '';
 
   aiMap = {
@@ -210,6 +207,14 @@ let
     "github-copilot"     = pkgs.github-copilot-cli;
   };
 
+  loafPkg = pkgs.runCommand "loaf-0.2.0" {
+    meta.mainProgram = "loaf";
+  } ''
+    mkdir -p $out/bin $out/share/applications
+    ln -s /nix/store/wwh262rr4gyglyfga7rbmxq97bkzhh8y-loaf-0.2.0/bin/loaf $out/bin/loaf
+    ln -s /nix/store/wwh262rr4gyglyfga7rbmxq97bkzhh8y-loaf-0.2.0/share/applications/loaf.desktop $out/share/applications/loaf.desktop
+  '';
+
   # 6. SYSTEM
   fileManagerMap = {
     "nautilus"           = pkgs.nautilus;
@@ -218,7 +223,7 @@ let
     "thunar"             = pkgs.xfce.thunar;
     "pcmanfm"            = pkgs.pcmanfm;
     "yazi"               = pkgs.yazi;
-    "loaf"               = inputs.loaf-fm.packages.${system}.default;
+    "loaf"               = loafPkg;
   };
   systemUtilitiesMap = {
     "flatseal"       = flatsealWrapper;
