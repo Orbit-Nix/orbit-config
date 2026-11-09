@@ -113,7 +113,6 @@
     # OpenCode v2
     opencode = {
       url = "github:anomalyco/opencode/v2";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # Riff Audio Player
@@ -174,7 +173,15 @@
     ];
 
     opencodeModules = [
-      { nixpkgs.overlays = [ opencode.overlays.default ]; }
+      {
+        nixpkgs.overlays = [
+          opencode.overlays.default
+          (final: prev: {
+            opencode = opencode.packages.${system}.default;
+            opencode-desktop = opencode.packages.${system}.opencode-desktop;
+          })
+        ];
+      }
     ];
   in {
 

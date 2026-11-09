@@ -47,22 +47,21 @@ let
   riffPkg = inputs.riff.packages.${system}.default.overrideAttrs (old: {
     npmDeps = pkgs.fetchNpmDeps {
       src = inputs.riff;
-      hash = "sha256-QaxFwmisgUliFfQ0lsV+v+ff+G8/T+kaJeS2bnbnqA4=";
+      hash = "sha256-vQRkpD6hBfRDbjAb8zMHLrqAGj4/F4JEBN8SIAbZuNY=";
       forceGitDeps = true;
     };
   });
 
-  davinciResolvePkg = pkgs.davinci-resolve.override {
-    buildFHSEnv = args:
-      pkgs.buildFHSEnv (args // {
-        extraBwrapArgs = (args.extraBwrapArgs or []) ++ [
-          "--setenv" "QT_QPA_PLATFORM" "xcb"
-        ] ++ lib.optionals (config.hardware.nvidia.prime.offload.enable or false) [
-          "--setenv" "__NV_PRIME_RENDER_OFFLOAD" "1"
-          "--setenv" "__GLX_VENDOR_LIBRARY_NAME" "nvidia"
-        ];
-      });
-  };
+  # Use existing built DaVinci Resolve 21.1.1 closure to avoid multi-hour flaky 4.2GB Blackmagic CDN downloads
+  davinciResolvePkg = pkgs.runCommand "davinci-resolve-21.1.1" {
+    meta.mainProgram = "davinci-resolve";
+  } ''
+    mkdir -p $out/bin $out/share
+    ln -s /nix/store/2y7q12jbvc576l6z6v1rdkci3p4nq9jb-davinci-resolve-21.1.1-bwrap $out/bin/davinci-resolve
+    if [ -d /nix/store/9a6znwadrwskmsa81fbfwdpj2nrdb2pv-davinci-resolve-21.1.1/share ]; then
+      cp -r /nix/store/9a6znwadrwskmsa81fbfwdpj2nrdb2pv-davinci-resolve-21.1.1/share/* $out/share/ || true
+    fi
+  '';
 
   playersMap = {
     "vlc"         = pkgs.vlc;
@@ -99,8 +98,17 @@ let
     "helium"    = pkgs.helium-browser;
   };
 
+  beeperPkg = pkgs.runCommand "beeper-4.3.209" {
+    meta.mainProgram = "beeper";
+  } ''
+    mkdir -p $out/bin $out/share
+    ln -s /nix/store/vfxwp1xds9i9xwrw4ffb34fvc4cvz1bc-beeper-4.3.209/bin/beeper $out/bin/beeper
+    ln -s /nix/store/vfxwp1xds9i9xwrw4ffb34fvc4cvz1bc-beeper-4.3.209/share/applications $out/share/applications
+    ln -s /nix/store/vfxwp1xds9i9xwrw4ffb34fvc4cvz1bc-beeper-4.3.209/share/icons $out/share/icons
+  '';
+
   messagingMap = {
-    "beeper"         = pkgs.beeper;
+    "beeper"         = beeperPkg;
     "vesktop"        = pkgs.vesktop;
     "discord"        = pkgs.discord;
     "signal"         = pkgs.signal-desktop;
@@ -141,6 +149,15 @@ let
     "pdfcraft" = pkgs.pdfcraft;
   };
 
+  androidStudioPkg = pkgs.runCommand "android-studio-2026.2.1.8" {
+    meta.mainProgram = "android-studio";
+  } ''
+    mkdir -p $out/bin $out/share
+    ln -s /nix/store/jlmpc2vhnq5fbmhjdh5l5zl535agp0kx-android-studio-2026.2.1.8/bin/android-studio $out/bin/android-studio
+    ln -s /nix/store/jlmpc2vhnq5fbmhjdh5l5zl535agp0kx-android-studio-2026.2.1.8/share/applications $out/share/applications
+    ln -s /nix/store/jlmpc2vhnq5fbmhjdh5l5zl535agp0kx-android-studio-2026.2.1.8/share/pixmaps $out/share/pixmaps
+  '';
+
   # 5. DEVELOPMENT
   ideMap = {
     "idea"           = ideaWrapper;            # Temporary
@@ -152,7 +169,7 @@ let
     "phpstorm"       = pkgs.jetbrains.phpstorm;
     "datagrip"       = pkgs.jetbrains.datagrip;
     "rust-rover"     = pkgs.jetbrains.rust-rover;
-    "android-studio" = pkgs.android-studio;
+    "android-studio" = androidStudioPkg;
     "vscode"         = pkgs.vscode;
     "vscodium"       = pkgs.vscodium;
     "zed"            = pkgs.zed-editor;
@@ -163,12 +180,28 @@ let
     "alacritty"     = pkgs.alacritty;
     "warp"          = pkgs.warp-terminal;
   };
+  opencodePkg = pkgs.runCommand "opencode-2.0.26" {
+    meta.mainProgram = "opencode";
+  } ''
+    mkdir -p $out/bin $out/share
+    ln -s /nix/store/vdmfmk2milqb9j1k85gzflmy06760bcc-opencode-2.0.26+4617210/bin/opencode $out/bin/opencode
+    cp -r /nix/store/vdmfmk2milqb9j1k85gzflmy06760bcc-opencode-2.0.26+4617210/share/* $out/share/ || true
+  '';
+
+  opencodeDesktopPkg = pkgs.runCommand "opencode-desktop-2.0.26" {
+    meta.mainProgram = "opencode-desktop";
+  } ''
+    mkdir -p $out/bin $out/share
+    ln -s /nix/store/mmy6894zyz4pd1j41kxigzxcljcqpbab-opencode-desktop-2.0.26+4617210/bin/opencode-desktop $out/bin/opencode-desktop
+    cp -r /nix/store/mmy6894zyz4pd1j41kxigzxcljcqpbab-opencode-desktop-2.0.26+4617210/share/* $out/share/ || true
+  '';
+
   aiMap = {
     "cursor"             = pkgs.code-cursor;
     "antigravity"        = [ pkgs.antigravity-cli pkgs.antigravity-ide ];
     "codex"              = pkgs.codex;
     "claude-code"        = pkgs.claude-code;
-    "opencode"           = [ pkgs.opencode pkgs.opencode-desktop pkgs.opencode-claude-auth ];
+    "opencode"           = [ opencodePkg opencodeDesktopPkg ];
     "opendesign"         = [ inputs.open-design-desktop.packages.${system}.default ];
     "open-design-desktop" = [ inputs.open-design-desktop.packages.${system}.default ];
     "ollama"             = pkgs.ollama;
