@@ -60,10 +60,16 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # QuickShell
+    quickshell = {
+      url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
+    };
+
     # Illogical Impulse & Forks
     illogical-flake = {
       url = "github:soymou/illogical-flake";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.quickshell.follows = "quickshell";
     };
     end4-pC = {
       url = "github:pctrade/end4-pC";
