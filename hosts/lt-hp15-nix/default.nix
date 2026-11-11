@@ -40,6 +40,7 @@
       "cloud.lunar.srv"
       "jellyseerr.lunar.srv"
       "seerr.lunar.srv"
+      "seerrng.lunar.srv"
       "it-tools.lunar.srv"
       "tools.lunar.srv"
       "karakeep.lunar.srv"
