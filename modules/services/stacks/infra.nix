@@ -165,11 +165,11 @@ let
         }
       }
 
-      # --- 9. Jellyseerr ---
+      # --- 9. Seerr ---
       server {
         listen 80;
         listen 443 ssl;
-        server_name jellyseerr.lunar.srv seerr.lunar.srv;
+        server_name seerr.lunar.srv jellyseerr.lunar.srv;
 
         location / {
           proxy_pass http://host.docker.internal:5055;

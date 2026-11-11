@@ -23,22 +23,19 @@ let
         group_add:
           - "1050"
 
-      jellyseerr:
-        image: fallenbagel/jellyseerr:latest
-        container_name: jellyseerr
+      seerr:
+        image: ghcr.io/seerr-team/seerr:latest
+        container_name: seerr
         restart: unless-stopped
-        entrypoint: ["/bin/sh", "-c"]
-        command:
-          - >
-            sed -i "s/'X-Emby-Authorization': authHeaderVal,/'X-Emby-Authorization': authHeaderVal, 'Authorization': authHeaderVal,/g" /app/dist/api/jellyfin.js 2>/dev/null;
-            sed -i "s/'X-Emby-Authorization':/'Authorization':/g" /app/dist/routes/auth.js /app/dist/routes/avatarproxy.js 2>/dev/null;
-            exec /sbin/tini -- pnpm start
+        init: true
         ports:
           - "5055:5055"
         volumes:
-          - /srv/apps/arr-stack/jellyseerr:/app/config
+          - /srv/apps/arr-stack/seerr:/app/config
         environment:
+          - LOG_LEVEL=debug
           - TZ=Europe/Istanbul
+          - PORT=5055
 
       radarr:
         image: lscr.io/linuxserver/radarr:latest
@@ -109,6 +106,7 @@ in
   systemd.tmpfiles.rules = [
     "d /srv/stacks/media 0755 root root -"
     "d /srv/apps/jellyfin 0755 1000 1050 -"
+    "d /srv/apps/arr-stack/seerr 0755 1000 1050 -"
     "d /srv/apps/arr-stack/jellyseerr 0755 1000 1050 -"
     "d /srv/apps/arr-stack/radarr 0755 1000 1050 -"
     "d /srv/apps/arr-stack/sonarr 0755 1000 1050 -"
