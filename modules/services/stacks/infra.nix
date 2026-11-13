@@ -274,6 +274,42 @@ let
           proxy_set_header X-Forwarded-Proto $scheme;
         }
       }
+
+      # --- 15. AriaNg (aria2 Web UI) ---
+      server {
+        listen 80;
+        listen 443 ssl;
+        server_name aria.lunar.srv ariang.lunar.srv;
+
+        location / {
+          proxy_pass http://host.docker.internal:6880;
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection "upgrade";
+        }
+      }
+
+      # --- 16. Bazarr (Subtitles) ---
+      server {
+        listen 80;
+        listen 443 ssl;
+        server_name bazarr.lunar.srv;
+
+        location / {
+          proxy_pass http://host.docker.internal:6767;
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection "upgrade";
+        }
+      }
     }
   '';
 

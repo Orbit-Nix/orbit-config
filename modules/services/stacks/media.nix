@@ -23,33 +23,28 @@ let
         group_add:
           - "1050"
 
-      seerrng:
-        image: ghcr.io/snapetech-org/seerrng:latest
-        container_name: seerrng
+      seerr:
+        image: ghcr.io/seerr-team/seerr:latest
+        container_name: seerr
         restart: unless-stopped
-        security_opt:
-          - no-new-privileges:true
-        cap_drop:
-          - ALL
         ports:
           - "5055:5055"
         volumes:
-          - /srv/apps/arr-stack/seerrng:/app/config
+          - /srv/apps/arr-stack/seerr:/app/config
         environment:
           - LOG_LEVEL=info
           - TZ=Europe/Istanbul
           - PORT=5055
 
-      lidarr:
-        image: lscr.io/linuxserver/lidarr:latest
-        container_name: lidarr
+      bazarr:
+        image: lscr.io/linuxserver/bazarr:latest
+        container_name: bazarr
         restart: unless-stopped
         ports:
-          - "8686:8686"
+          - "6767:6767"
         volumes:
-          - /srv/apps/arr-stack/lidarr:/config
+          - /srv/apps/arr-stack/bazarr:/config
           - /srv/data:/data
-          - /srv/data/downloads:/downloads
         environment:
           - PUID=1000
           - PGID=1050
@@ -100,23 +95,48 @@ let
           - UMASK=002
           - TZ=Europe/Istanbul
 
-      qbittorrent:
-        image: lscr.io/linuxserver/qbittorrent:latest
-        container_name: qbittorrent
+      aria2:
+        image: p3terx/aria2-pro:latest
+        container_name: aria2
         restart: unless-stopped
         ports:
-          - "8080:8080"
-          - "6881:6881"
-          - "6881:6881/udp"
+          - "6800:6800"
+          - "6888:6888"
+          - "6888:6888/udp"
         volumes:
-          - /srv/apps/arr-stack/qbittorrent:/config
+          - /srv/apps/arr-stack/aria2:/config
           - /srv/data/downloads:/downloads
         environment:
           - PUID=1000
           - PGID=1050
-          - UMASK=002
+          - UMASK=022
           - TZ=Europe/Istanbul
-          - WEBUI_PORT=8080
+          - RPC_PORT=6800
+          - LISTEN_PORT=6888
+          - ENABLE_IPV6=false
+
+      ariang:
+        image: p3terx/ariang:latest
+        container_name: ariang
+        restart: unless-stopped
+        ports:
+          - "6880:6880"
+        environment:
+          - PUID=1000
+          - PGID=1050
+          - TZ=Europe/Istanbul
+
+      byparr:
+        image: ghcr.io/thephaseless/byparr:latest
+        container_name: byparr
+        restart: unless-stopped
+        shm_size: "1gb"
+        tmpfs:
+          - /tmp:exec,mode=1777,size=1G
+        ports:
+          - "8191:8191"
+        environment:
+          - TZ=Europe/Istanbul
   '';
 in
 {
@@ -125,14 +145,13 @@ in
   systemd.tmpfiles.rules = [
     "d /srv/stacks/media 0755 root root -"
     "d /srv/apps/jellyfin 0755 1000 1050 -"
-    "d /srv/apps/arr-stack/seerrng 0755 1000 1050 -"
-    "d /srv/apps/arr-stack/lidarr 0755 1000 1050 -"
+    "d /srv/apps/arr-stack/seerr 0755 1000 1050 -"
+    "d /srv/apps/arr-stack/bazarr 0755 1000 1050 -"
     "d /srv/apps/arr-stack/radarr 0755 1000 1050 -"
     "d /srv/apps/arr-stack/sonarr 0755 1000 1050 -"
     "d /srv/apps/arr-stack/prowlarr 0755 1000 1050 -"
-    "d /srv/apps/arr-stack/qbittorrent 0755 1000 1050 -"
+    "d /srv/apps/arr-stack/aria2 0755 1000 1050 -"
     "d /srv/data/media 0775 1000 1050 -"
-    "d /srv/data/media/music 0775 1000 1050 -"
     "d /srv/data/downloads 0775 1000 1050 -"
     "L+ /srv/stacks/media/docker-compose.yml - - - - /etc/stacks/media/docker-compose.yml"
   ];
