@@ -70,7 +70,7 @@
     development = {
       ide = [ "idea" "android-studio" ];
       terminals = [ "kitty" ];
-      ai = [ "antigravity" "opencode" "opendesign" "ollama" ];
+      ai = [ "antigravity" "opencode" "opendesign" "ollama" "freebuff" ];
     };
 
     system = {

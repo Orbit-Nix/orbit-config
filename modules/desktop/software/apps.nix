@@ -47,7 +47,7 @@ let
   riffPkg = inputs.riff.packages.${system}.default.overrideAttrs (old: {
     npmDeps = pkgs.fetchNpmDeps {
       src = inputs.riff;
-      hash = "sha256-vQRkpD6hBfRDbjAb8zMHLrqAGj4/F4JEBN8SIAbZuNY=";
+      hash = "sha256-Z8JgaVaIR6YCmcYDrhdtAkTThslEEmOdRD+cEn6S0u4=";
       forceGitDeps = true;
     };
   });
