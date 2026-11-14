@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794494975,
-        "narHash": "sha256-qmOWgs7Sw4lmYWIxHT5WMhnJ30bgkLqeABzJV3WSjm0=",
+        "lastModified": 1794573706,
+        "narHash": "sha256-QKwixavNOwHLmQAcGd+L6ZUvg8+ym6wzWcNta3NDfvQ=",
         "owner": "Hy4ri",
         "repo": "artcraft-flake",
-        "rev": "f4f092d8b2eb7ffe6902b3b827cbff94c0d0da30",
+        "rev": "132927430b4e365a33fff1d16c2ffb71722b7f61",
         "type": "github"
       },
       "original": {
@@ -189,11 +189,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794494694,
-        "narHash": "sha256-CRGRqKXRqDFHNCmvvBZ4fjFbL4RjdmUyDvzqQzWyA0Y=",
+        "lastModified": 1794640965,
+        "narHash": "sha256-tFmkQYW4qDtvg+I/qT+rgAsakLh+jB05gNq1JzOcXvk=",
         "owner": "AvengeMedia",
         "repo": "dms-plugin-registry",
-        "rev": "5b606ad72135417bdd1f5858ed2ad04a4a064204",
+        "rev": "72956d201e82f11f6318626f54fdcd2cf28a1531",
         "type": "github"
       },
       "original": {
@@ -243,11 +243,11 @@
     "end4-pC": {
       "flake": false,
       "locked": {
-        "lastModified": 1794079346,
-        "narHash": "sha256-Ee7K3qWhQ6jDdfghZz+rZhJTRAM+wt78U941cK9jeJY=",
+        "lastModified": 1794628291,
+        "narHash": "sha256-hoJzjWBTVfjIWraI4645neJI1IacHgm3lbUI9orKvBc=",
         "owner": "pctrade",
         "repo": "end4-pC",
-        "rev": "8135351525a916778bc3ead276a85095c6c1e59b",
+        "rev": "7538c66f2597959733c26a4ccccac1ebe6b4f56e",
         "type": "github"
       },
       "original": {
@@ -660,11 +660,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1794650681,
-        "narHash": "sha256-zc+utWxUUtYGqb85K4pMCsr4CBw2SC7s6OYZd+PUM98=",
+        "lastModified": 1794656913,
+        "narHash": "sha256-JTqtaSd+Brm2U+Arz2Y8TRstw88n3hlfE6e31QSm1OI=",
         "owner": "thtbee",
         "repo": "nectarlink",
-        "rev": "b4daf8223f67198b7d0fbef2c95cdd2b371162cb",
+        "rev": "35a15fee7e4928338dc603f7e34d05ab9bdc7c80",
         "type": "github"
       },
       "original": {
@@ -811,11 +811,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794509281,
-        "narHash": "sha256-pmSk3eq/kvmk1QYW6pC0zFVBJM4GQlFYqjzaN35GxoQ=",
+        "lastModified": 1794626679,
+        "narHash": "sha256-6CcXjs7GWM9C1asbHSAmfM++ut9jM77nHIXz3FM3hHg=",
         "owner": "noctalia-dev",
         "repo": "noctalia",
-        "rev": "cd239b3ca4f364fb5e4f1ad3cd98f314249b742d",
+        "rev": "4933674079ecf7545cc23cd5f1cd77c3e74f8e09",
         "type": "github"
       },
       "original": {
@@ -995,11 +995,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794261857,
-        "narHash": "sha256-rTaabBuJX/6MIRB3hreqXReKpOoHLa0TIdnZW2PxuJo=",
+        "lastModified": 1794606167,
+        "narHash": "sha256-CGtC09QT2O4R9baWqOdpti4yCI2rNYLy7If7u5py4+8=",
         "owner": "rootscripts",
         "repo": "riff",
-        "rev": "b5ae2093d8fd07d170b91818919881335959c26c",
+        "rev": "ac68b13b1ee444c4b1ebd506f77da9bd1d83217a",
         "type": "github"
       },
       "original": {
