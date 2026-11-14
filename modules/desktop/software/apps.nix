@@ -127,6 +127,7 @@ let
     "scrcpy"        = pkgs.scrcpy;
     "android-tools" = pkgs.android-tools;
     "rustdesk"      = pkgs.rustdesk;
+    "nectarlink"    = inputs.nectarlink.packages.${system}.default;
   };
 
   # 4. OFFICE
@@ -205,14 +206,18 @@ let
     "chatgpt"            = [ pkgs.chatgpt-desktop pkgs.chatgpt-cli ];
     "windsurf"           = pkgs.windsurf;
     "github-copilot"     = pkgs.github-copilot-cli;
+    "freebuff"           = inputs.llm-agents.packages.${system}.freebuff;
   };
 
-  loafPkg = pkgs.runCommand "loaf-0.2.0" {
+  loafPkg = pkgs.runCommand "loaf-0.3.0" {
     meta.mainProgram = "loaf";
   } ''
-    mkdir -p $out/bin $out/share/applications
-    ln -s /nix/store/wwh262rr4gyglyfga7rbmxq97bkzhh8y-loaf-0.2.0/bin/loaf $out/bin/loaf
-    ln -s /nix/store/wwh262rr4gyglyfga7rbmxq97bkzhh8y-loaf-0.2.0/share/applications/loaf.desktop $out/share/applications/loaf.desktop
+    mkdir -p $out/bin $out/share/applications $out/share/icons
+    ln -s /nix/store/q6wz7p7pkjlpc7z0way1c99n1jplrqhq-loaf-0.3.0/bin/loaf $out/bin/loaf
+    ln -s /nix/store/q6wz7p7pkjlpc7z0way1c99n1jplrqhq-loaf-0.3.0/share/applications/loaf.desktop $out/share/applications/loaf.desktop
+    if [ -d /nix/store/q6wz7p7pkjlpc7z0way1c99n1jplrqhq-loaf-0.3.0/share/icons ]; then
+      cp -r /nix/store/q6wz7p7pkjlpc7z0way1c99n1jplrqhq-loaf-0.3.0/share/icons/* $out/share/icons/ || true
+    fi
   '';
 
   # 6. SYSTEM

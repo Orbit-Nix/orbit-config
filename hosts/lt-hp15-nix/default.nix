@@ -62,7 +62,7 @@
       messaging = [ "beeper" "vesktop" "signal" ];
       sharing = [ "localsend" "rquickshare" ];
       vpn = [ "trayscale" "proton-vpn" ];
-      remote = [ "scrcpy" "android-tools" ];
+      remote = [ "scrcpy" "android-tools" "nectarlink" ];
     };
 
     development = {

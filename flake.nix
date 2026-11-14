@@ -132,6 +132,17 @@
       url = "github:m-uvex/horizon/pluto/add-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # NectarLink Remote Desktop
+    nectarlink = {
+      url = "github:thtbee/nectarlink";
+    };
+
+    # LLM Agents (Freebuff, etc.)
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, opendesign, home-manager, driftwm, nix-flatpak, disko, jovian, fusion-nix, artcraft, opencode, ... }@inputs:
