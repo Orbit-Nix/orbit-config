@@ -209,16 +209,7 @@ let
     "freebuff"           = inputs.llm-agents.packages.${system}.freebuff;
   };
 
-  loafPkg = pkgs.runCommand "loaf-0.3.0" {
-    meta.mainProgram = "loaf";
-  } ''
-    mkdir -p $out/bin $out/share/applications $out/share/icons
-    ln -s /nix/store/q6wz7p7pkjlpc7z0way1c99n1jplrqhq-loaf-0.3.0/bin/loaf $out/bin/loaf
-    ln -s /nix/store/q6wz7p7pkjlpc7z0way1c99n1jplrqhq-loaf-0.3.0/share/applications/loaf.desktop $out/share/applications/loaf.desktop
-    if [ -d /nix/store/q6wz7p7pkjlpc7z0way1c99n1jplrqhq-loaf-0.3.0/share/icons ]; then
-      cp -r /nix/store/q6wz7p7pkjlpc7z0way1c99n1jplrqhq-loaf-0.3.0/share/icons/* $out/share/icons/ || true
-    fi
-  '';
+  loafPkg = inputs.loaf-fm.packages.${system}.default;
 
   # 6. SYSTEM
   fileManagerMap = {

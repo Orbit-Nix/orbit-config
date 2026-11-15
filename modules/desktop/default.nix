@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 # MATERIAL CURSORS IMPORT
 let
@@ -105,7 +105,7 @@ in
   # --- PORTALS & PACKAGE COMPATIBILITY ---
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk inputs.loaf-fm.packages.${pkgs.system}.default ];
     config = {
       common = {
         default = [ "gtk" ];
@@ -114,6 +114,7 @@ in
         default = [ "hyprland" "gtk" ];
         "org.freedesktop.impl.portal.ScreenCast" = [ "hyprland" ];
         "org.freedesktop.impl.portal.Screenshot" = [ "hyprland" ];
+        "org.freedesktop.impl.portal.FileChooser" = [ "loaf" ];
       };
     };
   };

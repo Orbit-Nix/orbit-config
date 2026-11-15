@@ -106,7 +106,7 @@
 
     # Loaf File Manager
     loaf-fm = {
-      url = "github:m-uvex/loaf-fm/v0.2.1";
+      url = "github:m-uvex/loaf-fm/nightly";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
