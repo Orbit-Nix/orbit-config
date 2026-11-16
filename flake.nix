@@ -223,6 +223,25 @@
       };
 
       #=========================================#
+      #                 Orion                   #
+      #          Laptop: Lenovo LOQ, NixOS      #
+      #=========================================#
+      lt-loq15-nix = nixpkgs.lib.nixosSystem {
+        inherit system specialArgs;
+        modules = [
+          nix-flatpak.nixosModules.nix-flatpak
+          driftwm.nixosModules.default
+          home-manager.nixosModules.home-manager
+          homeManagerModule
+          ./hosts/lt-loq15-nix/default.nix
+        ]
+        ++ jovianModules
+        ++ fusionModules
+        ++ artcraftModules
+        ++ opencodeModules;
+      };
+
+      #=========================================#
       #               Andromeda                 #
       #         PC: Zoko Smile, NixOS           #
       #=========================================#
