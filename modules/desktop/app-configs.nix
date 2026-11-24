@@ -170,9 +170,15 @@ in {
       if [ -f "$KEYBINDS_FILE" ]; then
         if ! grep -q "caelestia:launcher" "$KEYBINDS_FILE"; then
           sed -i 's#local qsIsAlive = qsIpcCall \.\. " TEST_ALIVE"#local qsIsAlive = "(pgrep -x quickshell >/dev/null || pgrep -x .quickshell-wra >/dev/null || pgrep -f caelestia-shell >/dev/null || pgrep -x qs >/dev/null || pgrep -f \\\"dms run\\\" >/dev/null || " .. qsIpcCall .. " TEST_ALIVE)"#g' "$KEYBINDS_FILE"
-          sed -i '/hl.bind("SUPER + SUPER_L", hl.dsp.global("quickshell:searchToggleRelease")/a hl.bind("SUPER + SUPER_L", hl.dsp.global("caelestia:launcher"))\nhl.bind("SUPER + SUPER_L", hl.dsp.exec_cmd("pgrep -f \\"dms run\\" >/dev/null \&\& dms ipc call spotlight toggle"))' "$KEYBINDS_FILE"
-          sed -i '/hl.bind("SUPER + SUPER_R", hl.dsp.global("quickshell:searchToggleRelease")/a hl.bind("SUPER + SUPER_R", hl.dsp.global("caelestia:launcher"))\nhl.bind("SUPER + SUPER_R", hl.dsp.exec_cmd("pgrep -f \\"dms run\\" >/dev/null \&\& dms ipc call spotlight toggle"))' "$KEYBINDS_FILE"
+          sed -i '/hl.bind("SUPER + SUPER_L", hl.dsp.global("quickshell:searchToggleRelease")/a hl.bind("SUPER + SUPER_L", hl.dsp.global("caelestia:launcher"), { release = true })\nhl.bind("SUPER + SUPER_L", hl.dsp.exec_cmd("pgrep -f \\"dms run\\" >/dev/null \&\& dms ipc call spotlight toggle"), { release = true })' "$KEYBINDS_FILE"
+          sed -i '/hl.bind("SUPER + SUPER_R", hl.dsp.global("quickshell:searchToggleRelease")/a hl.bind("SUPER + SUPER_R", hl.dsp.global("caelestia:launcher"), { release = true })\nhl.bind("SUPER + SUPER_R", hl.dsp.exec_cmd("pgrep -f \\"dms run\\" >/dev/null \&\& dms ipc call spotlight toggle"), { release = true })' "$KEYBINDS_FILE"
         fi
+
+        # Super-only binds must be release-only; press binds fire during Super+shortcut/drag combos.
+        sed -i 's/hl.bind("SUPER + SUPER_L", hl.dsp.global("quickshell:searchToggleRelease"), { description = "Shell: Toggle search" })/hl.bind("SUPER + SUPER_L", hl.dsp.global("quickshell:searchToggleRelease"), { release = true, description = "Shell: Toggle search" })/' "$KEYBINDS_FILE"
+        sed -i 's/hl.bind("SUPER + SUPER_R", hl.dsp.global("quickshell:searchToggleRelease"))/hl.bind("SUPER + SUPER_R", hl.dsp.global("quickshell:searchToggleRelease"), { release = true })/' "$KEYBINDS_FILE"
+        sed -i 's/hl.bind("SUPER + SUPER_L", hl.dsp.exec_cmd(qsIsAlive .. " || pkill fuzzel || fuzzel"))$/hl.bind("SUPER + SUPER_L", hl.dsp.exec_cmd(qsIsAlive .. " || pkill fuzzel || fuzzel"), { release = true })/' "$KEYBINDS_FILE"
+        sed -i 's/hl.bind("SUPER + SUPER_R", hl.dsp.exec_cmd(qsIsAlive .. " || pkill fuzzel || fuzzel"))$/hl.bind("SUPER + SUPER_R", hl.dsp.exec_cmd(qsIsAlive .. " || pkill fuzzel || fuzzel"), { release = true })/' "$KEYBINDS_FILE"
       fi
 
 

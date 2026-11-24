@@ -2,21 +2,10 @@
 
 let
   system = pkgs.stdenv.hostPlatform.system;
-  # Use the already built working quickshell package to avoid broken Qt 6.12 type-traits build error in upstream quickshell
-  cachedQuickshell = pkgs.runCommand "quickshell-with-qtpositioning" {
-    meta.mainProgram = "quickshell";
-  } ''
-    mkdir -p $out/bin $out/share
-    ln -s /nix/store/7xicjw342vikhgiw8whamyjw01ykbac6-quickshell-with-qtpositioning/bin/quickshell $out/bin/quickshell
-    ln -s /nix/store/7xicjw342vikhgiw8whamyjw01ykbac6-quickshell-with-qtpositioning/bin/qs $out/bin/qs
-    if [ -d /nix/store/7xicjw342vikhgiw8whamyjw01ykbac6-quickshell-with-qtpositioning/share ]; then
-      cp -r /nix/store/7xicjw342vikhgiw8whamyjw01ykbac6-quickshell-with-qtpositioning/share/* $out/share/ || true
-    fi
-  '';
 
   illogicalInputs = inputs.illogical-flake.inputs // {
     quickshell = {
-      packages.${system}.default = cachedQuickshell;
+      packages.${system}.default = pkgs.quickshell;
     };
   };
 

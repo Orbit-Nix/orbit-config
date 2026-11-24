@@ -4,9 +4,6 @@ let
   cfg = config.mySystem.gaming;
 
   # Wrapper scripts for Flatpak apps
-  modrinthWrapper = pkgs.writeShellScriptBin "modrinth" ''
-    exec flatpak run com.modrinth.ModrinthApp "$@"
-  '';
   soberWrapper = pkgs.writeShellScriptBin "sober" ''
     exec flatpak run org.vinegarhq.Sober "$@"
   '';
@@ -39,19 +36,26 @@ let
     "prism"        = pkgs.prismlauncher;
     "lunar"        = pkgs.lunar-client;
     "bedrock"      = pkgs.mcpelauncher-ui-qt;
-    "modrinth"     = modrinthWrapper;
+    # Wrapped with steam-run: Minecraft instances launched by the native app
+    # often fail to find GL/Vulkan libs on NixOS without an FHS-like env.
+    "modrinth"     = pkgs.symlinkJoin {
+      name = "modrinth-app-steam-run";
+      paths = [ pkgs.modrinth-app ];
+      nativeBuildInputs = [ pkgs.makeWrapper ];
+      postBuild = ''
+        rm -f $out/bin/ModrinthApp $out/bin/modrinth
+        makeWrapper ${pkgs.steam-run}/bin/steam-run $out/bin/ModrinthApp \
+          --prefix XDG_DATA_DIRS : /run/opengl-driver/share \
+          --prefix LD_LIBRARY_PATH : "${pkgs.vulkan-loader}/lib" \
+          --add-flags ${pkgs.modrinth-app}/bin/ModrinthApp
+        ln -s ModrinthApp $out/bin/modrinth
+      '';
+      inherit (pkgs.modrinth-app) meta;
+    };
     "atlauncher"   = pkgs.atlauncher;
     "gdlauncher"   = pkgs.gdlauncher-carbon;
     "badlion"      = pkgs.badlion-client;
-    "horizon"      = pkgs.runCommand "horizon-launcher-0.2.47" {
-      meta.mainProgram = "horizon-launcher";
-    } ''
-      mkdir -p $out/bin $out/share
-      ln -s /nix/store/dx554gsq8srsfnmbwpx913j8ymf0zbkj-horizon-launcher-0.2.47/bin/horizon-launcher $out/bin/horizon-launcher
-      if [ -d /nix/store/dx554gsq8srsfnmbwpx913j8ymf0zbkj-horizon-launcher-0.2.47/share ]; then
-        cp -r /nix/store/dx554gsq8srsfnmbwpx913j8ymf0zbkj-horizon-launcher-0.2.47/share/* $out/share/ || true
-      fi
-    '';
+    "horizon"      = inputs.horizon.packages.${pkgs.stdenv.hostPlatform.system}.default;
   };
 
   emulatorMap = {
@@ -86,7 +90,6 @@ let
   # Check launcher selections
   hasSteam  = builtins.elem "steam" cfg.launchers;
   hasSober  = builtins.elem "sober" cfg.launchers || builtins.elem "roblox" cfg.launchers;
-  hasModrinth = builtins.elem "modrinth" cfg.minecraft;
   hasGeforceNow = builtins.elem "geforcenow" cfg.launchers || builtins.elem "gfn" cfg.launchers;
 
 in
@@ -173,8 +176,7 @@ in
     };
 
     services.flatpak.packages = lib.unique (
-      lib.optional hasModrinth "com.modrinth.ModrinthApp"
-      ++ lib.optional hasSober "org.vinegarhq.Sober"
+      lib.optional hasSober "org.vinegarhq.Sober"
       ++ lib.optional hasGeforceNow {
         appId = "com.nvidia.geforcenow";
         origin = "GeForceNOW";

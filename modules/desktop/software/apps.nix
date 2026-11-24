@@ -98,13 +98,7 @@ let
     "helium"    = pkgs.helium-browser;
   };
 
-  beeperPkg = pkgs.runCommand "beeper-4.3.209" {
-    meta.mainProgram = "beeper";
-  } ''
-    mkdir -p $out/bin $out/share/applications $out/share/icons
-    ln -s /nix/store/vfxwp1xds9i9xwrw4ffb34fvc4cvz1bc-beeper-4.3.209/bin/beeper $out/bin/beeper
-    ln -s /nix/store/vfxwp1xds9i9xwrw4ffb34fvc4cvz1bc-beeper-4.3.209/share/applications/beepertexts.desktop $out/share/applications/beepertexts.desktop
-  '';
+  beeperPkg = pkgs.beeper;
 
   messagingMap = {
     "beeper"         = beeperPkg;
@@ -149,13 +143,7 @@ let
     "pdfcraft" = pkgs.pdfcraft;
   };
 
-  androidStudioPkg = pkgs.runCommand "android-studio-2026.2.1.8" {
-    meta.mainProgram = "android-studio";
-  } ''
-    mkdir -p $out/bin $out/share/applications $out/share/pixmaps
-    ln -s /nix/store/jlmpc2vhnq5fbmhjdh5l5zl535agp0kx-android-studio-2026.2.1.8/bin/android-studio $out/bin/android-studio
-    ln -s /nix/store/jlmpc2vhnq5fbmhjdh5l5zl535agp0kx-android-studio-2026.2.1.8/share/applications/android-studio.desktop $out/share/applications/android-studio.desktop
-  '';
+  androidStudioPkg = pkgs.android-studio;
 
   # 5. DEVELOPMENT
   ideMap = {
@@ -179,20 +167,8 @@ let
     "alacritty"     = pkgs.alacritty;
     "warp"          = pkgs.warp-terminal;
   };
-  opencodePkg = pkgs.runCommand "opencode-2.0.26" {
-    meta.mainProgram = "opencode";
-  } ''
-    mkdir -p $out/bin
-    ln -s /nix/store/vdmfmk2milqb9j1k85gzflmy06760bcc-opencode-2.0.26+4617210/bin/opencode $out/bin/opencode
-  '';
-
-  opencodeDesktopPkg = pkgs.runCommand "opencode-desktop-2.0.26" {
-    meta.mainProgram = "opencode-desktop";
-  } ''
-    mkdir -p $out/bin $out/share/applications
-    ln -s /nix/store/mmy6894zyz4pd1j41kxigzxcljcqpbab-opencode-desktop-2.0.26+4617210/bin/opencode-desktop $out/bin/opencode-desktop
-    ln -s /nix/store/mmy6894zyz4pd1j41kxigzxcljcqpbab-opencode-desktop-2.0.26+4617210/share/applications/ai.opencode.desktop.desktop $out/share/applications/ai.opencode.desktop.desktop
-  '';
+  opencodePkg = pkgs.opencode;
+  opencodeDesktopPkg = pkgs.opencode-desktop;
 
   aiMap = {
     "cursor"             = pkgs.code-cursor;

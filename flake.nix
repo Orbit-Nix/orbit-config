@@ -62,7 +62,7 @@
 
     # QuickShell
     quickshell = {
-      url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
+      url = "git+https://git.outfoxxed.me/quickshell/quickshell";
     };
 
     # Illogical Impulse & Forks
