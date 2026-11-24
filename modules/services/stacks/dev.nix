@@ -32,19 +32,19 @@ let
           pocketbase_net:
             ipv4_address: 172.28.0.3
 
-      gitea:
-        image: gitea/gitea:latest
-        container_name: gitea
-        restart: unless-stopped
-        ports:
-          - "3001:3000"
-          - "2222:22"
-        volumes:
-          - /srv/apps/gitea:/data
-          - /etc/localtime:/etc/localtime:ro
-        environment:
-          - USER_UID=1000
-          - USER_GID=1000
+      # gitea:
+      #   image: gitea/gitea:latest
+      #   container_name: gitea
+      #   restart: unless-stopped
+      #   ports:
+      #     - "3001:3000"
+      #     - "2222:22"
+      #   volumes:
+      #     - /srv/apps/gitea:/data
+      #     - /etc/localtime:/etc/localtime:ro
+      #   environment:
+      #     - USER_UID=1000
+      #     - USER_GID=1000
 
       it-tools:
         image: corentinth/it-tools:latest

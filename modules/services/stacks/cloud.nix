@@ -5,17 +5,17 @@ let
     name: cloud
 
     services:
-      vaultwarden:
-        image: vaultwarden/server:latest
-        container_name: vaultwarden
-        restart: unless-stopped
-        ports:
-          - "8085:80"
-        volumes:
-          - /srv/infra/vaultwarden:/data
-        environment:
-          - TZ=Europe/Istanbul
-          - SIGNUPS_ALLOWED=false
+      # vaultwarden:
+      #   image: vaultwarden/server:latest
+      #   container_name: vaultwarden
+      #   restart: unless-stopped
+      #   ports:
+      #     - "8085:80"
+      #   volumes:
+      #     - /srv/infra/vaultwarden:/data
+      #   environment:
+      #     - TZ=Europe/Istanbul
+      #     - SIGNUPS_ALLOWED=false
 
       cloudreve:
         image: cloudreve/cloudreve:latest
@@ -50,16 +50,16 @@ let
           - immich-redis
           - immich-postgres
 
-      immich-machine-learning:
-        image: ghcr.io/immich-app/immich-machine-learning:release
-        container_name: immich_machine_learning
-        restart: unless-stopped
-        devices:
-          - /dev/dri:/dev/dri
-        volumes:
-          - /srv/apps/immich/model-cache:/cache
-        environment:
-          - TZ=Europe/Istanbul
+      # immich-machine-learning:
+      #   image: ghcr.io/immich-app/immich-machine-learning:release
+      #   container_name: immich_machine_learning
+      #   restart: unless-stopped
+      #   devices:
+      #     - /dev/dri:/dev/dri
+      #   volumes:
+      #     - /srv/apps/immich/model-cache:/cache
+      #   environment:
+      #     - TZ=Europe/Istanbul
 
       immich-redis:
         image: redis:alpine
@@ -77,44 +77,44 @@ let
         volumes:
           - /srv/apps/immich/postgres:/var/lib/postgresql/data
 
-      hoarder-web:
-        image: ghcr.io/karakeep-app/karakeep:latest
-        container_name: hoarder_web
-        restart: unless-stopped
-        ports:
-          - "3030:3000"
-        volumes:
-          - /srv/apps/hoarder/data:/data
-        environment:
-          - TZ=Europe/Istanbul
-          - DATA_DIR=/data
-          - NEXTAUTH_SECRET=${builtins.hashString "sha256" "m_uvex-hoarder-secret"}
-          - NEXTAUTH_URL=https://karakeep.lunar.srv
-          - MEILI_ADDR=http://hoarder-meilisearch:7700
-          - BROWSER_WEB_URL=http://hoarder-chrome:9222
-        depends_on:
-          - hoarder-meilisearch
-          - hoarder-chrome
+      # hoarder-web:
+      #   image: ghcr.io/karakeep-app/karakeep:latest
+      #   container_name: hoarder_web
+      #   restart: unless-stopped
+      #   ports:
+      #     - "3030:3000"
+      #   volumes:
+      #     - /srv/apps/hoarder/data:/data
+      #   environment:
+      #     - TZ=Europe/Istanbul
+      #     - DATA_DIR=/data
+      #     - NEXTAUTH_SECRET=${builtins.hashString "sha256" "m_uvex-hoarder-secret"}
+      #     - NEXTAUTH_URL=https://karakeep.lunar.srv
+      #     - MEILI_ADDR=http://hoarder-meilisearch:7700
+      #     - BROWSER_WEB_URL=http://hoarder-chrome:9222
+      #   depends_on:
+      #     - hoarder-meilisearch
+      #     - hoarder-chrome
 
-      hoarder-meilisearch:
-        image: getmeili/meilisearch:v1.6
-        container_name: hoarder_meilisearch
-        restart: unless-stopped
-        volumes:
-          - /srv/apps/hoarder/meili_data:/meili_data
-        environment:
-          - MEILI_NO_ANALYTICS=true
+      # hoarder-meilisearch:
+      #   image: getmeili/meilisearch:v1.6
+      #   container_name: hoarder_meilisearch
+      #   restart: unless-stopped
+      #   volumes:
+      #     - /srv/apps/hoarder/meili_data:/meili_data
+      #   environment:
+      #     - MEILI_NO_ANALYTICS=true
 
-      hoarder-chrome:
-        image: zenika/alpine-chrome:123
-        container_name: hoarder_chrome
-        restart: unless-stopped
-        command:
-          - --no-sandbox
-          - --disable-gpu
-          - --disable-dev-shm-usage
-          - --remote-debugging-address=0.0.0.0
-          - --remote-debugging-port=9222
+      # hoarder-chrome:
+      #   image: zenika/alpine-chrome:123
+      #   container_name: hoarder_chrome
+      #   restart: unless-stopped
+      #   command:
+      #     - --no-sandbox
+      #     - --disable-gpu
+      #     - --disable-dev-shm-usage
+      #     - --remote-debugging-address=0.0.0.0
+      #     - --remote-debugging-port=9222
   '';
 in
 {

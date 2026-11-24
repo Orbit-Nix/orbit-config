@@ -21,6 +21,10 @@ hl.config({
             popups = false,
             popups_ignorealpha = 0.6,
         },
+        shadow = {
+            enabled = true,
+            render_power = 4,
+        },
         -- Dim
         dim_inactive = true,
         dim_strength = 0.05,

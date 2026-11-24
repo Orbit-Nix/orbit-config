@@ -121,6 +121,7 @@
       "lunar"
       "bedrock"
       "modrinth"
+      "gdlauncher"
       "horizon"
     ];
 

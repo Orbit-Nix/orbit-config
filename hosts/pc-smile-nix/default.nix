@@ -92,6 +92,7 @@
       "lunar"
       "bedrock"
       "modrinth"
+      "gdlauncher"
     ];
 
     emulators = [ ];
