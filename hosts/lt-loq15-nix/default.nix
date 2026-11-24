@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   imports = [
@@ -51,6 +51,23 @@
   };
   system.stateVersion = "24.05";
 
+  # --- NVIDIA DRIVER OVERRIDE ---
+  # RTX 5050 (Blackwell/GB207M) uses current drivers and strictly REQUIRES the open kernel modules
+  hardware.nvidia.package = lib.mkForce config.boot.kernelPackages.nvidiaPackages.stable;
+  hardware.nvidia.open = lib.mkForce true;
+  # Blackwell supports finegrained RTD3 power management
+  hardware.nvidia.powerManagement.finegrained = lib.mkForce true;
+
+  # --- LID & POWER BUTTON ---
+  # Lid closed keeps running. Power button sleeps; holding it is the firmware hard-off.
+  services.logind.settings.Login = {
+    HandleLidSwitch = "ignore";
+    HandleLidSwitchExternalPower = "ignore";
+    HandleLidSwitchDocked = "ignore";
+    HandlePowerKey = "suspend";
+    HandlePowerKeyLongPress = "ignore";
+  };
+
   # --- DESKTOP SHELL SELECTION ---
   # Choices: "end4-pC" | "midnight" | "dms" | "none"
   mySystem.desktop.shell = "end4-pC";
@@ -68,9 +85,9 @@
     };
 
     development = {
-      ide = [ "idea" "android-studio" ];
+      ide = [ "idea" ];
       terminals = [ "kitty" ];
-      ai = [ "antigravity" "opencode" "opendesign" "ollama" "freebuff" ];
+      ai = [ "antigravity" "claude-code" "opencode" "opendesign" "ollama" "freebuff" ];
     };
 
     system = {
@@ -87,13 +104,13 @@
     graphics = {
       raster = [ "gimp" "krita" "photocraft" "lightcraft" ];
       vector = [ "inkscape" "vectorcraft" "designcraft" ];
-      cad = [ "fusion360" "cadcraft" ];
+      cad = [ "cadcraft" ];
     };
 
     media = {
       broadcasting = [ "obs-studio" ];
       streaming = [ "stremio" "pear-desktop" ];
-      players = [ "feishin" "vacuum-tube" "riff" ];
+      players = [ "feishin" "vacuum-tube" ];
       production = [ "filmcraft" "effectcraft" "soundcraft" "davinci-resolve" ];
     };
   };
@@ -121,6 +138,7 @@
       "lunar"
       "bedrock"
       "modrinth"
+      "gdlauncher"
       "horizon"
     ];
 
