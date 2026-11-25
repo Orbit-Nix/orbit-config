@@ -23,6 +23,9 @@
     };
   };
 
-  # 2. Open Local Port
+  # 2. Local speech-to-text (pluto-watch-chat transcribes incoming voice notes)
+  environment.systemPackages = [ pkgs.whisper-cpp ];
+
+  # 3. Open Local Port
   networking.firewall.allowedTCPPorts = [ 11434 ];
 }
