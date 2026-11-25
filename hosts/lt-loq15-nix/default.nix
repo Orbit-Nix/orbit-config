@@ -22,6 +22,7 @@
     ../../modules/desktop/software/waydroid/gaming.nix
     ../../modules/desktop/ollama.nix
     ../../modules/desktop/remote-desktop/client.nix
+    ../../modules/desktop/syncthing.nix
   ];
 
   # --- HOST CONFIGURATION ---
