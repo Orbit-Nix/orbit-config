@@ -63,6 +63,39 @@ in
     profile = "orbitos";
   };
 
+  # --- BEEPER + PLUTO CHAT WATCHER (daily driver only) ---
+  # Beeper must stay up for pluto-watch-chat to see messages; both outlive any agent session.
+  systemd.user.services.beeper = lib.mkIf (osConfig.networking.hostName == "lt-loq15-nix") {
+    Unit = {
+      Description = "Beeper messenger (kept alive for pluto-watch-chat)";
+      After = [ "graphical-session.target" ];
+      PartOf = [ "graphical-session.target" ];
+    };
+    Install.WantedBy = [ "graphical-session.target" ];
+    Service = {
+      ExecStart = "${pkgs.beeper}/bin/beeper";
+      Restart = "on-failure";
+      RestartSec = 10;
+    };
+  };
+
+  systemd.user.services.pluto-watch-chat = lib.mkIf (osConfig.networking.hostName == "lt-loq15-nix") {
+    Unit = {
+      Description = "Pluto Beeper chat watcher daemon";
+      After = [ "graphical-session.target" "beeper.service" ];
+      Wants = [ "beeper.service" ];
+    };
+    Install.WantedBy = [ "graphical-session.target" ];
+    Service = {
+      ExecStart = "%h/.local/share/pluto-local/bin/pluto-watch-chat daemon";
+      Environment = [ "PATH=%h/.local/share/pluto-local/bin:/etc/profiles/per-user/m_uvex/bin:/run/current-system/sw/bin:%h/.nix-profile/bin" ];
+      Restart = "always";
+      RestartSec = 15;
+      # a Beeper it relaunches must survive a watcher restart
+      KillMode = "process";
+    };
+  };
+
   # --- ANTIGRAVITY IDE CONVERSATION HISTORY PERSISTENCE ---
   systemd.user.services.antigravity-chat-sync = {
     Unit = {
