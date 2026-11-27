@@ -37,7 +37,7 @@ in
         ForwardAgent yes
 
       Host orion
-        HostName lt-hp15-nix
+        HostName lt-loq15-nix
         User m_uvex
         ForwardAgent yes
     '';
