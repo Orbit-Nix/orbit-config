@@ -27,7 +27,7 @@ in
         IdentityFile ~/.ssh/m_uvex
 
       Host lunar
-        HostName srv-c4030-nix
+        HostName srv-hp15-nix
         User m_uvex
         ForwardAgent yes
 

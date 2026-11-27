@@ -19,7 +19,7 @@ let
           - /srv/data/downloads:/downloads
         environment:
           - TZ=Europe/Istanbul
-          - JELLYFIN_PublishedServerUrl=http://srv-c4030-nix:8096
+          - JELLYFIN_PublishedServerUrl=http://srv-hp15-nix:8096
         group_add:
           - "1050"
 

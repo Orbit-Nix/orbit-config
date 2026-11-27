@@ -10,7 +10,7 @@
     #../../modules/hardware/nvidia-desktop.nix
 
     # Temporarily point to laptop hardware for testing
-    ../lt-hp15-nix/hardware-configuration.nix
+    ./hardware-configuration.nix
     ../../modules/hardware/nvidia-hybrid.nix
     ../../modules/hardware/intel-cpu.nix
     # ------------------------------------------------

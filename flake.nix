@@ -205,25 +205,6 @@
     nixosConfigurations = {
       #=========================================#
       #                 Orion                   #
-      #           Laptop: HP 15, NixOS          #
-      #=========================================#
-      lt-hp15-nix = nixpkgs.lib.nixosSystem {
-        inherit system specialArgs;
-        modules = [
-          nix-flatpak.nixosModules.nix-flatpak
-          driftwm.nixosModules.default
-          home-manager.nixosModules.home-manager
-          homeManagerModule
-          ./hosts/lt-hp15-nix/default.nix
-        ]
-        ++ jovianModules
-        ++ fusionModules
-        ++ artcraftModules
-        ++ opencodeModules;
-      };
-
-      #=========================================#
-      #                 Orion                   #
       #          Laptop: Lenovo LOQ, NixOS      #
       #=========================================#
       lt-loq15-nix = nixpkgs.lib.nixosSystem {
@@ -262,6 +243,18 @@
 
       #=========================================#
       #                 Lunar                   #
+      #       Server: HP 15, NixOS              #
+      #=========================================#
+      srv-hp15-nix = nixpkgs.lib.nixosSystem {
+        inherit system specialArgs;
+        modules = [
+          disko.nixosModules.disko
+          ./hosts/srv-hp15-nix/default.nix
+        ];
+      };
+
+      #=========================================#
+      #          Lunar (old, retired)           #
       #   Server: Lenovo AIO C40-30, NixOS      #
       #=========================================#
       srv-c4030-nix = nixpkgs.lib.nixosSystem {
