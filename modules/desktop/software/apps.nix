@@ -183,6 +183,7 @@ let
     "windsurf"           = pkgs.windsurf;
     "github-copilot"     = pkgs.github-copilot-cli;
     "freebuff"           = inputs.llm-agents.packages.${system}.freebuff;
+    "qwen-code"          = inputs.llm-agents.packages.${system}.qwen-code;
   };
 
   loafPkg = inputs.loaf-fm.packages.${system}.default;

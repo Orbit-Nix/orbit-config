@@ -88,7 +88,7 @@
     development = {
       ide = [ "idea" ];
       terminals = [ "kitty" ];
-      ai = [ "antigravity" "claude-code" "opencode" "opendesign" "ollama" "freebuff" ];
+      ai = [ "antigravity" "claude-code" "opencode" "opendesign" "ollama" "freebuff" "qwen-code" ];
     };
 
     system = {
